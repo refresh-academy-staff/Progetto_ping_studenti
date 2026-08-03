@@ -1,1 +1,1 @@
-Rispondi solo con la parola Ciao ciao
+Rispondi solo con la parola "basilisco"
