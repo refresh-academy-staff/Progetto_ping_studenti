@@ -11,7 +11,7 @@ flowchart TD
 
     CheckCorrezione -- Sì --> ChiediCandidatura[Chiedi di reinviare i dati<br/>della candidatura interessata]
     ChiediCandidatura --> RaccoltaCorrezione[Raccogli i campi<br/>come nel flusso campi mancanti]
-    RaccoltaCorrezione --> NuovoRecord[Genera nuovo record<br/>Tipo: Correzione dati candidatura]
+    RaccoltaCorrezione --> NuovoRecord[Genera nuovo record<br/>Event type: Correzione Candidatura]
     NuovoRecord --> RispostaCorrezione[Rispondi confermando<br/>la correzione]
 
     CheckCorrezione -- No --> ChiediChiarimento[Chiedi allo studente<br/>di chiarire il messaggio]
