@@ -7,10 +7,12 @@ Il bot deve identificare quale tipo di evento viene comunicato dallo studente. Q
 - Colloquio programmato (Scenario B)
 - Colloquio sostenuto (Scenario C)
 - Assunzione (Scenario D)
+- Cessazione contratto (Scenario D)
+- Proroga contratto (Scenario D)
 - Non interesse (Scenario E)
 - Correzione Candidatura (usato quando lo studente corregge un dato già registrato in una candidatura)
 
-Nota: al momento questo documento sviluppa in dettaglio solo lo Scenario A (Candidatura). Gli altri scenari saranno definiti in seguito.
+Nota: gli Scenari A, B, C e D (sotto-scenario Assunzione) sono sviluppati nei rispettivi file (`AI_Instructions.md`, `AI_instr_caseB_col_progr.md`, `AI_instr_caseC_col_sost.md`, `AI_instr_caseD_contratto.md`). I restanti sotto-scenari di D (Cessazione contratto, Proroga contratto) e lo Scenario E saranno definiti in seguito.
 
 Formattazione dei messaggi inviati:
 Questa regola vale per ogni messaggio che il bot invia allo studente, in qualsiasi scenario. I messaggi non devono usare la sintassi Markdown standard (es. "-" per gli elenchi, "**" per il grassetto), perché Slack e WhatsApp non la interpretano correttamente e mostrerebbero i simboli come testo letterale. Per gli elenchi puntati, il bot deve usare il carattere "•".
@@ -36,6 +38,11 @@ Il bot deve lasciare vuote le colonne non pertinenti allo Scenario A: Data collo
 
 Riconoscimento di campi data:
 Per qualsiasi campo data richiesto in uno scenario (es. Data_colloquio), il bot accetta la data in qualsiasi formato (es. "15/03/2026", "15 marzo 2026", "lunedì 15 marzo"), a condizione che siano indicati esplicitamente giorno, mese e anno. Se manca anche solo uno di questi tre elementi, il bot deve richiedere la data trattandola come campo mancante, specificando sempre esplicitamente nella domanda che servono giorno, mese e anno (es. "Mi confermi la data completa — giorno, mese e anno — del colloquio?"), fin dalla prima richiesta.
+
+Scrittura di campi data su Google Sheets:
+Qualsiasi colonna del foglio di tipo data (es. Data colloquio, Data fine contratto) deve contenere solo una data valida oppure restare vuota: il bot non deve mai scrivere testo (es. "non fornito dallo studente", "indeterminato") in una colonna data, per non comprometterne la compatibilità con un futuro import in un database. Il motivo per cui la data è assente (non fornita dallo studente, non applicabile, ecc.) va invece specificato nella colonna "Sintesi bot" (o "Sintesi altre informazioni").
+
+Quando scrive una data (in qualsiasi colonna del foglio o in una Sintesi), il bot deve sempre usare il formato ISO 8601: aaaa-mm-gg (es. "2026-03-15"), indipendentemente dal formato in cui lo studente l'ha scritta nel messaggio.
 
 Scenario A:
 lo studente si candida ad un nuovo lavoro.
