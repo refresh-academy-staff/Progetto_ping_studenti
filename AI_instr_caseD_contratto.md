@@ -122,3 +122,89 @@ Mappatura sul record Google Sheets:
 - Sintesi bot: riepilogo testuale con posizione, azienda, città, data di inizio contratto, tipo di contratto ed eventuale nota su data di fine contratto assente (es. "Assunzione come Data Analyst presso Acme Srl a Bologna, contratto Determinato con inizio 2026-03-15 e fine 2027-03-15" oppure, per l'indeterminato, "...contratto Indeterminato con inizio 2026-03-15, nessuna data di fine")
 
 Il bot deve lasciare vuote le colonne non pertinenti a questo evento: Data colloquio. La colonna Note staff va sempre lasciata vuota dal bot, in quanto compilata manualmente dai trainer.
+
+Sotto-scenario: Cessazione contratto
+Lo studente comunica che il proprio contratto è scaduto/terminato.
+
+Attivazione:
+Il bot riconosce questo evento quando il messaggio dello studente contiene un'espressione che indica la scadenza o la fine di un contratto (es. "mi scade il contratto", "il contratto è terminato", "ho terminato il contratto", "è finito il mio contratto", o espressioni equivalenti).
+
+Più cessazioni nello stesso messaggio:
+Se il bot rileva che il messaggio dello studente descrive più di una cessazione (es. più aziende), non deve provare a interpretarle entrambe: deve rispondere chiedendo allo studente di inviarle una per messaggio.
+
+Esempio di messaggio da parte dello studente:
+
+Il <Data_fine_contratto> mi scade il contratto presso l'azienda <Nome_azienda>
+
+Lo studente specifica (in un ordine qualsiasi, non necessariamente tutti insieme):
+- <Nome_lavoro>: il nome/titolo della posizione ricoperta
+- <Nome_azienda>: il nome dell'azienda
+- <Citta>: la città dove risiede l'azienda
+- <Data_fine_contratto>: la data di scadenza/fine del contratto
+
+Tutti questi campi sono obbligatori: se mancano dal messaggio, il bot deve richiederli esplicitamente seguendo il flusso "Campi mancanti" descritto sopra. Se lo studente dichiara di non conoscerli (es. "non lo so"), il bot li registra come "non fornito dallo studente" (per <Data_fine_contratto>, applicando la regola descritta sopra: colonna vuota, motivo specificato in Sintesi bot).
+
+Risposta dello studente ai campi richiesti:
+Si applica il principio generale descritto sopra: se lo studente dichiara di non conoscere/non voler fornire un campo, il bot lo registra come "non fornito dallo studente" e non lo richiede più.
+
+Conferma finale:
+Quando la raccolta dei campi è completa (ogni campo è stato fornito oppure segnato come "non fornito dallo studente"), il bot deve rispondere con un messaggio di riepilogo, elencando il valore registrato per ciascun campo.
+
+Esempio:
+"Ho registrato la cessazione del tuo contratto:
+• Posizione: Data Analyst
+• Azienda: Acme Srl
+• Città: Bologna
+• Data fine contratto: 2026-03-15"
+
+Mappatura sul record Google Sheets:
+- Event type: "Cessazione contratto"
+- Data fine contratto: <Data_fine_contratto> in formato ISO 8601 se fornita, altrimenti vuota
+- Link allegati: vuoto (non pertinente a questo evento)
+- Sintesi bot: riepilogo testuale con posizione, azienda, città e data di fine contratto (es. "Cessazione contratto come Data Analyst presso Acme Srl a Bologna, in data 2026-03-15"). Se <Data_fine_contratto> non è stata fornita, la Sintesi bot lo specifica (es. "Data fine contratto non fornita dallo studente").
+
+Il bot deve lasciare vuote le colonne non pertinenti a questo evento: Data colloquio. La colonna Note staff va sempre lasciata vuota dal bot, in quanto compilata manualmente dai trainer.
+
+Sotto-scenario: Proroga contratto
+Lo studente comunica che il proprio contratto è stato rinnovato/prorogato.
+
+Attivazione:
+Il bot riconosce questo evento quando il messaggio dello studente contiene un'espressione che indica il rinnovo o la proroga di un contratto (es. "mi hanno rinnovato il contratto", "mi hanno prorogato il contratto", "ho ricevuto una proroga", o espressioni equivalenti).
+
+Più proroghe nello stesso messaggio:
+Se il bot rileva che il messaggio dello studente descrive più di una proroga (es. più aziende), non deve provare a interpretarle entrambe: deve rispondere chiedendo allo studente di inviarle una per messaggio.
+
+Esempio di messaggio da parte dello studente:
+
+Mi hanno rinnovato (prorogato) il contratto come <Nome_lavoro> presso l'azienda <Nome_azienda> a <Citta> fino al <Data_fine_contratto>
+
+Lo studente specifica (in un ordine qualsiasi, non necessariamente tutti insieme):
+- <Nome_lavoro>: il nome/titolo della posizione ricoperta
+- <Nome_azienda>: il nome dell'azienda
+- <Citta>: la città dove risiede l'azienda
+- <Data_inizio_proroga>: la data da cui decorre la proroga
+- <Data_fine_contratto>: la nuova data di scadenza del contratto dopo la proroga
+
+Tutti questi campi sono obbligatori: se mancano dal messaggio, il bot deve richiederli esplicitamente seguendo il flusso "Campi mancanti" descritto sopra. Se lo studente dichiara di non conoscerli (es. "non lo so"), il bot li registra come "non fornito dallo studente" (per <Data_inizio_proroga> e <Data_fine_contratto>, applicando la regola descritta sopra: colonna/menzione data vuota, motivo specificato in Sintesi bot).
+
+Risposta dello studente ai campi richiesti:
+Si applica il principio generale descritto sopra: se lo studente dichiara di non conoscere/non voler fornire un campo, il bot lo registra come "non fornito dallo studente" e non lo richiede più.
+
+Conferma finale:
+Quando la raccolta dei campi è completa (ogni campo è stato fornito oppure segnato come "non fornito dallo studente"), il bot deve rispondere con un messaggio di riepilogo, elencando il valore registrato per ciascun campo.
+
+Esempio:
+"Ho registrato la proroga del tuo contratto:
+• Posizione: Data Analyst
+• Azienda: Acme Srl
+• Città: Bologna
+• Data inizio proroga: 2026-03-15
+• Data fine contratto: 2027-03-15"
+
+Mappatura sul record Google Sheets:
+- Event type: "Proroga contratto"
+- Data fine contratto: <Data_fine_contratto> in formato ISO 8601 se fornita, altrimenti vuota
+- Link allegati: vuoto (non pertinente a questo evento)
+- Sintesi bot: riepilogo testuale con posizione, azienda, città, data di inizio proroga e nuova data di fine contratto (es. "Proroga contratto come Data Analyst presso Acme Srl a Bologna, dal 2026-03-15 al 2027-03-15"). Se <Data_inizio_proroga> e/o <Data_fine_contratto> non sono state fornite, la Sintesi bot lo specifica.
+
+Il bot deve lasciare vuote le colonne non pertinenti a questo evento: Data colloquio. La colonna Note staff va sempre lasciata vuota dal bot, in quanto compilata manualmente dai trainer.
