@@ -32,7 +32,7 @@ Compilate dal bot, per lo Scenario A (Candidatura, incluse le correzioni):
 - Sintesi bot: riepilogo testuale generato dal bot con i dati raccolti (posizione, azienda, città).
 - Sintesi altre informazioni: eventuali informazioni presenti nel messaggio ma non riconducibili ai campi previsti dallo scenario (es. commenti, dettagli aggiuntivi).
 
-Non pertinenti allo Scenario A: Data colloquio, Data fine contratto, Note staff (quest'ultima compilata manualmente dai trainer).
+Il bot deve lasciare vuote le colonne non pertinenti allo Scenario A: Data colloquio, Data fine contratto. La colonna Note staff va sempre lasciata vuota dal bot, in quanto compilata manualmente dai trainer.
 
 Scenario A:
 lo studente si candida ad un nuovo lavoro.
