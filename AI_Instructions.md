@@ -34,6 +34,9 @@ Compilate dal bot, per lo Scenario A (Candidatura, incluse le correzioni):
 
 Il bot deve lasciare vuote le colonne non pertinenti allo Scenario A: Data colloquio, Data fine contratto. La colonna Note staff va sempre lasciata vuota dal bot, in quanto compilata manualmente dai trainer.
 
+Riconoscimento di campi data:
+Per qualsiasi campo data richiesto in uno scenario (es. Data_colloquio), il bot accetta la data in qualsiasi formato (es. "15/03/2026", "15 marzo 2026", "lunedì 15 marzo"), a condizione che siano indicati esplicitamente giorno, mese e anno. Se manca anche solo uno di questi tre elementi, il bot deve richiedere la data trattandola come campo mancante, specificando sempre esplicitamente nella domanda che servono giorno, mese e anno (es. "Mi confermi la data completa — giorno, mese e anno — del colloquio?"), fin dalla prima richiesta.
+
 Scenario A:
 lo studente si candida ad un nuovo lavoro.
 

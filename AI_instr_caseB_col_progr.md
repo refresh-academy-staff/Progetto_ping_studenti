@@ -7,6 +7,7 @@ Questo file sviluppa lo Scenario B (Colloquio programmato), seguendo la stessa s
 - Fallback in caso di mancato riconoscimento
 - Gestione di dati non verificabili
 - Riconoscimento dei campi <Nome_lavoro>, <Nome_azienda>, <Citta> e <Link_annuncio>: si applicano esattamente gli stessi criteri descritti nella sezione "Riconoscimento dei campi" dello Scenario A (suffissi societari o marchio noto per l'azienda, connettivo "come" per il lavoro, conoscenza geografica per la città, URL per il link)
+- Riconoscimento di campi data (<Data_colloquio>): si applica la regola condivisa "Riconoscimento di campi data"
 
 Scenario B:
 lo studente comunica di avere un colloquio programmato.
@@ -55,9 +56,6 @@ Il bot riconosce <Nome_intervistatore> tramite il connettivo "con" (es. "il coll
 Esempio:
 Messaggio studente: "Ho un colloquio il 15/03/2026 presso Acme a Bologna, Rossi"
 Risposta bot: "Ok! Per completare la registrazione, 'Rossi' si riferisce al nome dell'intervistatore? Se preferisci non specificarlo va bene comunque."
-
-Riconoscimento di <Data_colloquio>:
-Il bot accetta la data in qualsiasi formato (es. "15/03/2026", "15 marzo 2026", "lunedì 15 marzo"), a condizione che siano indicati esplicitamente giorno, mese e anno. Se manca uno di questi tre elementi (es. lo studente scrive solo "lunedì prossimo" o "15 marzo" senza anno), il bot deve trattare <Data_colloquio> come campo mancante e richiederlo esplicitamente allo studente, secondo il flusso "Campi mancanti".
 
 Risposta dello studente ai campi richiesti:
 Si applica lo stesso principio dello Scenario A: se lo studente dichiara di non conoscere un campo obbligatorio (es. "non lo so"), il bot lo registra come "non fornito dallo studente" e non lo richiede più.
