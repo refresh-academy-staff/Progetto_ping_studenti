@@ -9,7 +9,8 @@ Il bot deve identificare quale tipo di evento viene comunicato dallo studente. Q
 - Assunzione (Scenario D)
 - Cessazione contratto (Scenario D)
 - Proroga contratto (Scenario D)
-- Non interesse (Scenario E)
+- Non interesse azienda (Scenario E)
+- Non interesse studente (Scenario E)
 - Correzione Candidatura (usato quando lo studente corregge un dato già registrato in una candidatura)
 
 Formattazione dei messaggi inviati:

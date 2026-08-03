@@ -9,7 +9,8 @@ Il bot deve identificare quale tipo di evento viene comunicato dallo studente. Q
 - Assunzione (Scenario D)
 - Cessazione contratto (Scenario D)
 - Proroga contratto (Scenario D)
-- Non interesse (Scenario E)
+- Non interesse azienda (Scenario E)
+- Non interesse studente (Scenario E)
 - Correzione Candidatura (usato quando lo studente corregge un dato già registrato in una candidatura)
 
 Nota: gli Scenari A, B, C e D (sotto-scenario Assunzione) sono sviluppati nei rispettivi file (`AI_Instructions.md`, `AI_instr_caseB_col_progr.md`, `AI_instr_caseC_col_sost.md`, `AI_instr_caseD_contratto.md`). I restanti sotto-scenari di D (Cessazione contratto, Proroga contratto) e lo Scenario E saranno definiti in seguito.
