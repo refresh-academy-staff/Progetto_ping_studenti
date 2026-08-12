@@ -1,0 +1,13 @@
+{
+  "blocks":
+    [
+      {
+        "type": "section",
+        "text": {
+          "type": "mrkdwn",
+          "text": "Update"
+        },
+        "block_id": "{{ $json.view.state.values.MifTp.text1234.selected_option.value }}"
+      }
+    ]
+  }

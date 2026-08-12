@@ -1,0 +1,25 @@
+{
+"trigger_id": "{{ $('payload_parser').item.json.trigger_id }}",
+  "view":{
+    "type": "modal",
+    "title": {
+        "type": "plain_text",
+        "text": "Nuova opportunità"
+    },
+    "blocks": [
+      {
+        "type": "section",
+        "text": {
+          "type": "mrkdwn",
+          "text": "Perfetto! Descrivi al bot la nuova opportunità e procedi con l'inserimento."
+        }
+      }
+    ],
+    "close": {
+        "type": "plain_text",
+        "text": "Cancel"
+    },
+    "private_metadata": "Shhhhhhhh",
+    "callback_id": "view_identifier_12"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "user_id": "U0BLX4R490S",
+  "view": {
+    "type": "home",
+    "title": {
+      "type": "plain_text",
+      "text": "Ciao!"
+    },
+    "blocks": [
+      {
+        "type": "section",
+        "text": {
+          "type": "mrkdwn",
+          "text": "Vuoi inserire una nuova opportunità lavorativa o aggiornare una già inserita?"
+        }
+      },
+      {
+        "type": "actions",
+        "block_id": "actionblock789",
+        "elements": [
+          {
+            "type": "button",
+            "text": {
+              "type": "plain_text",
+              "text": "Inserisci nuova"
+            },
+            "value": "new_event",
+            "style": "primary"
+          },
+          {
+            "type": "button",
+            "text": {
+              "type": "plain_text",
+              "text": "Aggiorna precedente"
+            },
+            "value": "update_event"
+          }
+        ]
+      }
+    ]
+  }
+}
