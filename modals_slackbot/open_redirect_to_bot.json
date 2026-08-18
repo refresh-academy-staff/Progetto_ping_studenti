@@ -15,11 +15,15 @@
         }
       }
     ],
+    "submit": {
+      "type": "plain_text",
+      "text": "Inizia"
+    },
     "close": {
         "type": "plain_text",
         "text": "Cancel"
     },
-    "private_metadata": "Shhhhhhhh",
+    "private_metadata": "redirect_to_bot_private",
     "callback_id": "view_identifier_12"
   }
 }

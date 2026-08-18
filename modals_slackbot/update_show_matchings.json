@@ -8,13 +8,14 @@
     },
     "blocks": [
       {
+        "block_id": "matching_list",
         "type": "section",
         "text": {
           "type": "mrkdwn",
           "text": "Ottimo, quale opportunità vuoi aggiornare?"
         },
         "accessory": {
-          "action_id": "text1234",
+          "action_id": "choose_matching",
           "type": "radio_buttons",
           "options": {{ JSON.stringify($json.options) }}
         }
