@@ -1,0 +1,20 @@
+{
+  "name": "progetto_ping_studenti",
+  "version": "1.0.0",
+  "description": "Per creare il file .md comprensivo di tutti quelli all'interno della cartella review:",
+  "homepage": "https://github.com/refresh-academy-staff/Progetto_ping_studenti#readme",
+  "bugs": {
+    "url": "https://github.com/refresh-academy-staff/Progetto_ping_studenti/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/refresh-academy-staff/Progetto_ping_studenti.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
