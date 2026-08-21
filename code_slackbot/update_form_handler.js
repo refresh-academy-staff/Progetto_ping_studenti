@@ -7,7 +7,17 @@ const dateFormatter = (date) => {
   const dataCompleta = `${y}-${m}-${d}`
   return dataCompleta
 }
-
+const buildHeader = (text, level, id) => {
+  return {
+    "block_id": id,
+    "type": "header",
+    "text": {
+      "type": "plain_text",
+      "text": text
+    },
+    "level": level
+  }
+}
 const buildTextBlock = (text) => {
   return {
     "type": "rich_text",
@@ -27,7 +37,6 @@ const buildTextBlock = (text) => {
     ]
   }
 }
-
 const buildButton = (text, value, actionID, style) => {
 
   if (style === "danger") {
@@ -64,7 +73,6 @@ const buildButton = (text, value, actionID, style) => {
     }
   }
 }
-
 const buildOption = (text, value) => {
   return {
     "text": {
@@ -82,18 +90,103 @@ const buildLabel = (text) => {
     }
   }
 }
-const buildDatePicker = (text, id) => {
+const buildDatePicker = (text, id, isOptional) => {
   return {
     "block_id": id,
     "type": "input",
     "element": {
+      "action_id": "pick_a_date",
       "type": "datepicker"
     },
+    "optional": isOptional,
     ...buildLabel(text)
   }
 }
+const buildTextBox = (placeholder, label) => {
+  return {
+    "type": "input",
+    "element": {
+      "type": "plain_text_input",
+      "placeholder": {
+        "type": "plain_text",
+        "text": placeholder
+      },
+      "multiline": true
+    },
+    "optional": true,
+    ...buildLabel(label)
+  }
+}
 
-const aggiornamentoAssunzione = buildTextBlock("Come vuoi aggiornarci sulla tua assunzione?");
+//blocks
+const selezioneStatoColloquio = {
+  "block_id": "stato_colloquio",
+  "type": "input",
+  "dispatch_action": true,
+  "element": {
+      "type": "radio_buttons",
+      "action_id": "selezione_stato_colloquio",
+      "options": [
+        buildOption("Programmato", "colloquio_programmato"),
+        buildOption("Sostenuto", "colloquio_sostenuto")
+      ]
+    },
+  ...buildLabel("Stato")
+}
+const datePickerColloquio = buildDatePicker("Data", "data_colloquio", false)
+const selezioneEsitoColloquio = {
+  "block_id": "esito_colloquio",
+  "type": "input",
+  "element": {
+    "type": "static_select",
+    "action_id": "seleziona_esito_colloquio",
+    "options": [
+      buildOption("Positivo", "esito_colloquio_pos"),
+      buildOption("Negativo", "esito_colloquio_neg"),
+      buildOption("In valutazione", "esito_colloquio_ign")
+    ]
+  },
+  ...buildLabel("Esito")
+}
+const ulterioreColloquio = {
+  "type": "actions",
+  "block_id": "selezione_ulteriore_colloquio",
+  "elements": [
+    {
+      "type": "checkboxes",
+      "action_id": "check_ulteriore_colloquio",
+      "options": [
+        buildOption("Fissato ulteriore colloquio", "ulteriore_colloquio_selezionato")
+      ]
+    }
+  ]
+}
+const datePickerUlterioreColloquio = buildDatePicker("Data ulteriore colloquio", "data_ulteriore_colloquio", false);
+const istruzioneUlterioreColloquio = buildTextBlock("Se sai che ti faranno un altro colloquio e non hanno fissato una data, non selezionare niente e registra un colloquio programmato più avanti!")
+const altreInfoColloquio = buildTextBox("Se vuoi, qui puoi scrivere altro in merito al colloquio", "Altro");
+
+const motivoColloquioNonSostenuto = {
+  "block_id": "motivo_colloquio_non_sostenuto",
+  "type": "actions",
+  "elements": [
+    {
+      "type": "static_select",
+      "action_id": "selezione_motivazione_colloquio_non_sostenuto",
+      "options": [
+        buildOption("Rimandato", "colloquio_rimandato"),
+        buildOption("Annullato", "colloquio_annullato"),
+        buildOption("Mia assenza", "colloquio_non_presentato"),
+      ],
+      "placeholder": {
+        "type": "plain_text",
+        "text": "Seleziona una motivazione"
+      }
+    }
+  ]
+}
+const dataColloquioRimandato = buildDatePicker("Nuova data", "data_colloquio_rimandato", true);
+const altreInfoColloquioNonSostenuto = buildTextBox("Aggiungi qui eventuali dettagli", "Altre info");
+
 const selezioneStatoAssunzione = {
   "block_id": "stato_assunzione",
   "type": "input",
@@ -126,37 +219,128 @@ const selezioneTipoContratto = {
       buildOption("Altro", "contratto_altro"),
     ],
   },
+  "optional": true,
   ...buildLabel("Tipo di contratto")
 }
-const dataInizioContratto = buildDatePicker("Inizio contratto", "date_picker_inizio_contratto");
-const dataFineContratto = buildDatePicker("Fine contratto", "date_picker_fine_contratto");
-const altreInfoAssunzione = {
+const dataInizioContratto = buildDatePicker("Inizio contratto", "date_picker_inizio_contratto", true);
+const dataFineContratto = buildDatePicker("Fine contratto", "date_picker_fine_contratto", true);
+const altreInfoAssunzione = buildTextBox("Puoi usare questo spazio per darci altri dettagli sullo stato della tua assunzione", "Altro")
+
+const motivoChiusuraOpportunità = {
+  "block_id": "motivo_chiusura_opportunità",
   "type": "input",
   "element": {
-    "type": "plain_text_input",
-    "placeholder": {
-      "type": "plain_text",
-      "text": "Puoi usare questo spazio per darci altri dettagli sullo stato della tua assunzione"
-    }
+    "type": "static_select",
+    "options": [
+      buildOption("Candidatura respinta", "chiusura_cand_respinta"),
+      buildOption("Colloquio negativo", "chiusura_coll_negativo"),
+      buildOption("Idoneità senza selezione", "chiusura_no_idoneo"),
+      buildOption("Decisione personale", "chiusura_decisione_personale"),
+      buildOption("Altro", "chiusura_altro"),
+    ]
   },
-  ...buildLabel("Altro")
+  ...buildLabel("Motivo")
 }
 
+const altreInfoChiusura = buildTextBox("Se vuoi, aggiungi qui informazioni sulla chiusura dell'opportunità", "Altro");
+
+//blocks build
+
+const viewID = $input.first().json.view.private_metadata;
 const blocks = []
 
+const action = $input.first().json.actions[0];
+const actionID = action.action_id;
 
-const state = $input.first().json.view.state;
-const actionID = $input.first().json.actions[0].action_id;
+//assunzione
+if (actionID === "candidatura_chiusa" || actionID === "coll_sost_chiusa") {
+  blocks.push(motivoChiusuraOpportunità, altreInfoChiusura)
+}
+
+if (actionID === "candidatura_assunzione" || actionID === "coll_sost_assunzione" || actionID === "redirect_assunzione") {
+  blocks.push(selezioneStatoAssunzione, altreInfoAssunzione)
+}
+if (actionID === "selezione_stato_assunzione") {
+  const selectedOption = action.value;
+  switch (selectedOption) {
+    case ("assunzione_prevista"):
+    case ("assunzione_avvenuta"):
+      blocks.push(selezioneStatoAssunzione, assunzText1, selezioneTipoContratto, dataInizioContratto, dataFineContratto, altreInfoAssunzione);
+      break;
+    case ("assunzione_sospesa"):
+    case ("assunzione_annullata"):
+      blocks.push(selezioneStatoAssunzione, altreInfoAssunzione)
+  }
+}
+
+if (actionID === "candidatura_colloquio" || actionID === "coll_sost_nuovo_colloquio") {
+  blocks.push(selezioneStatoColloquio, datePickerColloquio, altreInfoColloquio)
+}
+if (actionID === "collprog_avvenuto") {
+  blocks.push(selezioneEsitoColloquio, ulterioreColloquio, altreInfoColloquio)
+}
+if (actionID === "collprog_non_avvenuto") {
+  blocks.push(motivoColloquioNonSostenuto, altreInfoColloquioNonSostenuto)
+}
+if (actionID === "selezione_motivazione_colloquio_non_sostenuto") {
+  const selectedOption = $input.first().json.actions[0].selected_option.value;
+  switch (selectedOption) {
+    case ("colloquio_rimandato"):
+      blocks.push(motivoColloquioNonSostenuto, dataColloquioRimandato, altreInfoColloquioNonSostenuto)
+      break;
+    default:
+      blocks.push(motivoColloquioNonSostenuto, altreInfoColloquioNonSostenuto)
+  }
+}
+
+if (actionID === "colloquio_rimandato") {
+  blocks.push(motivoColloquioNonSostenuto, dataColloquioRimandato, altreInfoColloquioNonSostenuto)
+}
+if (actionID === "selezione_stato_colloquio") {
+  const selectedOption = $input.first().json.actions[0].selected_option.value;
+  switch(selectedOption) {
+    case ("colloquio_sostenuto"):
+      blocks.push(selezioneStatoColloquio, datePickerColloquio, selezioneEsitoColloquio, ulterioreColloquio, altreInfoColloquio)
+      break;
+    case ("colloquio_programmato"):
+      blocks.push(selezioneStatoColloquio, datePickerColloquio, altreInfoColloquio);
+      break
+  }
+}
+if (actionID === "check_ulteriore_colloquio") {
+  const optionalBlocks = []
+  switch (viewID) {
+    case ("update_candidatura"):
+      case ("update_colloquio_sost"):
+      optionalBlocks.push(selezioneStatoColloquio, datePickerColloquio, selezioneEsitoColloquio);
+      break;
+    case ("update_colloquio_prog"):
+      optionalBlocks.push(selezioneEsitoColloquio);
+      break;
+  }
+
+  const selectedOption = action.selected_options.length > 0 ?  action.selected_options[0].value : "no_selection";
+  if (selectedOption === "ulteriore_colloquio_selezionato") {
+    blocks.push(...optionalBlocks, ulterioreColloquio, datePickerUlterioreColloquio,istruzioneUlterioreColloquio, altreInfoColloquio)
+  } else {
+    blocks.push(...optionalBlocks, ulterioreColloquio, altreInfoColloquio)
+  }
+}
 
 if (actionID === "selezione_stato_assunzione") {
 
   const selectedOption = $input.first().json.actions[0].selected_option.value
 
   if (selectedOption === "assunzione_prevista" || selectedOption === "assunzione_avvenuta") {
-    blocks.push(aggiornamentoAssunzione, selezioneStatoAssunzione, assunzText1, selezioneTipoContratto, dataInizioContratto, dataFineContratto, altreInfoAssunzione)
+    blocks.push(selezioneStatoAssunzione, assunzText1, selezioneTipoContratto, dataInizioContratto, dataFineContratto, altreInfoAssunzione)
   } else {
-    blocks.push(aggiornamentoAssunzione, selezioneStatoAssunzione, altreInfoAssunzione)
+    blocks.push(selezioneStatoAssunzione, altreInfoAssunzione)
   }
+}
+
+if (blocks.length === 0) {
+  const previousBlocks = $input.first().json.view.blocks
+  blocks.push(...previousBlocks);
 }
 
 const uploadViewBlocks = {
@@ -176,7 +360,7 @@ const uploadViewBlocks = {
       "type": "plain_text",
       "text": "Exit"
     },
-    "private_metadata": "update_form_private",
+    "private_metadata": viewID,
     "callback_id": "update_form"
   }
 }
