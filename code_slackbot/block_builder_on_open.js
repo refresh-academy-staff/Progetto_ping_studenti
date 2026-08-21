@@ -82,13 +82,14 @@ const buildLabel = (text) => {
     }
   }
 }
-const buildDatePicker = (text, id) => {
+const buildDatePicker = (text, id, isOptional) => {
   return {
     "block_id": id,
     "type": "input",
     "element": {
       "type": "datepicker"
     },
+    "optional": isOptional,
     ...buildLabel(text)
   }
 }
@@ -137,22 +138,25 @@ const mainActionAggiornamentoCollSost = {
 }
 
 //=======================================
-const aggiornamentoAssunzione = buildTextBlock("Come vuoi aggiornarci sulla tua assunzione?");
 const selezioneStatoAssunzione = {
   "block_id": "stato_assunzione",
-  "type": "input",
-  "dispatch_action": true,
-  "element": {
-    "type": "static_select",
-    "action_id": "selezione_stato_assunzione",
-    "options": [
-      buildOption("Prevista", "assunzione_prevista"),
-      buildOption("Avvenuta", "assunzione_avvenuta"),
-      buildOption("In sospeso", "assunzione_sospesa"),
-      buildOption("Annullata (chiudi opportunità)", "assunzione_annullata"),
-    ],
-  },
-  ...buildLabel("Stato assunzione")
+  "type": "actions",
+  "elements": [
+    {
+      "type": "static_select",
+      "placeholder": {
+        "type": "plain_text",
+        "text": "Stato assunzione"
+      },
+      "action_id": "selezione_stato_assunzione",
+      "options": [
+        buildOption("Prevista", "assunzione_prevista"),
+        buildOption("Avvenuta", "assunzione_avvenuta"),
+        buildOption("In sospeso", "assunzione_sospesa"),
+        buildOption("Annullata (chiudi opportunità)", "assunzione_annullata"),
+      ],
+    }
+  ],
 }
 
 const assunzText1 = buildTextBlock("Compila questi campi se hai le relative informazioni");
@@ -174,8 +178,8 @@ const selezioneTipoContratto = {
   ...buildLabel("Tipo di contratto")
 }
 
-const dataInizioContratto = buildDatePicker("Inizio contratto", "date_picker_inizio_contratto");
-const dataFineContratto = buildDatePicker("Fine contratto", "date_picker_fine_contratto");
+const dataInizioContratto = buildDatePicker("Inizio contratto", "date_picker_inizio_contratto", true);
+const dataFineContratto = buildDatePicker("Fine contratto", "date_picker_fine_contratto", true);
 const altreInfoAssunzione = {
   "type": "input",
   "element": {
@@ -190,19 +194,30 @@ const altreInfoAssunzione = {
 
 const blocks = []
 const ultimaAttività = $input.first().json["Ultima attività"];
+let privateID;
+let titoloAggiornamento;
 
 switch (ultimaAttività) {
   case "Candidatura":
     blocks.push(aggiornamentoCandidaturaHead, mainActionAggiornamentoCandidatura)
+    titoloAggiornamento = "Update candidatura" ;
+    privateID = "update_candidatura" ;
     break;
   case "Colloquio programmato":
     blocks.push(aggiornamentoCollProgHead, mainActionAggiornamentoCollProg, collProgDomanda1, redirectAssunzione)
+    titoloAggiornamento = "Update colloquio p.";
+    privateID = "update_colloquio_prog" ;
     break
   case "Colloquio sostenuto":
     blocks.push(aggiornamentoCollSostHead, mainActionAggiornamentoCollSost)
+    titoloAggiornamento = "Update colloquio s.";
+    privateID = "update_colloquio_sost" ;
     break;
   case "Assunzione":
-    blocks.push(aggiornamentoAssunzione, selezioneStatoAssunzione)
+    blocks.push(selezioneStatoAssunzione, altreInfoAssunzione)
+    titoloAggiornamento = "Update assunzione";
+    privateID = "update_assunzione";
+    break;
 }
 
 //=======================================
@@ -220,16 +235,16 @@ const openViewBlocks = {
     "type": "modal",
     "title": {
       "type": "plain_text",
-      "text": "Aggiornamento"
+      "text": titoloAggiornamento
     },
     "blocks": blocks,
     "close": {
       "type": "plain_text",
       "text": "Esci"
     },
-    "private_metadata": "update_form_private",
+    "private_metadata": privateID,
     "callback_id": "update_form"
-  }
+  },
 }
 
 switch (ultimaAttività) {
