@@ -136,17 +136,21 @@ const selezioneStatoColloquio = {
 const datePickerColloquio = buildDatePicker("Data", "data_colloquio", false)
 const selezioneEsitoColloquio = {
   "block_id": "esito_colloquio",
-  "type": "input",
-  "element": {
-    "type": "static_select",
-    "action_id": "seleziona_esito_colloquio",
-    "options": [
-      buildOption("Positivo", "esito_colloquio_pos"),
-      buildOption("Negativo", "esito_colloquio_neg"),
-      buildOption("In valutazione", "esito_colloquio_ign")
-    ]
+  "type": "section",
+  "text": {
+    "type": "plain_text",
+    "text": "L'azienda ti ha dato feedback diretti?"
   },
-  ...buildLabel("Esito")
+  "accessory": {
+    "type": "radio_buttons",
+    "action_id": "seleziona_feedback_colloquio",
+    "options": [
+      buildOption("Hanno solo detto che mi faranno sapere", "feedback_colloquio_si_neutro"),
+      buildOption("Sì, sono intenzionati a proseguire", "feedback_colloquio_si_pos"),
+      buildOption("Sì, hanno detto di non voler procedere oltre (chiudi opportunità)", "feedback_colloquio_si_neg"),
+      buildOption("No, non hanno dato nessun feedback", "feedback_colloquio_no")
+    ]
+  }
 }
 const ulterioreColloquio = {
   "type": "actions",
@@ -156,14 +160,15 @@ const ulterioreColloquio = {
       "type": "checkboxes",
       "action_id": "check_ulteriore_colloquio",
       "options": [
-        buildOption("Fissato ulteriore colloquio", "ulteriore_colloquio_selezionato")
+        buildOption("Ho la data del prossimo colloquio", "ulteriore_colloquio_selezionato")
       ]
     }
   ]
 }
 const datePickerUlterioreColloquio = buildDatePicker("Data ulteriore colloquio", "data_ulteriore_colloquio", false);
-const istruzioneUlterioreColloquio = buildTextBlock("Se sai che ti faranno un altro colloquio e non hanno fissato una data, non selezionare niente e registra un colloquio programmato più avanti!")
-const altreInfoColloquio = buildTextBox("Se vuoi, qui puoi scrivere altro in merito al colloquio", "Altro");
+const istruzioneUlterioreColloquio = buildTextBlock("Se non hai ancora la data, comunica un colloquio programmato in seguito")
+const altreInfoColloquio = buildTextBox("Qui puoi scrivere altre informazioni che ritieni significative", "Altro");
+const altreInfoColloquioSostenuto = buildTextBox("Qui puoi scrivere altro in merito al colloquio", "Impressioni/note aggiuntive");
 
 const motivoColloquioNonSostenuto = {
   "block_id": "motivo_colloquio_non_sostenuto",
@@ -197,7 +202,6 @@ const selezioneStatoAssunzione = {
     "options": [
       buildOption("Prevista", "assunzione_prevista"),
       buildOption("Avvenuta", "assunzione_avvenuta"),
-      buildOption("In sospeso", "assunzione_sospesa"),
       buildOption("Annullata (chiudi opportunità)", "assunzione_annullata"),
     ],
   },
@@ -277,7 +281,7 @@ if (actionID === "candidatura_colloquio" || actionID === "coll_sost_nuovo_colloq
   blocks.push(selezioneStatoColloquio, datePickerColloquio, altreInfoColloquio)
 }
 if (actionID === "collprog_avvenuto") {
-  blocks.push(selezioneEsitoColloquio, ulterioreColloquio, altreInfoColloquio)
+  blocks.push(selezioneEsitoColloquio, altreInfoColloquioSostenuto)
 }
 if (actionID === "collprog_non_avvenuto") {
   blocks.push(motivoColloquioNonSostenuto, altreInfoColloquioNonSostenuto)
@@ -300,18 +304,40 @@ if (actionID === "selezione_stato_colloquio") {
   const selectedOption = $input.first().json.actions[0].selected_option.value;
   switch(selectedOption) {
     case ("colloquio_sostenuto"):
-      blocks.push(selezioneStatoColloquio, datePickerColloquio, selezioneEsitoColloquio, ulterioreColloquio, altreInfoColloquio)
+      blocks.push(selezioneStatoColloquio, datePickerColloquio, selezioneEsitoColloquio, altreInfoColloquioSostenuto)
       break;
     case ("colloquio_programmato"):
       blocks.push(selezioneStatoColloquio, datePickerColloquio, altreInfoColloquio);
       break
   }
 }
+
+if (actionID === "seleziona_feedback_colloquio") {
+
+  const optionalBlocks = []
+  switch (viewID) {
+    case ("update_candidatura"):
+    case ("update_colloquio_sost"):
+      optionalBlocks.push(selezioneStatoColloquio, datePickerColloquio, selezioneEsitoColloquio);
+      break;
+    case ("update_colloquio_prog"):
+      optionalBlocks.push(selezioneEsitoColloquio);
+      break;
+  }
+
+  const selectedOption = $input.first().json.actions[0].selected_option.value;
+  if (selectedOption === "feedback_colloquio_si_pos") {
+    blocks.push(...optionalBlocks, ulterioreColloquio, altreInfoColloquioSostenuto)
+  } else {
+    blocks.push(...optionalBlocks, altreInfoColloquioSostenuto)
+  }
+}
+
 if (actionID === "check_ulteriore_colloquio") {
   const optionalBlocks = []
   switch (viewID) {
     case ("update_candidatura"):
-      case ("update_colloquio_sost"):
+    case ("update_colloquio_sost"):
       optionalBlocks.push(selezioneStatoColloquio, datePickerColloquio, selezioneEsitoColloquio);
       break;
     case ("update_colloquio_prog"):
@@ -321,9 +347,9 @@ if (actionID === "check_ulteriore_colloquio") {
 
   const selectedOption = action.selected_options.length > 0 ?  action.selected_options[0].value : "no_selection";
   if (selectedOption === "ulteriore_colloquio_selezionato") {
-    blocks.push(...optionalBlocks, ulterioreColloquio, datePickerUlterioreColloquio,istruzioneUlterioreColloquio, altreInfoColloquio)
+    blocks.push(...optionalBlocks, ulterioreColloquio, datePickerUlterioreColloquio,istruzioneUlterioreColloquio, altreInfoColloquioSostenuto)
   } else {
-    blocks.push(...optionalBlocks, ulterioreColloquio, altreInfoColloquio)
+    blocks.push(...optionalBlocks, ulterioreColloquio, altreInfoColloquioSostenuto)
   }
 }
 
