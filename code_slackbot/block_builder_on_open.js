@@ -101,7 +101,7 @@ const mainActionAggiornamentoCandidatura = {
   "block_id": "selezione_aggiornamento_candidatura",
   "elements": [
     buildButton("Colloquio", "nuovo_colloquio", "candidatura_colloquio"),
-    buildButton("Assunzione", "nuova_assunzione", "candidatura_assunzione"),
+    buildButton("Assunzione (anche potenziale)", "nuova_assunzione", "candidatura_assunzione"),
     buildButton("Opportunità chiusa", "opportunità_chiusa", "candidatura_chiusa", "danger")
   ]
 }
@@ -116,7 +116,7 @@ const mainActionAggiornamentoCollProg = {
     buildButton("No", "colloquio_non_sostenuto", "collprog_non_avvenuto", "danger"),
   ]
 }
-const collProgDomanda1 = buildTextBlock("Hanno già deciso di assumerti?")
+const collProgDomanda1 = buildTextBlock("Pensano già di assumerti?")
 const redirectAssunzione = {
   "type": "actions",
   "block_id": "coll_prog_redirect_assunzione",
@@ -132,7 +132,7 @@ const mainActionAggiornamentoCollSost = {
   "block_id": "selezione_aggiornamento_candidatura",
   "elements": [
     buildButton("Ulteriore colloquio", "ulteriore_colloquio", "coll_sost_nuovo_colloquio"),
-    buildButton("Assunzione", "nuova_assunzione", "coll_sost_assunzione"),
+    buildButton("Assunzione (anche potenziale)", "nuova_assunzione", "coll_sost_assunzione"),
     buildButton("Opportunità chiusa", "opportunità_chiusa", "coll_sost_chiusa", "danger")
   ]
 }
@@ -152,7 +152,6 @@ const selezioneStatoAssunzione = {
       "options": [
         buildOption("Prevista", "assunzione_prevista"),
         buildOption("Avvenuta", "assunzione_avvenuta"),
-        buildOption("In sospeso", "assunzione_sospesa"),
         buildOption("Annullata (chiudi opportunità)", "assunzione_annullata"),
       ],
     }
