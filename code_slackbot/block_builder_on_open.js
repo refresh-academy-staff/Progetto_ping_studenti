@@ -8,19 +8,31 @@ const dateFormatter = (date) => {
   return dataCompleta
 }
 
-const buildTextBlock = (text) => {
+const buildTextBlock = (props) => {
+
+  const styleObj = {}
+  if (props.style) {
+    styleObj["style"] = {
+      [props.style] : true
+    }
+  }
+
+  const blockIDObj = {}
+  if (props.blockID) {
+    blockIDObj["block_id"] = props.blockID
+  }
+
   return {
     "type": "rich_text",
+    ...blockIDObj,
     "elements": [
       {
         "type": "rich_text_section",
         "elements": [
           {
             "type": "text",
-            "text": text,
-            "style": {
-              "bold": true
-            }
+            "text": props.text,
+            ...styleObj
           }
         ]
       }
@@ -93,9 +105,30 @@ const buildDatePicker = (text, id, isOptional) => {
     ...buildLabel(text)
   }
 }
+const buildTextBox = (placeholder, label) => {
+  return {
+    "type": "input",
+    "element": {
+      "type": "plain_text_input",
+      "placeholder": {
+        "type": "plain_text",
+        "text": placeholder
+      },
+      "multiline": true
+    },
+    "optional": true,
+    ...buildLabel(label)
+  }
+}
+
+const selectedMatching = $('payload_parser').first().json.view.state.values.matching_list.choose_matching.selected_option;
+const selectedMatchingText = selectedMatching.text.text
+const selectedMatchingID = selectedMatching.value
+
+const matchingReference = buildTextBlock({text: selectedMatchingText, style: "italic", blockID: selectedMatchingID})
 
 //=======================================
-const aggiornamentoCandidaturaHead = buildTextBlock("Come vuoi aggiornare la tua candidatura?")
+const aggiornamentoCandidaturaHead = buildTextBlock({text: "Come vuoi aggiornare la tua candidatura?", style: "bold"})
 const mainActionAggiornamentoCandidatura = {
   "type": "actions",
   "block_id": "selezione_aggiornamento_candidatura",
@@ -107,7 +140,7 @@ const mainActionAggiornamentoCandidatura = {
 }
 
 //=======================================
-const aggiornamentoCollProgHead = buildTextBlock("Hai sostenuto il colloquio?")
+const aggiornamentoCollProgHead = buildTextBlock({text: "Hai sostenuto il colloquio?", style: "bold"})
 const mainActionAggiornamentoCollProg = {
   "type": "actions",
   "block_id": "selezione_aggiornamento_colloquio_sostenuto",
@@ -116,7 +149,7 @@ const mainActionAggiornamentoCollProg = {
     buildButton("No", "colloquio_non_sostenuto", "collprog_non_avvenuto", "danger"),
   ]
 }
-const collProgDomanda1 = buildTextBlock("Pensano già di assumerti?")
+const collProgDomanda1 = buildTextBlock({text: "Pensano già di assumerti?"})
 const redirectAssunzione = {
   "type": "actions",
   "block_id": "coll_prog_redirect_assunzione",
@@ -126,7 +159,7 @@ const redirectAssunzione = {
 }
 //=======================================
 
-const aggiornamentoCollSostHead = buildTextBlock("Come vuoi aggiornare questa opportunità?");
+const aggiornamentoCollSostHead = buildTextBlock({text: "Come vuoi aggiornare questa opportunità?", style: "bold"});
 const mainActionAggiornamentoCollSost = {
   "type": "actions",
   "block_id": "selezione_aggiornamento_candidatura",
@@ -158,7 +191,7 @@ const selezioneStatoAssunzione = {
   ],
 }
 
-const assunzText1 = buildTextBlock("Compila questi campi se hai le relative informazioni");
+const assunzText1 = buildTextBlock({text: "Compila questi campi se hai le relative informazioni", style: "bold"});
 const selezioneTipoContratto = {
   "block_id": "tipo_contratto",
   "type": "input",
@@ -179,19 +212,13 @@ const selezioneTipoContratto = {
 
 const dataInizioContratto = buildDatePicker("Inizio contratto", "date_picker_inizio_contratto", true);
 const dataFineContratto = buildDatePicker("Fine contratto", "date_picker_fine_contratto", true);
-const altreInfoAssunzione = {
-  "type": "input",
-  "element": {
-    "type": "plain_text_input",
-    "placeholder": {
-      "type": "plain_text",
-      "text": "Puoi usare questo spazio per darci altri dettagli sullo stato della tua assunzione"
-    }
-  },
-  ...buildLabel("Altro")
+const altreInfoAssunzione = buildTextBox("Puoi usare questo spazio per darci altri dettagli sullo stato della tua assunzione", "Altro")
+
+const divider = {
+  "type": "divider"
 }
 
-const blocks = []
+const blocks = [matchingReference, divider]
 const ultimaAttività = $input.first().json["Ultima attività"];
 let privateID;
 let titoloAggiornamento;
@@ -204,12 +231,12 @@ switch (ultimaAttività) {
     break;
   case "Colloquio programmato":
     blocks.push(aggiornamentoCollProgHead, mainActionAggiornamentoCollProg, collProgDomanda1, redirectAssunzione)
-    titoloAggiornamento = "Update colloquio p.";
+    titoloAggiornamento = "Update colloquio";
     privateID = "update_colloquio_prog" ;
     break
   case "Colloquio sostenuto":
     blocks.push(aggiornamentoCollSostHead, mainActionAggiornamentoCollSost)
-    titoloAggiornamento = "Update colloquio s.";
+    titoloAggiornamento = "Update colloquio";
     privateID = "update_colloquio_sost" ;
     break;
   case "Assunzione":

@@ -18,7 +18,20 @@ const buildHeader = (text, level, id) => {
     "level": level
   }
 }
-const buildTextBlock = (text) => {
+const buildTextBlock = (props) => {
+
+  const styleObj = {}
+  if (props.style) {
+    styleObj["style"] = {
+      [props.style] : true
+    }
+  }
+
+  const blockIDObj = {}
+  if (props.blockID) {
+    blockIDObj["block_id"] = props.blockID
+  }
+
   return {
     "type": "rich_text",
     "elements": [
@@ -27,10 +40,8 @@ const buildTextBlock = (text) => {
         "elements": [
           {
             "type": "text",
-            "text": text,
-            "style": {
-              "bold": true
-            }
+            "text": props.text,
+            ...styleObj
           }
         ]
       }
@@ -119,6 +130,11 @@ const buildTextBox = (placeholder, label) => {
 }
 
 //blocks
+const matchingReferenceBlock = $input.first().json.view.blocks[0];
+const divider = {
+  "type": "divider"
+}
+
 const selezioneStatoColloquio = {
   "block_id": "stato_colloquio",
   "type": "input",
@@ -138,8 +154,8 @@ const selezioneEsitoColloquio = {
   "block_id": "esito_colloquio",
   "type": "section",
   "text": {
-    "type": "plain_text",
-    "text": "L'azienda ti ha dato feedback diretti?"
+    "type": "mrkdwn",
+    "text": "*L'azienda ti ha dato feedback diretti?*"
   },
   "accessory": {
     "type": "radio_buttons",
@@ -166,7 +182,7 @@ const ulterioreColloquio = {
   ]
 }
 const datePickerUlterioreColloquio = buildDatePicker("Data ulteriore colloquio", "data_ulteriore_colloquio", false);
-const istruzioneUlterioreColloquio = buildTextBlock("Se non hai ancora la data, comunica un colloquio programmato in seguito")
+const istruzioneUlterioreColloquio = buildTextBlock({text: "Se non hai ancora la data, comunica un colloquio programmato in seguito", style: "italic"})
 const altreInfoColloquio = buildTextBox("Qui puoi scrivere altre informazioni che ritieni significative", "Altro");
 const altreInfoColloquioSostenuto = buildTextBox("Qui puoi scrivere altro in merito al colloquio", "Impressioni/note aggiuntive");
 
@@ -207,7 +223,7 @@ const selezioneStatoAssunzione = {
   },
   ...buildLabel("Stato assunzione")
 }
-const assunzText1 = buildTextBlock("Compila questi campi se hai le relative informazioni");
+const assunzText1 = buildTextBlock({text: "Compila questi campi se hai le relative informazioni", style: "bold"});
 const selezioneTipoContratto = {
   "block_id": "tipo_contratto",
   "type": "input",
@@ -304,7 +320,7 @@ if (actionID === "selezione_stato_colloquio") {
   const selectedOption = $input.first().json.actions[0].selected_option.value;
   switch(selectedOption) {
     case ("colloquio_sostenuto"):
-      blocks.push(selezioneStatoColloquio, datePickerColloquio, selezioneEsitoColloquio, altreInfoColloquioSostenuto)
+      blocks.push(selezioneStatoColloquio, datePickerColloquio, divider, selezioneEsitoColloquio, divider, altreInfoColloquioSostenuto)
       break;
     case ("colloquio_programmato"):
       blocks.push(selezioneStatoColloquio, datePickerColloquio, altreInfoColloquio);
@@ -318,7 +334,7 @@ if (actionID === "seleziona_feedback_colloquio") {
   switch (viewID) {
     case ("update_candidatura"):
     case ("update_colloquio_sost"):
-      optionalBlocks.push(selezioneStatoColloquio, datePickerColloquio, selezioneEsitoColloquio);
+      optionalBlocks.push(selezioneStatoColloquio, datePickerColloquio, divider, selezioneEsitoColloquio);
       break;
     case ("update_colloquio_prog"):
       optionalBlocks.push(selezioneEsitoColloquio);
@@ -327,9 +343,9 @@ if (actionID === "seleziona_feedback_colloquio") {
 
   const selectedOption = $input.first().json.actions[0].selected_option.value;
   if (selectedOption === "feedback_colloquio_si_pos") {
-    blocks.push(...optionalBlocks, ulterioreColloquio, altreInfoColloquioSostenuto)
+    blocks.push(...optionalBlocks, ulterioreColloquio, divider, altreInfoColloquioSostenuto)
   } else {
-    blocks.push(...optionalBlocks, altreInfoColloquioSostenuto)
+    blocks.push(...optionalBlocks, divider, altreInfoColloquioSostenuto)
   }
 }
 
@@ -338,7 +354,7 @@ if (actionID === "check_ulteriore_colloquio") {
   switch (viewID) {
     case ("update_candidatura"):
     case ("update_colloquio_sost"):
-      optionalBlocks.push(selezioneStatoColloquio, datePickerColloquio, selezioneEsitoColloquio);
+      optionalBlocks.push(selezioneStatoColloquio, datePickerColloquio, divider, selezioneEsitoColloquio);
       break;
     case ("update_colloquio_prog"):
       optionalBlocks.push(selezioneEsitoColloquio);
@@ -347,9 +363,9 @@ if (actionID === "check_ulteriore_colloquio") {
 
   const selectedOption = action.selected_options.length > 0 ?  action.selected_options[0].value : "no_selection";
   if (selectedOption === "ulteriore_colloquio_selezionato") {
-    blocks.push(...optionalBlocks, ulterioreColloquio, datePickerUlterioreColloquio,istruzioneUlterioreColloquio, altreInfoColloquioSostenuto)
+    blocks.push(...optionalBlocks, ulterioreColloquio, datePickerUlterioreColloquio, istruzioneUlterioreColloquio, divider, altreInfoColloquioSostenuto)
   } else {
-    blocks.push(...optionalBlocks, ulterioreColloquio, altreInfoColloquioSostenuto)
+    blocks.push(...optionalBlocks, ulterioreColloquio, divider, altreInfoColloquioSostenuto)
   }
 }
 
@@ -358,15 +374,19 @@ if (actionID === "selezione_stato_assunzione") {
   const selectedOption = $input.first().json.actions[0].selected_option.value
 
   if (selectedOption === "assunzione_prevista" || selectedOption === "assunzione_avvenuta") {
-    blocks.push(selezioneStatoAssunzione, assunzText1, selezioneTipoContratto, dataInizioContratto, dataFineContratto, altreInfoAssunzione)
+    blocks.push(selezioneStatoAssunzione, divider, assunzText1, selezioneTipoContratto, dataInizioContratto, dataFineContratto, divider, altreInfoAssunzione)
   } else {
     blocks.push(selezioneStatoAssunzione, altreInfoAssunzione)
   }
 }
 
 if (blocks.length === 0) {
-  const previousBlocks = $input.first().json.view.blocks
+  const previousBlocks = $input.first().json.view.blocks;
   blocks.push(...previousBlocks);
+} else {
+  if (blocks[0].block_id !== matchingReferenceBlock.block_id) {
+    blocks.unshift(matchingReferenceBlock, divider)
+  }
 }
 
 const uploadViewBlocks = {
