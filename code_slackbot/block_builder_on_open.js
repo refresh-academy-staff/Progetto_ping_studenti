@@ -105,19 +105,21 @@ const buildDatePicker = (text, id, isOptional) => {
     ...buildLabel(text)
   }
 }
-const buildTextBox = (placeholder, label) => {
+const buildTextBox = (props) => {
   return {
     "type": "input",
+    "block_id": "altre_info",
     "element": {
       "type": "plain_text_input",
+      "action_id": "text_input",
       "placeholder": {
         "type": "plain_text",
-        "text": placeholder
+        "text": props.placeholder
       },
       "multiline": true
     },
     "optional": true,
-    ...buildLabel(label)
+    ...buildLabel(props.label)
   }
 }
 
@@ -172,7 +174,7 @@ const mainActionAggiornamentoCollSost = {
 
 //=======================================
 const selezioneStatoAssunzione = {
-  "block_id": "stato_assunzione",
+  "block_id": "main_action",
   "type": "actions",
   "elements": [
     {
@@ -212,7 +214,7 @@ const selezioneTipoContratto = {
 
 const dataInizioContratto = buildDatePicker("Inizio contratto", "date_picker_inizio_contratto", true);
 const dataFineContratto = buildDatePicker("Fine contratto", "date_picker_fine_contratto", true);
-const altreInfoAssunzione = buildTextBox("Puoi usare questo spazio per darci altri dettagli sullo stato della tua assunzione", "Altro")
+const altreInfoAssunzione = buildTextBox({ placeholder: "Puoi usare questo spazio per darci altri dettagli sullo stato della tua assunzione", label: "Altro" })
 
 const divider = {
   "type": "divider"

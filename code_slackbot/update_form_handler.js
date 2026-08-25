@@ -113,19 +113,21 @@ const buildDatePicker = (text, id, isOptional) => {
     ...buildLabel(text)
   }
 }
-const buildTextBox = (placeholder, label) => {
+const buildTextBox = (props) => {
   return {
     "type": "input",
+    "block_id": "altre_info",
     "element": {
       "type": "plain_text_input",
+      "action_id": "text_input",
       "placeholder": {
         "type": "plain_text",
-        "text": placeholder
+        "text": props.placeholder
       },
       "multiline": true
     },
     "optional": true,
-    ...buildLabel(label)
+    ...buildLabel(props.label)
   }
 }
 
@@ -136,7 +138,7 @@ const divider = {
 }
 
 const selezioneStatoColloquio = {
-  "block_id": "stato_colloquio",
+  "block_id": "main_update",
   "type": "input",
   "dispatch_action": true,
   "element": {
@@ -182,12 +184,12 @@ const ulterioreColloquio = {
   ]
 }
 const datePickerUlterioreColloquio = buildDatePicker("Data ulteriore colloquio", "data_ulteriore_colloquio", false);
-const istruzioneUlterioreColloquio = buildTextBlock({text: "Se non hai ancora la data, comunica un colloquio programmato in seguito", style: "italic"})
-const altreInfoColloquio = buildTextBox("Qui puoi scrivere altre informazioni che ritieni significative", "Altro");
-const altreInfoColloquioSostenuto = buildTextBox("Qui puoi scrivere altro in merito al colloquio", "Impressioni/note aggiuntive");
+const istruzioneUlterioreColloquio = buildTextBlock({ text: "Se non hai ancora la data, comunica un colloquio programmato in seguito", style: "italic" })
+const altreInfoColloquio = buildTextBox({ placeholder: "Qui puoi scrivere altre informazioni che ritieni significative", label: "Altro" });
+const altreInfoColloquioSostenuto = buildTextBox({ placeholder: "Qui puoi scrivere altro in merito al colloquio", label: "Impressioni/note aggiuntive" });
 
 const motivoColloquioNonSostenuto = {
-  "block_id": "motivo_colloquio_non_sostenuto",
+  "block_id": "main_update",
   "type": "actions",
   "elements": [
     {
@@ -206,10 +208,10 @@ const motivoColloquioNonSostenuto = {
   ]
 }
 const dataColloquioRimandato = buildDatePicker("Nuova data", "data_colloquio_rimandato", true);
-const altreInfoColloquioNonSostenuto = buildTextBox("Aggiungi qui eventuali dettagli", "Altre info");
+const altreInfoColloquioNonSostenuto = buildTextBox({ placeholder: "Aggiungi qui eventuali dettagli", label: "Altre info", });
 
 const selezioneStatoAssunzione = {
-  "block_id": "stato_assunzione",
+  "block_id": "main_update",
   "type": "input",
   "dispatch_action": true,
   "element": {
@@ -244,25 +246,26 @@ const selezioneTipoContratto = {
 }
 const dataInizioContratto = buildDatePicker("Inizio contratto", "date_picker_inizio_contratto", true);
 const dataFineContratto = buildDatePicker("Fine contratto", "date_picker_fine_contratto", true);
-const altreInfoAssunzione = buildTextBox("Puoi usare questo spazio per darci altri dettagli sullo stato della tua assunzione", "Altro")
+const altreInfoAssunzione = buildTextBox({ placeholder: "Puoi usare questo spazio per darci altri dettagli sullo stato della tua assunzione", label: "Altro" })
 
 const motivoChiusuraOpportunità = {
-  "block_id": "motivo_chiusura_opportunità",
+  "block_id": "main_update",
   "type": "input",
   "element": {
     "type": "static_select",
+    "action_id": "selezione_motivo_chiusura",
     "options": [
-      buildOption("Candidatura respinta", "chiusura_cand_respinta"),
-      buildOption("Colloquio negativo", "chiusura_coll_negativo"),
-      buildOption("Idoneità senza selezione", "chiusura_no_idoneo"),
-      buildOption("Decisione personale", "chiusura_decisione_personale"),
-      buildOption("Altro", "chiusura_altro"),
+      buildOption("Candidatura respinta", "cand_respinta"),
+      buildOption("Colloquio negativo", "coll_negativo"),
+      buildOption("Idoneità senza selezione", "non_idoneo"),
+      buildOption("Decisione personale", "decisione_personale"),
+      buildOption("Altro", "altro"),
     ]
   },
   ...buildLabel("Motivo")
 }
 
-const altreInfoChiusura = buildTextBox("Se vuoi, aggiungi qui informazioni sulla chiusura dell'opportunità", "Altro");
+const altreInfoChiusura = buildTextBox({ placeholder: "Se vuoi, aggiungi qui informazioni sulla chiusura dell'opportunità", label: "Altro" });
 
 //blocks build
 
