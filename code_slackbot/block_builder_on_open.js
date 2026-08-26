@@ -143,20 +143,26 @@ const mainActionAggiornamentoCandidatura = {
 
 //=======================================
 const aggiornamentoCollProgHead = buildTextBlock({text: "Hai sostenuto il colloquio?", style: "bold"})
-const mainActionAggiornamentoCollProg = {
+const colloquioProgSostenuto = {
   "type": "actions",
-  "block_id": "selezione_aggiornamento_colloquio_sostenuto",
+  "block_id": "main_update",
   "elements": [
-    buildButton("Sì", "colloquio_sostenuto", "collprog_avvenuto", "primary"),
-    buildButton("No", "colloquio_non_sostenuto", "collprog_non_avvenuto", "danger"),
+    {
+      "type": "radio_buttons",
+      "action_id": "conferma_colloquio_sostenuto",
+      "options": [
+        buildOption("Sì", "collprog_avvenuto"),
+        buildOption("No", "collprog_non_avvenuto"),
+      ]
+    }
   ]
 }
-const collProgDomanda1 = buildTextBlock({text: "Pensano già di assumerti?"})
+const collProgDomanda1 = buildTextBlock({text: "Pensano già di assumerti?", style: "italic"})
 const redirectAssunzione = {
   "type": "actions",
   "block_id": "coll_prog_redirect_assunzione",
   "elements": [
-    buildButton("Assunzione", "assunzione", "redirect_assunzione"),
+    buildButton("Assunzione", "assunzione", "redirect_assunzione", "primary"),
   ]
 }
 //=======================================
@@ -174,7 +180,7 @@ const mainActionAggiornamentoCollSost = {
 
 //=======================================
 const selezioneStatoAssunzione = {
-  "block_id": "main_action",
+  "block_id": "main_update",
   "type": "actions",
   "elements": [
     {
@@ -232,7 +238,7 @@ switch (ultimaAttività) {
     privateID = "update_candidatura" ;
     break;
   case "Colloquio programmato":
-    blocks.push(aggiornamentoCollProgHead, mainActionAggiornamentoCollProg, collProgDomanda1, redirectAssunzione)
+    blocks.push(aggiornamentoCollProgHead, colloquioProgSostenuto, collProgDomanda1, redirectAssunzione)
     titoloAggiornamento = "Update colloquio";
     privateID = "update_colloquio_prog" ;
     break
@@ -277,9 +283,9 @@ const openViewBlocks = {
 
 switch (ultimaAttività) {
   case "Candidatura":
-  case "Colloquio programmato":
   case "Colloquio sostenuto":
     return {openViewBlocks}
+  case "Colloquio programmato":
   case "Assunzione":
     return {
       openViewBlocks: {
