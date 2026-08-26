@@ -1,46 +1,54 @@
 const matchingID = $input.first().json.view.blocks[0].block_id
-
 if (!matchingID) {
   return {error: "ID Matching non fornito"}
 }
 
 const userID = $input.first().json.user.id
+if (!userID) {
+  return {error: "User ID non presente"}
+}
 
-const stateValues = $input.first().json.view.state.values
+const values = $input.first().json.view.state.values
+if (!values) {
+  return {error: "Nessun valore trovato"}
+}
 
-const valuesFields = Object.keys(stateValues)
-const values = valuesFields.map(x => {
-  const subField = Object.keys(stateValues[x])[0]
-  const valueObject = stateValues[x][subField]
+const valuesKeys = Object.keys(values)
 
-  const obj = {}
+const submission = {
+  context: {
+    matching_id: matchingID,
+    user_id: userID
+  },
+  submittedValues: {}
+};
 
-  switch (valueObject.type) {
-    case ("radio_buttons"):
-    case ("static_select"):
-      if (subField === "selezione_motivo_chiusura") {
-        obj["main_update"] = "chiusura";
-        obj["motivo_chiusura"] = valueObject.selected_option?.value ?? null
+valuesKeys.forEach(key => {
+
+  const subField = Object.keys(values[key])[0]
+  const childBlock = values[key][subField]
+
+  const childBlockType = childBlock.type
+
+  switch (childBlockType) {
+    case ("checkboxes"):
+      if (childBlock.selected_options.length === 0) {
+        submission.submittedValues[key] = null
       } else {
-        obj[x] = valueObject.selected_option?.value ?? null
+        submission.submittedValues[key] = childBlock.selected_options[0].value;
       }
       break;
-    case ("checkboxes"):        //
-      const selectedOptionsValues = valueObject.selected_options.map(x => x.value)
-      obj[x] = selectedOptionsValues
+    case ("radio_buttons"):
+    case ("static_select"):
+      submission.submittedValues[key] = childBlock.selected_option.value;
       break;
     case ("datepicker"):
-      obj[x] = valueObject.selected_date
+      submission.submittedValues[key] = childBlock.selected_date;
       break;
     case ("plain_text_input"):
-      obj[x] = valueObject.value
+      submission.submittedValues[key] = childBlock.value;
       break;
   }
-  return obj
 })
 
-return {
-  matching_id: matchingID,
-  user_id: userID,
-  values: values,
-}
+return {submission}
