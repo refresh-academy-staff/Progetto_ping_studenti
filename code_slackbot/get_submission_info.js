@@ -40,7 +40,7 @@ valuesKeys.forEach(key => {
       break;
     case ("radio_buttons"):
     case ("static_select"):
-      submission.submittedValues[key] = childBlock.selected_option.value;
+      submission.submittedValues[key] = childBlock.selected_option?.value;
       break;
     case ("datepicker"):
       submission.submittedValues[key] = childBlock.selected_date;
