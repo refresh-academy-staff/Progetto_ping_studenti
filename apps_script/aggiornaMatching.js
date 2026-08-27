@@ -72,11 +72,18 @@ function aggiungiNuoviMatching() {
   Logger.log(`Aggiunte ${counter} righe su ${newMatchings.length - 1} con successo.`)
 }
 
-const doGet = () => {
+const doPost = (e) => {
 
-  const DEST_SPREADSHEET_ID = '1BS3XbUV2iEp5jZzxrSIZR65002id-q_SV4esIg2h8fY'
+  const postData = JSON.parse(e.postData.contents)
 
-  const ssSource = SpreadsheetApp.getActiveSpreadsheet();
+  const ssSourceIds = {
+    test: "1BS3XbUV2iEp5jZzxrSIZR65002id-q_SV4esIg2h8fY",
+    dev: "1kfZTjFALTAEUg-qtBTo-SwcWhQGyvdqXaf50EcLLL4Y",
+  }
+
+  const SPREADSHEET_ID = ssSourceIds[postData.env]
+
+  const ssSource = SpreadsheetApp.openById(SPREADSHEET_ID);
   const shSource = ssSource.getSheetById(594811163);
   const shDest = ssSource.getSheetById(1910429051);
 
@@ -116,6 +123,7 @@ const doGet = () => {
   const dIdxScadenzaContratto = destHeader.indexOf("Scadenza contratto");
   const dIdxNoteAssunzione = destHeader.indexOf("Note assunzione");
   const dIdxUltimaAttività = destHeader.indexOf("Ultima attività");
+  const dIdxUltimaModifica = destHeader.indexOf("Ultima modifica");
 
   const sourceData = shSource.getDataRange().getValues();
 
@@ -163,39 +171,49 @@ const doGet = () => {
       case ("colloquio_programmato"):
         updatedRow[dIdxColloquio] = "programmato"
         updatedRow[dIdxDataColloquioPrevista] = row[sIdxDataColloquio]
+        updatedRow[dIdxUltimaAttività] = "Colloquio programmato"
         break;
       case ("colloquio_sostenuto"):
+      case ("collprog_avvenuto"):
         updatedRow[dIdxColloquio] = "sostenuto"
         updatedRow[dIdxDataColloquioEffettiva] = row[sIdxDataColloquio]
         updatedRow[dIdxColloquiSvolti] = updatedRow[dIdxColloquiSvolti] ? updatedRow[dIdxColloquiSvolti] + 1 : 1
         updatedRow[dIdxFeedbackColloquio] = row[sIdxFeedbackColloquio]
+        updatedRow[dIdxUltimaAttività] = "Colloquio sostenuto"
         break;
       case ("colloquio_rimandato"):
         updatedRow[dIdxColloquio] = "rimandato"
         updatedRow[dIdxDataColloquioPrevista] = row[sIdxDataColloquio]
+        updatedRow[dIdxUltimaAttività] = "Colloquio rimandato"
         break;
       case ("colloquio_non_presentato"):
         updatedRow[dIdxColloquio] = "non presente"
+        updatedRow[dIdxUltimaAttività] = "Non presente al colloquio"
         break;
       case ("colloquio_annullato"):
         updatedRow[dIdxColloquio] = "annullato"
+        updatedRow[dIdxUltimaAttività] = "Colloquio annullato"
         break;
       case ("assunzione_prevista"):
-        updatedRow[dIdxCandidatura] = "prevista"
+        updatedRow[dIdxAssunzione] = "prevista"
         updatedRow[dIdxTipoContratto] = row[sIdxTipoContratto];
         updatedRow[dIdxScadenzaContratto] = row[sIdxDataFineContratto];
+        updatedRow[dIdxUltimaAttività] = "Assunzione prevista"
         break;
       case ("assunzione_avvenuta"):
-        updatedRow[dIdxCandidatura] = "avvenuta"
+        updatedRow[dIdxAssunzione] = "avvenuta"
         updatedRow[dIdxTipoContratto] = row[sIdxTipoContratto];
         updatedRow[dIdxScadenzaContratto] = row[sIdxDataFineContratto];
+        updatedRow[dIdxUltimaAttività] = "Assunzione programmata"
         break;
       case ("assunzione_annullata"):
-        updatedRow[dIdxCandidatura] = "annullata"
+        updatedRow[dIdxAssunzione] = "annullata"
+        updatedRow[dIdxUltimaAttività] = "Colloquio annullata"
         break;
       case ("chiusura"):
         updatedRow[dIdxChiusura] = "chiusa"
         updatedRow[dIdxMotivoChiusura] = row[sIdxMotivoChiusura]
+        updatedRow[dIdxUltimaAttività] = "Chiusura"
         break;
     }
 
@@ -217,7 +235,11 @@ const doGet = () => {
         break;
     }
 
-    shDest.getRange(idxMatchingToUpdate + 1, dIdxCandidatura + 1, 1, updatedRow.length).setValues([updatedRow]);
+    updatedRow[dIdxUltimaModifica] = new Date();
+
+    const columnsToUpdate = updatedRow.slice(dIdxChiusura +1)
+
+    shDest.getRange(idxMatchingToUpdate + 1, dIdxChiusura + 2, 1, columnsToUpdate.length).setValues([columnsToUpdate]);
     shSource.getRange(row[parseInt(idxIndex)], sIdxMatchingAgg + 1).setValue("sì");
 
     counter++
