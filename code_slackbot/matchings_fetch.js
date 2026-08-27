@@ -42,7 +42,7 @@ const getLastEvent = (m) => {
 
 const options = $input.all()
   .map(m => {
-    const lastEvent = getLastEvent(m);
+    const lastEvent = m["Ultima attività"];
     const enrichedOption = enrichOption(lastEvent, m.json["ID matching"])
     return enrichedOption
   })
