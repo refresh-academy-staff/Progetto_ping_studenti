@@ -1,59 +1,127 @@
-const getDestIndex = (header) => {
+const doPost = (e) => {
 
-  const dIdx = {
-    matchingID: header.indexOf("ID matching"),
-    studente: header.indexOf("Studente"),
-    studenteID: header.indexOf("ID studente"),
-    azienda: header.indexOf("Azienda"),
-    posizione: header.indexOf("Posizione"),
-    fonte: header.indexOf("Fonte"),
-    chiusura: header.indexOf("Opp_chiusa"),
-    motivoChiusura: header.indexOf("Motivo chiusura"),
-    noteChiusura: header.indexOf("Note chiusura"),
-    candidatura: header.indexOf("Candidatura"),
-    dataCandidatura: header.indexOf("Data candidatura"),
-    noteCandidatura: header.indexOf("Note candidatura"),
-    colloquiSvolti: header.indexOf("Colloqui svolti"),
-    colloquio: header.indexOf("Colloquio"),
-    dataColloquioPrevista: header.indexOf("Data colloquio prevista"),
-    dataColloquioEffettiva: header.indexOf("Data colloquio effettiva"),
-    feedbackColloquio: header.indexOf("Feedback colloquio"),
-    noteColloquio: header.indexOf("Note colloquio"),
-    assunzione: header.indexOf("Assunzione"),
-    tipoContratto: header.indexOf("Tipo contratto"),
-    scadenzaContratto: header.indexOf("Scadenza contratto"),
-    noteAssunzione: header.indexOf("Note assunzione"),
-    ultimaAttivita: header.indexOf("Ultima attività"),
-    ultimaModifica: header.indexOf("Ultima modifica")
-  }
-
-  return dIdx
-}
-const getSourceIndex = (header) => {
-
-  const sIdx = {
-    idAggiornamento: header.indexOf("ID aggiornamento"),
-    matchingID: header.indexOf("ID matching"),
-    nomeStudente: header.indexOf("Studente"),
-    idStudente: header.indexOf("ID studente"),
-    nuovoStato: header.indexOf("Nuovo stato"),
-    dataColloquio: header.indexOf("Data colloquio"),
-    feedbackColloquio: header.indexOf("Feedback colloquio"),
-    tipoContratto	: header.indexOf("Tipo contratto"),
-    dataInizioContratto: header.indexOf("Inizio contratto"),
-    dataFineContratto: header.indexOf("Fine contratto"),
-    motivoChiusura: header.indexOf("Motivo chiusura"),
-    note: header.indexOf("Note"),
-    matchingAgg: header.indexOf("Matching aggiornato"),
-    dataAggiornamento: header.indexOf("Data aggiornamento"),
-    index: header.indexOf("Index")
-  }
-
-  return sIdx
-}
-const aggiornaTuttiMatchings = () => {
   const SPREADSHEET_ID = "1kfZTjFALTAEUg-qtBTo-SwcWhQGyvdqXaf50EcLLL4Y"
 
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+
+  const postData = JSON.parse(e.postData.contents)
+
+  switch (postData.action) {
+    case "update":
+      aggiornaTuttiMatchings();
+      break;
+    case "new_matching":
+      aggiungiNuoviMatching();
+      break;
+  }
+
+  return HtmlService.createHtmlOutput('<b>Matching aggiornati</b>');
+}
+
+const aggiungiNuoviMatching = () => {
+
+  const SPREADSHEET_ID = '1kfZTjFALTAEUg-qtBTo-SwcWhQGyvdqXaf50EcLLL4Y'
+
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const shSource = ss.getSheetById(935935300);
+  const shDest = ss.getSheetById(1910429051);
+
+  if (!shSource) {
+    SpreadsheetApp.getUi().alert("Error: Source sheet not found.");
+    return;
+  }
+
+  if (!shDest) {
+    SpreadsheetApp.getUi().alert("Error: Source sheet not found.");
+    return;
+  }
+
+  const sourceData = shSource.getDataRange().getValues();
+  const sourceHeader = sourceData[0];
+  const newMatchingsHeader = [...sourceHeader, "Index"]
+
+
+  const sIdxIDRegistrazione = sourceData[0].indexOf("ID registrazione");
+  const idxIDStudente = newMatchingsHeader.indexOf("ID studente");
+  const idxStatoOpportunita = newMatchingsHeader.indexOf("Stato opportunità");
+  const idxDataRegistrazione = newMatchingsHeader.indexOf("Data registrazione")
+  const idxPosizione = newMatchingsHeader.indexOf("Posizione");
+  const idxAzienda = newMatchingsHeader.indexOf("Azienda");
+  const idxSede = newMatchingsHeader.indexOf("Sede");
+  const idxDataColloquio = newMatchingsHeader.indexOf("Data colloquio");
+  const idxTipoContratto = newMatchingsHeader.indexOf("Tipo contratto");
+  const idxDataInizioContratto = newMatchingsHeader.indexOf("Data inizio contratto");
+  const idxDataFineContratto = newMatchingsHeader.indexOf("Data fine contratto");
+  const idxMatchingCreato = sourceData[0].indexOf("Matching creato");
+  const idxIndex = newMatchingsHeader.indexOf("Index");
+
+  const newMatchings = sourceData
+    .map((row, index) => [...row, index + 1])
+    .filter(row => row[idxMatchingCreato] === "no")
+
+  newMatchings.unshift(newMatchingsHeader);
+
+  const destData = shDest.getDataRange().getValues();
+  const destHeader = destData[0];
+  const dIdx = getDestIndex(destHeader);
+
+  let counter = 0;
+
+  newMatchings.forEach((m, index) => {
+
+    if (index === 0) return
+
+    const newMatching = new Array(destHeader.length).fill("");
+
+    newMatching[dIdx.studenteID] = m[idxIDStudente] 
+    newMatching[dIdx.azienda] = m[idxAzienda]
+    newMatching[dIdx.posizione] = m[idxPosizione]
+
+    switch (m[idxStatoOpportunita]) {
+      case "Candidatura": 
+        newMatching[dIdx.candidatura] = "inviata";
+        newMatching[dIdx.dataCandidatura] = m[idxDataRegistrazione];
+        newMatching[idx.ultimaAttivita] = "Candidatura";
+        break;
+      case "Colloquio programmato":
+        newMatching[dIdx.colloquio] = "programmato";
+        newMatching[dIdx.dataColloquioPrevista] = m[idxDataColloquio];
+        newMatching[dIdx.ultimaAttivita] = "Colloquio programmato";
+        break;
+      case "Colloquio sostenuto":
+        newMatching[dIdx.colloquio] = "sostenuto";
+        newMatching[dIdx.colloquiSvolti] = 1;
+        newMatching[dIdx.dataColloquioEffettiva] = m[idxDataColloquio];
+        newMatching[idx.ultimaAttivita] = "Colloquio sostenuto";
+        break;
+      case "Assunzione prevista": 
+        newMatching[dIdx.assunzione] = "Assunzione prevista";
+        newMatching[dIdx.tipoContratto] = m[idxTipoContratto];
+        newMatching[dIdx.dataInizioContratto] = m[idxDataInizioContratto];
+        newMatching[dIdx.dataScadenzaContratto] = m[idxDataFineContratto];
+        newMatching[idx.ultimaAttivita] = "Assunzione prevista";
+        break; 
+      case "Assunzione avvenuta": 
+        newMatching[dIdx.assunzione] = "Assunzione avvenuta";
+        newMatching[dIdx.tipoContratto] = m[idxTipoContratto];
+        newMatching[dIdx.dataInizioContratto] = m[idxDataInizioContratto];
+        newMatching[dIdx.dataScadenzaContratto] = m[idxDataFineContratto]; 
+        newMatching[idx.ultimaAttivita] = "Assunzione avvenuta";
+        break;
+    }
+
+    shDest.appendRow(newMatching);
+    shSource.getRange(m[parseInt(idxIndex)], idxMatchingCreato + 1).setValue("sì");
+
+    counter++
+  })
+
+  Logger.log(`Aggiunte ${counter} righe su ${newMatchings.length - 1} con successo.`)
+}
+
+const aggiornaTuttiMatchings = () => {
+
+  const SPREADSHEET_ID = "1kfZTjFALTAEUg-qtBTo-SwcWhQGyvdqXaf50EcLLL4Y"
 
   const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
   const shSource = ss.getSheetById(594811163);
@@ -132,13 +200,15 @@ const aggiornaTuttiMatchings = () => {
       case ("assunzione_prevista"):
         updatedRow[dIdx.assunzione] = "prevista"
         updatedRow[dIdx.tipoContratto] = row[sIdx.tipoContratto];
-        updatedRow[dIdx.scadenzaContratto] = row[sIdx.dataFineContratto];
+        updatedRow[dIdx.dataInizioContratto] = row[sIdx.dataInizioContratto];
+        updatedRow[dIdx.dataScadenzaContratto] = row[sIdx.dataFineContratto];
         updatedRow[dIdx.ultimaAttivita] = "Assunzione prevista"
         break;
       case ("assunzione_avvenuta"):
         updatedRow[dIdx.assunzione] = "avvenuta"
         updatedRow[dIdx.tipoContratto] = row[sIdx.tipoContratto];
-        updatedRow[dIdx.scadenzaContratto] = row[sIdx.dataFineContratto];
+        updatedRow[dIdx.dataInizioContratto] = row[sIdx.dataInizioContratto];
+        updatedRow[dIdx.dataScadenzaContratto] = row[sIdx.dataFineContratto];
         updatedRow[dIdx.ultimaAttivita] = "Assunzione programmata"
         break;
       case ("assunzione_annullata"):
@@ -186,121 +256,56 @@ const aggiornaTuttiMatchings = () => {
     Aggiornati ${counter} matching con successo.
   `)
 }
-
-const aggiungiNuoviMatching = () => {
-
-  const SPREADSHEET_ID = '1kfZTjFALTAEUg-qtBTo-SwcWhQGyvdqXaf50EcLLL4Y'
-
-  const ssSource = SpreadsheetApp.openById(SPREADSHEET_ID);
-  const shSource = ssSource.getSheetByName("Data_PingStingBot");
-  const shDest = ssSource.getSheetByName("Matching");
-
-  if (!shSource) {
-    SpreadsheetApp.getUi().alert("Error: Source sheet 'Data_PingStingBot' not found.");
-    return;
+const getDestIndex = (header) => {
+  const dIdx = {
+    matchingID: header.indexOf("ID matching"),
+    studente: header.indexOf("Studente"),
+    studenteID: header.indexOf("ID studente"),
+    azienda: header.indexOf("Azienda"),
+    posizione: header.indexOf("Posizione"),
+    fonte: header.indexOf("Fonte"),
+    chiusura: header.indexOf("Opp_chiusa"),
+    motivoChiusura: header.indexOf("Motivo chiusura"),
+    noteChiusura: header.indexOf("Note chiusura"),
+    candidatura: header.indexOf("Candidatura"),
+    dataCandidatura: header.indexOf("Data candidatura"),
+    noteCandidatura: header.indexOf("Note candidatura"),
+    colloquiSvolti: header.indexOf("Colloqui svolti"),
+    colloquio: header.indexOf("Colloquio"),
+    dataColloquioPrevista: header.indexOf("Data colloquio prevista"),
+    dataColloquioEffettiva: header.indexOf("Data colloquio effettiva"),
+    feedbackColloquio: header.indexOf("Feedback colloquio"),
+    noteColloquio: header.indexOf("Note colloquio"),
+    assunzione: header.indexOf("Assunzione"),
+    tipoContratto: header.indexOf("Tipo contratto"),
+    dataInizioContratto: header.indexOf("Data inizio contratto"),
+    dataScadenzaContratto: header.indexOf("Data scadenza contratto"),
+    noteAssunzione: header.indexOf("Note assunzione"),
+    ultimaAttivita: header.indexOf("Ultima attività"),
+    ultimaModifica: header.indexOf("Ultima modifica")
   }
-
-  if (!shDest) {
-    SpreadsheetApp.getUi().alert("Error: Source sheet 'Matching' not found.");
-    return;
-  }
-
-  const sourceData = shSource.getDataRange().getValues();
-  const idxMatching = sourceData[0].indexOf("Matching");
-  const idxMatchingAgg = sourceData[0].indexOf("Matching aggiornato");
-
-  const sourceHeader = sourceData[0];
-  const newMatchingsHeader = [...sourceHeader, "Index"]
-
-  const newMatchings = sourceData
-    .map((row, index) => [...row, index + 1])
-    .filter(row => row[idxMatching] === "nuovo" && row[idxMatchingAgg] === "no")
-
-
-  newMatchings.unshift(newMatchingsHeader);
-
-
-  const idxIDStudente = newMatchingsHeader.indexOf("ID studente");
-  const idxTipoEvento = newMatchingsHeader.indexOf("Tipo di evento");
-  const idxDataEvento = newMatchingsHeader.indexOf("Data evento")
-  const idxPosizione = newMatchingsHeader.indexOf("Posizione");
-  const idxAzienda = newMatchingsHeader.indexOf("Azienda");
-  const idxDataColloquio = newMatchingsHeader.indexOf("Data colloquio");
-  const idxDataFineContratto = newMatchingsHeader.indexOf("Data fine contratto");
-  const idxUltimaAttiv = newMatchingsHeader.indexOf("Ultima attività");
-  const idxIndex = newMatchingsHeader.indexOf("Index");
-
-  const destData = shDest.getDataRange().getValues();
-  const destHeader = destData[0]
-
-  let counter = 0;
-
-  newMatchings.forEach((m, index) => {
-
-    if (index === 0) return
-
-    const candidatura = m[idxTipoEvento] === "Candidatura" ? "inviata" : null
-    const dataCandidatura = candidatura ? m[idxDataEvento] : null
-    const colloquioProg = m[idxTipoEvento] === "Colloquio programmato" ? "programmato" : null
-    const colloquioSost = m[idxTipoEvento] === "Colloquio sostenuto" ? "sostenuto" : null
-    const colloquio = colloquioProg ?? colloquioSost ?? null
-    const dataColloquioProg = colloquioProg ? m[idxDataColloquio] : null
-    const dataColloquioSost = colloquioSost ? m[idxDataColloquio] : null
-    const assunzione = m[idxTipoEvento] === "Assunzione" ? "sì" : null
-    const dataFineContratto = m[idxDataFineContratto] ?? null
-    const ultimaAttiv = m[idxUltimaAttiv]
-
-    const newRow = [null, null, m[idxIDStudente], m[idxAzienda], m[idxPosizione], null, candidatura, dataCandidatura, colloquio,dataColloquioProg, dataColloquioSost, null, assunzione, null, dataFineContratto, ultimaAttiv]
-
-    shDest.appendRow(newRow);
-    shSource.getRange(m[parseInt(idxIndex)], idxMatchingAgg + 1).setValue("sì");
-
-    counter++
-  })
-
-  Logger.log(`Aggiunte ${counter} righe su ${newMatchings.length - 1} con successo.`)
+  return dIdx
 }
-const aggiornaMatching = (matchingID) => {
+const getSourceIndex = (header) => {
 
-  const SPREADSHEET_ID = "1kfZTjFALTAEUg-qtBTo-SwcWhQGyvdqXaf50EcLLL4Y"
-
-  const ssSource = SpreadsheetApp.openById(SPREADSHEET_ID);
-  const shSource = ssSource.getSheetById(594811163);
-  const shDest = ssSource.getSheetById(1910429051);
-
-  if (!shSource) {
-    SpreadsheetApp.getUi().alert("Error: Source sheet not found.");
-    return;
+  const sIdx = {
+    idAggiornamento: header.indexOf("ID aggiornamento"),
+    matchingID: header.indexOf("ID matching"),
+    nomeStudente: header.indexOf("Studente"),
+    idStudente: header.indexOf("ID studente"),
+    nuovoStato: header.indexOf("Nuovo stato"),
+    dataColloquio: header.indexOf("Data colloquio"),
+    feedbackColloquio: header.indexOf("Feedback colloquio"),
+    tipoContratto	: header.indexOf("Tipo contratto"),
+    dataInizioContratto: header.indexOf("Inizio contratto"),
+    dataFineContratto: header.indexOf("Fine contratto"),
+    motivoChiusura: header.indexOf("Motivo chiusura"),
+    note: header.indexOf("Note"),
+    matchingAgg: header.indexOf("Matching aggiornato"),
+    dataAggiornamento: header.indexOf("Data aggiornamento"),
+    index: header.indexOf("Index")
   }
 
-  if (!shDest) {
-    SpreadsheetApp.getUi().alert("Error: Destination sheet not found.");
-    return;
-  }
-}
-
-
-const testSetValue = (sheet, range, value) => {
-  sheet.getRange(range[0], range[1]).setValue(value)
-}
-
-const doPost = (e) => {
-
-  const SPREADSHEET_ID = "1kfZTjFALTAEUg-qtBTo-SwcWhQGyvdqXaf50EcLLL4Y"
-
-  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
-
-  const postData = JSON.parse(e.postData.contents)
-
-  switch (postData.action) {
-    case "update":
-      aggiornaTuttiMatchings()
-      break;
-    case "new_matching":
-      break;
-  }
-
-
-  return HtmlService.createHtmlOutput('<b>Matching aggiornati</b>');
+  return sIdx
 }
 
