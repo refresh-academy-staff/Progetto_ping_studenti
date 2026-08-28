@@ -1,8 +1,8 @@
-const  aggiornaListaAziende = () => {
+const SPREADSHEET_ID = '1BS3XbUV2iEp5jZzxrSIZR65002id-q_SV4esIg2h8fY'
 
-  const DEST_SPREADSHEET_ID = '11jVyrC2B5OFriucEZ792sCZOAEDVVbMxyAWRIVygK8U'
+const  aggiornaListaAziende = () => {
   
-  const ssSource = SpreadsheetApp.getActiveSpreadsheet();
+  const ssSource = SpreadsheetApp.openById(SPREADSHEET_ID);
   const shSource = ssSource.getSheetByName("Data_PingStingBot");
   const shDest = ssSource.getSheetByName("Tabelle_appoggio");
   
@@ -73,7 +73,7 @@ const  aggiornaListaAziende = () => {
 }
 
 const getMatchings = () => {
-  const ssSource = SpreadsheetApp.getActiveSpreadsheet();
+  const ssSource = SpreadsheetApp.openById(SPREADSHEET_ID);
   const shSource = ssSource.getSheetByName("Matching");
 
   const sourceValues = shSource

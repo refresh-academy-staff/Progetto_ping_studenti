@@ -1,8 +1,8 @@
 function aggiungiNuoviMatching() {
 
-  const DEST_SPREADSHEET_ID = '1BS3XbUV2iEp5jZzxrSIZR65002id-q_SV4esIg2h8fY'
+  const SPREADSHEET_ID = '1kfZTjFALTAEUg-qtBTo-SwcWhQGyvdqXaf50EcLLL4Y'
 
-  const ssSource = SpreadsheetApp.getActiveSpreadsheet();
+  const ssSource = SpreadsheetApp.openById(SPREADSHEET_ID);
   const shSource = ssSource.getSheetByName("Data_PingStingBot");
   const shDest = ssSource.getSheetByName("Matching");
 
@@ -72,16 +72,9 @@ function aggiungiNuoviMatching() {
   Logger.log(`Aggiunte ${counter} righe su ${newMatchings.length - 1} con successo.`)
 }
 
-const doPost = (e) => {
+const doGet = (e) => {
 
-  const postData = JSON.parse(e.postData.contents)
-
-  const ssSourceIds = {
-    test: "1BS3XbUV2iEp5jZzxrSIZR65002id-q_SV4esIg2h8fY",
-    dev: "1kfZTjFALTAEUg-qtBTo-SwcWhQGyvdqXaf50EcLLL4Y",
-  }
-
-  const SPREADSHEET_ID = ssSourceIds[postData.env]
+  const SPREADSHEET_ID = "1kfZTjFALTAEUg-qtBTo-SwcWhQGyvdqXaf50EcLLL4Y"
 
   const ssSource = SpreadsheetApp.openById(SPREADSHEET_ID);
   const shSource = ssSource.getSheetById(594811163);
