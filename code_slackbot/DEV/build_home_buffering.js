@@ -24,9 +24,18 @@
               "type": "button",
               "text": {
                 "type": "plain_text",
-                "text": "Inserisci nuova"
+                "text": "Compila il form"
               },
-              "value": "new_event",
+              "value": "new_opp_form",
+              "style": "primary"
+            },
+            {
+              "type": "button",
+              "text": {
+                "type": "plain_text",
+                "text": "Utilizza il chatbot"
+              },
+              "value": "new_opp_bot",
               "style": "primary"
             }
           ]

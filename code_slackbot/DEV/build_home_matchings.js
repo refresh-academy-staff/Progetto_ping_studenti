@@ -42,17 +42,20 @@ const candidature = matchings
   .filter(m => m.json["Ultima attività"] === "Candidatura")
   .map(m => buildMatchingOption(m.json))
 
+
 const optionGroupCandidature =
   candidature.length > 0 ?
     {
       ...buildLabel("Candidature"),
       "options": candidature
     }
-    : []
+    : {options: null}
+
 
 const colloqui = matchings
-  .filter(m => m.json["Ultima attività"].startsWith("Colloquio") === "Colloquio")
+  .filter(m => m.json["Ultima attività"].startsWith("Colloquio"))
   .map(m => buildMatchingOption(m.json))
+
 
 const optionGroupColloqui =
   colloqui.length > 0 ?
@@ -60,10 +63,10 @@ const optionGroupColloqui =
       ...buildLabel("Colloqui"),
       "options": colloqui
     }
-  : []
+  : {options: null}
 
 const assunzioni = matchings
-  .filter(m => m.json["Ultima attività"].startsWith("Assunzione") === "Assunzione")
+  .filter(m => m.json["Ultima attività"].startsWith("Assunzione"))
   .map(m => buildMatchingOption(m.json))
 
 const optionGroupAssunzioni =
@@ -72,11 +75,10 @@ const optionGroupAssunzioni =
       ...buildLabel("Assunzioni"),
       "options": assunzioni
     }
-  : []
+  : {options: null}
 
 
-const optionGroups = [optionGroupCandidature, optionGroupColloqui, optionGroupAssunzioni ]
-  .filter(x => x.length > 0)
+const optionGroups = [optionGroupCandidature, optionGroupColloqui, optionGroupAssunzioni].filter(x => x.options)
 
  return {
   "home_view": {
@@ -104,9 +106,18 @@ const optionGroups = [optionGroupCandidature, optionGroupColloqui, optionGroupAs
               "type": "button",
               "text": {
                 "type": "plain_text",
-                "text": "Inserisci nuova"
+                "text": "Compila il form"
               },
-              "value": "new_event",
+              "value": "new_opp_form",
+              "style": "primary"
+            },
+            {
+              "type": "button",
+              "text": {
+                "type": "plain_text",
+                "text": "Utilizza il chatbot"
+              },
+              "value": "new_opp_bot",
               "style": "primary"
             }
           ]
