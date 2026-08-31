@@ -9,11 +9,6 @@ Fai login con Google. Autorizzazioni necessarie solo quelle relative agli script
 ```bash
 npx clasp login
 ```
-Clona il progetto Apps Script (qui ID del progetto del Pingatore)
-```bash
-- npx clasp clone 1-bUtHulMdhFTo-3WIEoC8ytv3ABZs2Cbto9USEGLBs-3rJnnBzXK9iPK
-```
-
 ## Pull e push
 
 Come con github:
