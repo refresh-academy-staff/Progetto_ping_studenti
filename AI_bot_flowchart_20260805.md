@@ -9,7 +9,7 @@ flowchart TD
 
   Detect -->|No| Clarify["Chiede allo studente<br/>di chiarire"]
   Clarify --> Detect2{"La risposta<br/>chiarisce lo scenario?"}
-  Detect2 -->|No| ScenF[["Scenario F — Non classificato<br/>Registra lo scambio così com'è<br/>per revisione manuale dello staff"]]
+  Detect2 -->|No| ScenF[["Scenario F — Non classificato"]]
   Detect2 -->|Sì| Detect
 
   Detect -->|Sì| Which{"Quale evento?"}
@@ -53,7 +53,8 @@ flowchart TD
   ScenE --> Confirm
 
   Confirm["Invia messaggio di<br/>Conferma finale per l'evento<br/>(se più eventi: un messaggio<br/>separato per ciascuno)"]
-  ScenF --> Save
+  ScenF --> AckF["Invia messaggio di presa visione<br/>(es. 'Ho preso nota del tuo messaggio,<br/>un membro dello staff lo verificherà')"]
+  AckF --> Save
   Confirm --> Save[("Registra il record<br/>su Google Sheets")]
 ```
 
