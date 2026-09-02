@@ -174,7 +174,7 @@ const altreInfoAssunzione = buildTextBox({
 });
 const action = $input.first().json.actions[0].action_id
 const infoAzienda = $input.first().json.view.blocks.find(b => b.block_id === "info_matching")
-const nomeAzienda = infoAzienda.elements[0].elements[0].elements[0].text
+const nomeAzienda = infoAzienda.fields[1].text.replaceAll("_", "").replaceAll("*", "");
 const divider = {
   "type": "divider"
 }
