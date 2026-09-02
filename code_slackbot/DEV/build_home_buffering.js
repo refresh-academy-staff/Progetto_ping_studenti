@@ -18,7 +18,7 @@
         },
         {
           "type": "actions",
-          "block_id": "actionblock789",
+          "block_id": "register",
           "elements": [
             {
               "type": "button",
@@ -56,7 +56,8 @@
           },
           "level": 3
         }
-      ]
+      ],
+      "callback_id": "home"
     }
   }
 }

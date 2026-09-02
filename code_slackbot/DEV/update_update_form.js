@@ -11,14 +11,12 @@ const buildHeader = (text, level, id) => {
 }
 const buildTextBlock = (props) => {
 
-  const styleObj = {}
+  const style = {}
   if (props.style) {
-    styleObj["style"] = {
-      [props.style] : true
-    }
+    style[props.style] = true
   }
 
-  const blockIDObj = {}
+  const blockID = {}
   if (props.blockID) {
     blockIDObj["block_id"] = props.blockID
   }
@@ -32,7 +30,7 @@ const buildTextBlock = (props) => {
           {
             "type": "text",
             "text": props.text,
-            ...styleObj
+            style
           }
         ]
       }
@@ -107,7 +105,7 @@ const buildDatePicker = (text, id, isOptional) => {
 const buildTextBox = (props) => {
   return {
     "type": "input",
-    "block_id": props.blockId,
+    "block_id": props.blockID,
     "element": {
       "type": "plain_text_input",
       "action_id": "text_input",
@@ -196,8 +194,7 @@ const ulterioreColloquio = {
     }
   ]
 }
-const datePickerUlterioreColloquio = buildDatePicker("Data ulteriore colloquio", "data_ulteriore_colloquio", false);
-const istruzioneUlterioreColloquio = buildTextBlock({ text: "Se non hai ancora la data, comunica un colloquio programmato in seguito", style: "italic" })
+
 const altreInfoColloquio = buildTextBox({ placeholder: "Qui puoi scrivere altre informazioni che ritieni significative", label: "Altro", blockID: "altre_info" });
 const altreInfoColloquioSostenuto = buildTextBox({ placeholder: "Qui puoi scrivere altro in merito al colloquio", label: "Impressioni/note aggiuntive", blockID: "altre_info" });
 
@@ -220,7 +217,7 @@ const motivoColloquioNonSostenuto = {
     }
   ]
 }
-const dataColloquioRimandato = buildDatePicker("Nuova data", "data_colloquio_rimandato", true);
+const dataColloquioRimandato = buildDatePicker("Nuova data", "data_colloquio", true);
 const altreInfoColloquioNonSostenuto = buildTextBox({
   placeholder: "Aggiungi qui eventuali dettagli",
   label: "Altre info",

@@ -98,7 +98,7 @@ const buildDatePicker = (text, id, isOptional) => {
 const buildTextBox = (props) => {
   return {
     "type": "input",
-    "block_id": props.blockId,
+    "block_id": props.blockID,
     "element": {
       "type": "plain_text_input",
       "action_id": "text_input",
@@ -150,6 +150,7 @@ const fonte = {
   "block_id": "fonte_opportunita",
   "element": {
     "type": "static_select",
+    "action_id": "selezione_fonte",
     "options": [
       buildOption({ text: "Ricerca online autonoma", value: "online_autonomo" }),
       buildOption({ text: "Foglio google condiviso", value: "gsheet" }),
@@ -158,6 +159,7 @@ const fonte = {
       buildOption({ text: "Altro", value: "altro" }),
     ]
   },
+  "dispatch_action": true,
   "label": {
     "type": "plain_text",
     "text": "Come hai trovato questa opportunità?"
@@ -186,7 +188,7 @@ const openViewBlocks = {
     "blocks": blocks,
     "submit": {
       "type": "plain_text",
-      "text": "Aggiorna",
+      "text": "Avanti",
     },
     "close": {
       "type": "plain_text",

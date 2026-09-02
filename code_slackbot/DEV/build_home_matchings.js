@@ -100,7 +100,7 @@ const optionGroups = [optionGroupCandidature, optionGroupColloqui, optionGroupAs
         },
         {
           "type": "actions",
-          "block_id": "actionblock789",
+          "block_id": "register",
           "elements": [
             {
               "type": "button",
@@ -172,7 +172,8 @@ const optionGroups = [optionGroupCandidature, optionGroupColloqui, optionGroupAs
             ...rows
           ]
         }
-      ]
+      ],
+      "callback_id": "home"
     }
   }
 }
