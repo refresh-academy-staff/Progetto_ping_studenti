@@ -76,12 +76,48 @@ const buildTextSection = (text, st) => {
     ]
   }
 }
+const buildTextObject = (text) => {
+  return {
+    "type": "mrkdwn",
+    "text": text
+  }
+}
 
 const values = $input.first().json.view.state.values
 const azienda = values.nome_azienda.text_input.value
 const posizione = values.posizione.text_input.value
 const sede = values.sede.text_input.value
 const fonte = values.fonte_opportunita.selezione_fonte.selected_option.text.text
+
+const fields = () => {
+  const fields = [
+    buildTextObject("*Azienda*"),
+    buildTextObject(`_${azienda}_`),
+    buildTextObject("*Posizione*"),
+    buildTextObject(`_${posizione}_`),
+  ];
+  if (sede) {
+    fields.push(
+      buildTextObject("*Sede*"),
+      buildTextObject(`_${sede}_`)
+    )
+  }
+  fields.push(
+    buildTextObject("*Fonte*"),
+    buildTextObject(`_${fonte}_`)
+  )
+
+  return fields
+}
+
+const riepilogoAzienda2 = {
+  "type": "section",
+  "block_id": "info_matching",
+  "fields": [
+    ...fields()
+  ]
+
+}
 
 const riepilogoAzienda = {
   "type": "rich_text",
@@ -106,22 +142,26 @@ const divider = {
   "type": "divider"
 }
 
-const textSection = buildTextBlock({
-  text: "Seleziona lo stato di questa nuova opportunità",
-  style: "bold"
-})
+const textSection = {
+  "type": "header",
+  "text": {
+    "type": "plain_text",
+    "text": "Seleziona lo stato di questa nuova opportunità"
+  },
+  level: 1
+}
 
 const selezioneStato = {
   "type": "actions",
   "block_id": "selezione_aggiornamento_candidatura",
   "elements": [
-    buildButton("Candidatura", "nuova_candidatura", "new_candidatura"),
-    buildButton("Colloquio", "nuovo_colloquio", "new_colloquio"),
-    buildButton("Assunzione (anche potenziale)", "nuova_assunzione", "new_assunzione"),
+    buildButton("Candidatura", "nuova_candidatura", "new_candidatura", "primary"),
+    buildButton("Colloquio", "nuovo_colloquio", "new_colloquio", "primary"),
+    buildButton("Assunzione (anche potenziale)", "nuova_assunzione", "new_assunzione", "primary"),
   ]
 }
 
-const blocks = [riepilogoAzienda, divider, textSection, selezioneStato]
+const blocks = [riepilogoAzienda2, divider, textSection, selezioneStato]
 
 const openViewBlocks = {
   "trigger_id": $('payload_parser').first().json.trigger_id,
