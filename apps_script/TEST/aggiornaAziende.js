@@ -1,13 +1,13 @@
-const SPREADSHEET_ID = '1BS3XbUV2iEp5jZzxrSIZR65002id-q_SV4esIg2h8fY'
+const SPREADSHEET_ID = '1kfZTjFALTAEUg-qtBTo-SwcWhQGyvdqXaf50EcLLL4Y'
 
 const  aggiornaListaAziende = () => {
   
   const ssSource = SpreadsheetApp.openById(SPREADSHEET_ID);
-  const shSource = ssSource.getSheetByName("Data_PingStingBot");
+  const shSource = ssSource.getSheetByName("Registrazioni");
   const shDest = ssSource.getSheetByName("Tabelle_appoggio");
   
   if (!shSource) {
-    SpreadsheetApp.getUi().alert("Error: Source sheet 'Data_PingStingBot' not found.");
+    SpreadsheetApp.getUi().alert("Error: Source sheet 'Registrazioni' not found.");
     return;
   }
   
