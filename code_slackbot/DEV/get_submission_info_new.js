@@ -1,9 +1,9 @@
 const infoMatching = $input.first().json.view.blocks.find(b => b.block_id === "info_matching");
 
-const azienda = infoMatching.elements[0].elements[0].elements[0].text
-const posizione = infoMatching.elements[0].elements[1].elements[0].text
-const sede = infoMatching.elements[0].elements[2].elements[0].text
-const fonte = infoMatching.elements[0].elements[3]?.elements[0].text
+const azienda = infoMatching.fields[1].text
+const posizione = infoMatching.fields[3].text
+const sede = infoMatching.fields[5].text
+const fonte = infoMatching.fields[7].text
 
 const userID = $input.first().json.user.id
 if (!userID) {
