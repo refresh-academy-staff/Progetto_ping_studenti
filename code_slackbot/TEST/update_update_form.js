@@ -11,14 +11,12 @@ const buildHeader = (text, level, id) => {
 }
 const buildTextBlock = (props) => {
 
-  const styleObj = {}
+  const style = {}
   if (props.style) {
-    styleObj["style"] = {
-      [props.style] : true
-    }
+    style[props.style] = true
   }
 
-  const blockIDObj = {}
+  const blockID = {}
   if (props.blockID) {
     blockIDObj["block_id"] = props.blockID
   }
@@ -32,7 +30,7 @@ const buildTextBlock = (props) => {
           {
             "type": "text",
             "text": props.text,
-            ...styleObj
+            style
           }
         ]
       }
@@ -107,7 +105,7 @@ const buildDatePicker = (text, id, isOptional) => {
 const buildTextBox = (props) => {
   return {
     "type": "input",
-    "block_id": "altre_info",
+    "block_id": props.blockID,
     "element": {
       "type": "plain_text_input",
       "action_id": "text_input",
@@ -115,7 +113,7 @@ const buildTextBox = (props) => {
         "type": "plain_text",
         "text": props.placeholder
       },
-      "multiline": true
+      "multiline": props.multiline
     },
     "optional": true,
     ...buildLabel(props.label)
@@ -196,10 +194,9 @@ const ulterioreColloquio = {
     }
   ]
 }
-const datePickerUlterioreColloquio = buildDatePicker("Data ulteriore colloquio", "data_ulteriore_colloquio", false);
-const istruzioneUlterioreColloquio = buildTextBlock({ text: "Se non hai ancora la data, comunica un colloquio programmato in seguito", style: "italic" })
-const altreInfoColloquio = buildTextBox({ placeholder: "Qui puoi scrivere altre informazioni che ritieni significative", label: "Altro" });
-const altreInfoColloquioSostenuto = buildTextBox({ placeholder: "Qui puoi scrivere altro in merito al colloquio", label: "Impressioni/note aggiuntive" });
+
+const altreInfoColloquio = buildTextBox({ placeholder: "Qui puoi scrivere altre informazioni che ritieni significative", label: "Altro", blockID: "altre_info" });
+const altreInfoColloquioSostenuto = buildTextBox({ placeholder: "Qui puoi scrivere altro in merito al colloquio", label: "Impressioni/note aggiuntive", blockID: "altre_info" });
 
 const motivoColloquioNonSostenuto = {
   "block_id": "main_update",
@@ -220,10 +217,11 @@ const motivoColloquioNonSostenuto = {
     }
   ]
 }
-const dataColloquioRimandato = buildDatePicker("Nuova data", "data_colloquio_rimandato", true);
+const dataColloquioRimandato = buildDatePicker("Nuova data", "data_colloquio", true);
 const altreInfoColloquioNonSostenuto = buildTextBox({
   placeholder: "Aggiungi qui eventuali dettagli",
-  label: "Altre info"
+  label: "Altre info",
+  blockID: "altre_info"
 });
 
 const selezioneStatoAssunzione = {
@@ -277,6 +275,7 @@ const altreInfoAssunzione = buildTextBox({
   placeholder:
     "Puoi usare questo spazio per darci altri dettagli sullo stato della tua assunzione",
   label: "Altro",
+  blockID: "altre_info"
 });
 
 confermaChiusuraOpportunità = {
@@ -319,6 +318,7 @@ const altreInfoChiusura = buildTextBox({
   placeholder:
     "Se vuoi, aggiungi qui informazioni sulla chiusura dell'opportunità",
   label: "Altro",
+  blockID: "altre_info"
 });
 
 //blocks build

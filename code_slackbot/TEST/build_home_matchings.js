@@ -42,6 +42,7 @@ const candidature = matchings
   .filter(m => m.json["Ultima attività"] === "Candidatura")
   .map(m => buildMatchingOption(m.json))
 
+
 const optionGroupCandidature =
   candidature.length > 0 ?
     {
@@ -50,9 +51,11 @@ const optionGroupCandidature =
     }
     : {options: null}
 
+
 const colloqui = matchings
-  .filter(m => m.json["Ultima attività"]?.startsWith("Colloquio"))
+  .filter(m => m.json["Ultima attività"].startsWith("Colloquio"))
   .map(m => buildMatchingOption(m.json))
+
 
 const optionGroupColloqui =
   colloqui.length > 0 ?
@@ -63,7 +66,7 @@ const optionGroupColloqui =
   : {options: null}
 
 const assunzioni = matchings
-  .filter(m => m.json["Ultima attività"]?.startsWith("Assunzione"))
+  .filter(m => m.json["Ultima attività"].startsWith("Assunzione"))
   .map(m => buildMatchingOption(m.json))
 
 const optionGroupAssunzioni =
@@ -75,73 +78,7 @@ const optionGroupAssunzioni =
   : {options: null}
 
 
-const optionGroups = [optionGroupCandidature, optionGroupColloqui, optionGroupAssunzioni ]
-  .filter(x => x.options)
-
-const matchingPresenti = Object.entries(matchings[0]).length > 0
-
-const matchingsBlocks = matchingPresenti ? [
-  {
-    "type": "header",
-    "text": {
-      "type": "plain_text",
-      "text": "Seleziona il matching che vuoi aggiornare"
-    },
-    "level": 1
-  },
-  {
-    "type": "actions",
-    "block_id": "selezione_matching",
-    "elements": [
-      {
-        "type": "static_select",
-        "option_groups": optionGroups
-      }
-    ]
-  },
-  {
-    "type": "header",
-    "text": {
-      "type": "plain_text",
-      "text": "Riepilogo matching attivi"
-    },
-    "level": 1
-  },
-  {
-    "type": "table",
-    "column_settings": [
-      {
-          "is_wrapped": true
-      },
-      {
-          "align": "right"
-      }
-    ],
-    "rows": [
-      [
-        {
-          "type": "raw_text",
-          "text": "Azienda"
-        },
-        {
-          "type": "raw_text",
-          "text": "Ultimo aggiornamento"
-        }
-      ],
-      ...rows
-    ]
-  }
-] : [
-  {
-    "type": "header",
-    "text": {
-      "type": "plain_text",
-      "text": "Non ci sono matching registrati"
-    },
-    "level": 2
-  }
-]
-
+const optionGroups = [optionGroupCandidature, optionGroupColloqui, optionGroupAssunzioni].filter(x => x.options)
 
  return {
   "home_view": {
@@ -185,8 +122,58 @@ const matchingsBlocks = matchingPresenti ? [
             }
           ]
         },
-        ...matchingsBlocks
-      ]
+        {
+          "type": "header",
+          "text": {
+            "type": "plain_text",
+            "text": "Seleziona il matching che vuoi aggiornare"
+          },
+          "level": 1
+        },
+        {
+          "type": "actions",
+          "block_id": "selezione_matching",
+          "elements": [
+            {
+              "type": "static_select",
+              "option_groups": optionGroups
+            }
+          ]
+        },
+        {
+          "type": "header",
+          "text": {
+            "type": "plain_text",
+            "text": "Riepilogo matching attivi"
+          },
+          "level": 1
+        },
+        {
+          "type": "table",
+          "column_settings": [
+            {
+                "is_wrapped": true
+            },
+            {
+                "align": "right"
+            }
+          ],
+          "rows": [
+            [
+              {
+                "type": "raw_text",
+                "text": "Azienda"
+              },
+              {
+                "type": "raw_text",
+                "text": "Ultimo aggiornamento"
+              }
+            ],
+            ...rows
+          ]
+        }
+      ],
+      "callback_id": "home"
     }
   }
 }
