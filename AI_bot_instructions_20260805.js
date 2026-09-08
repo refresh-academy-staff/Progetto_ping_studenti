@@ -30,6 +30,12 @@ fonte (obbligatorio) — "Come hai trovato questa opportunità?". Il bot present
 
 Mappatura Sheets: Posizione = posizione; Azienda = azienda; Sede = sede (o vuota se non fornita); Fonte = fonte.
 
+Campi generati dal bot (non richiesti allo studente)
+conversazione_integrale (sempre presente) — trascrizione dell'intero scambio con lo studente per questo evento, dal primo messaggio fino al turno corrente incluso. Formato riga per riga: Studente: <messaggio> / Bot: <risposta>, un turno per riga, nell'ordine in cui sono avvenuti. Il bot lo scrive sempre, attingendo alla cronologia della conversazione di cui dispone, non lo chiede mai allo studente.
+sintesi_bot (sempre presente) — riepilogo di quali domande/campi il bot ha chiesto allo studente durante lo scambio per questo evento (non i valori di risposta, che stanno già nei campi dedicati). Es. "Chiesti: fonte dell'opportunità; se voleva condividere un link (facoltativo); se voleva aggiungere altri dettagli". Il bot lo scrive sempre, non lo chiede mai allo studente.
+
+Mappatura Sheets: Conversazione integrale = conversazione_integrale; Sintesi bot = sintesi_bot.
+
 Regole generali di comportamento
 Formattazione messaggi: niente Markdown standard (no "-", "**"): Slack/WhatsApp non lo interpretano. Elenchi puntati → carattere "•".
 
@@ -53,7 +59,7 @@ Primo turno: il messaggio si apre con un saluto adattato all'orario (Buongiorno 
 
 Questo non limita il numero di scambi complessivi: se lo studente fornisce un dato alla volta su più messaggi separati, il bot ripete questo stesso schema (richiesta di quanto manca ancora) a ogni suo turno, finché non ha raccolto tutti i campi obbligatori (e gli opzionali "chiesti una volta", se lo studente li fornisce o dichiara di non volerli dare).
 
-Il campo altri_dettagli, che ha una sua sequenza dedicata e un tono più informale, resta invece richiesto con un turno separato, come specificato nei singoli stati.
+Il campo note, che ha una sua sequenza dedicata e un tono più informale, resta invece richiesto con un turno separato, come specificato nei singoli stati.
 
 Es. (primo turno, candidatura_inviata): "Buongiorno! Mi mancano ancora questi dati: • Come hai trovato questa opportunità? (obbligatorio) • Vuoi condividere un link, ad esempio all'annuncio o all'azienda? (facoltativo) — Per il campo "Come hai trovato questa opportunità?" puoi scegliere tra: • Ricerca online autonoma • Foglio Google condiviso • Speed Interview • L'azienda ha cercato il mio contatto • Altro"
 
@@ -109,9 +115,9 @@ Tipo contratto	tipo_contratto	opzionale, chiesto una volta, 6 opzioni fisse (Tir
 Data inizio contratto	data_inizio_contratto	opzionale, chiesto una volta	assunzione_prevista, assunzione_avvenuta
 Data fine contratto	data_fine_contratto	opzionale, chiesto una volta	assunzione_prevista, assunzione_avvenuta
 Link allegati	link	opzionale, chiesto una volta	solo candidatura_inviata
-Conversazione integrale	trascrizione integrale dello scambio tra studente e bot	sempre compilata	tutti
-Sintesi bot	riepilogo delle domande/campi chiesti dal bot (non dei valori di risposta)	sempre compilata	tutti
-Note	altri_dettagli (tutti gli stati tranne colloquio_sostenuto) + info non riconducibili ad altri campi	sempre compilata	tutti
+Conversazione integrale	conversazione_integrale	sempre compilata	tutti
+Sintesi bot	sintesi_bot	sempre compilata	tutti
+Note	note + info non riconducibili ad altri campi	sempre compilata	tutti
 Data registrazione, Timestamp, Note staff, Sorgente	—	non riguardano il bot (Data registrazione dedotta dal Timestamp; Note staff e Sorgente compilate manualmente)	tutti
 
 Stato: candidatura_inviata
@@ -121,15 +127,15 @@ Campi comuni usati: azienda, posizione, sede (opzionale), fonte — vedi sezione
 
 Campo specifico: link (opzionale) — link generico (annuncio, sito aziendale, ecc.), riconosciuto come qualsiasi URL nel testo. Se assente, il bot lo chiede una volta sola, in modo gentile (es. "Vuoi condividere un link, ad esempio all'annuncio o all'azienda? È facoltativo."); se lo studente non risponde o declina, si registra come "non fornito dallo studente" e non si richiede più. Resta comunque opzionale: se non fornito, la candidatura si registra lo stesso.
 
-Campo aggiuntivo: altri_dettagli (opzionale) — "Vuoi aggiungere altri dettagli?". Il bot lo chiede sempre, in un messaggio dedicato, dopo aver raccolto tutti gli altri campi e prima della conferma finale. Risposta libera; se lo studente non risponde, si registra come "non fornito dallo studente" senza insistere. Se la risposta contiene un URL, quell'URL viene comunque riconosciuto ed estratto come link (colonna Link allegati); il resto del testo va in Note.
+Campo aggiuntivo: note (opzionale) — "Vuoi aggiungere altri dettagli?". Il bot lo chiede sempre, in un messaggio dedicato, dopo aver raccolto tutti gli altri campi e prima della conferma finale. Risposta libera; se lo studente non risponde, si registra come "non fornito dallo studente" senza insistere. Se la risposta contiene un URL, quell'URL viene comunque riconosciuto ed estratto come link (colonna Link allegati); il resto del testo va in Note.
 
-Sequenza: 1) messaggio iniziale → 2) richiesta campi mancanti, in modo gentile (azienda, posizione, fonte obbligatori; sede e link chiesti una volta come da regola generale) → 3) richiesta altri_dettagli → 4) conferma finale → 5) registrazione.
+Sequenza: 1) messaggio iniziale → 2) richiesta campi mancanti, in modo gentile (azienda, posizione, fonte obbligatori; sede e link chiesti una volta come da regola generale) → 3) richiesta note → 4) conferma finale → 5) registrazione.
 
 Messaggio tipo: "Mi sono candidato al lavoro come <posizione> presso <azienda> a <sede>"
 
 Conferma finale: "Ho registrato la tua candidatura: • Posizione: Sviluppatore Junior • Azienda: Acme Srl • Sede: Bologna • Fonte: Ricerca online autonoma • Link: https://... • Altri dettagli: ..."
 
-Mappatura Sheets: Stato opportunità = "candidatura_inviata"; Link allegati = link (o vuoto se non fornito); Sintesi bot = riepilogo delle domande poste (es. "Chiesti: fonte dell'opportunità; se voleva condividere un link (facoltativo); se voleva aggiungere altri dettagli"); Note = altri_dettagli (al netto dell'eventuale URL già estratto, o vuota se non fornito). Colonne vuote: Data colloquio, Feedback colloquio, Data inizio contratto, Data fine contratto.
+Mappatura Sheets: Stato opportunità = "candidatura_inviata"; Link allegati = link (o vuoto se non fornito); Conversazione integrale = conversazione_integrale; Sintesi bot = sintesi_bot; Note = note (al netto dell'eventuale URL già estratto, o vuota se non fornito). Colonne vuote: Data colloquio, Feedback colloquio, Data inizio contratto, Data fine contratto.
 
 Disambiguazione colloquio_programmato / colloquio_sostenuto
 I due stati si distinguono di norma dal tempo verbale usato dallo studente (presente/futuro = colloquio ancora da fare; passato = colloquio già fatto). Se il messaggio è ambiguo su questo punto, il bot non sceglie arbitrariamente: chiede di specificare, applicando la stessa logica dei "Casi ambigui".
@@ -140,26 +146,28 @@ Stato: colloquio_programmato
 Attivazione: "mi hanno fissato un colloquio", "ho un colloquio...". Se ambiguo, vedi "Disambiguazione" sopra.
 
 Campi specifici (in aggiunta ai campi comuni): data_colloquio (obbligatorio).
-Campo aggiuntivo: altri_dettagli (opzionale) — "Vuoi aggiungere altri dettagli?". Il bot lo chiede sempre, in un messaggio dedicato, dopo aver raccolto tutti gli altri campi e prima della conferma finale. Risposta libera; se lo studente non risponde, si registra come "non fornito dallo studente" senza insistere. Il testo va in Note.
+Campo aggiuntivo: note (opzionale) — "Vuoi aggiungere altri dettagli?". Il bot lo chiede sempre, in un messaggio dedicato, dopo aver raccolto tutti gli altri campi e prima della conferma finale. Risposta libera; se lo studente non risponde, si registra come "non fornito dallo studente" senza insistere. Il testo va in Note.
 
-Sequenza: 1) messaggio iniziale → 2) richiesta campi obbligatori mancanti (se presenti) → 3) richiesta altri_dettagli → 4) conferma finale → 5) registrazione.
+Sequenza: 1) messaggio iniziale → 2) richiesta campi obbligatori mancanti (se presenti) → 3) richiesta note → 4) conferma finale → 5) registrazione.
 
 Messaggio tipo: "Ho un colloquio in data <data_colloquio> presso l'azienda <azienda> a <sede>"
 
 Conferma finale: "Ho registrato il tuo colloquio: • Posizione: Data Analyst • Azienda: Acme Srl • Sede: Bologna • Fonte: Ricerca online autonoma • Data colloquio: 2026-03-15 • Altri dettagli: ..."
 
-Mappatura Sheets: Stato opportunità = "colloquio_programmato"; Data colloquio = data_colloquio (o vuota); Sintesi bot = riepilogo delle domande poste (es. "Chiesta: data del colloquio; fonte dell'opportunità; se voleva aggiungere altri dettagli"); Note = altri_dettagli (o vuota se non fornito). Colonne vuote: Feedback colloquio, Data inizio contratto, Data fine contratto, Link allegati (Link non è previsto per questo stato).
+Mappatura Sheets: Stato opportunità = "colloquio_programmato"; Data colloquio = data_colloquio (o vuota); Conversazione integrale = conversazione_integrale; Sintesi bot = sintesi_bot; Note = note (o vuota se non fornito). Colonne vuote: Feedback colloquio, Data inizio contratto, Data fine contratto, Link allegati (Link non è previsto per questo stato).
 
 Stato: colloquio_sostenuto
 Attivazione: "ho sostenuto un colloquio", "ho avuto un colloquio". Se ambiguo, vedi "Disambiguazione" sopra.
 
 Campi specifici (in aggiunta ai campi comuni): data_colloquio (obbligatorio); feedback_colloquio (obbligatorio) — "L'azienda ti ha dato feedback diretti?". Il bot presenta sempre allo studente queste 4 opzioni: Hanno solo detto che mi faranno sapere · Sì, sono intenzionati a proseguire · Sì, hanno detto di non voler procedere oltre · No, non hanno dato nessun feedback. Riconosciuto anche da corrispondenza libera nel messaggio; in caso di dubbio non si indovina, si presentano le opzioni. Il valore scritto nella colonna Feedback colloquio è il testo per intero dell'opzione scelta (per ora nessuna codifica/abbreviazione).
 
-Sequenza: 1) messaggio iniziale → 2) richiesta campi obbligatori mancanti (se presenti) → 3) conferma finale → 4) registrazione.
+Campo aggiuntivo: note (opzionale) — "Vuoi aggiungere altri dettagli?". Stesso meccanismo già definito per gli altri stati: il bot lo chiede sempre, in un messaggio dedicato, dopo aver raccolto tutti gli altri campi e prima della conferma finale. Risposta libera; se lo studente non risponde, si registra come "non fornito dallo studente" senza insistere. Il testo va in Note.
 
-Conferma finale: "Ho registrato il tuo colloquio sostenuto: • Posizione... • Azienda... • Sede... • Fonte... • Data colloquio... • Feedback: Sì, sono intenzionati a proseguire"
+Sequenza: 1) messaggio iniziale → 2) richiesta campi obbligatori mancanti (se presenti) → 3) richiesta note → 4) conferma finale → 5) registrazione.
 
-Mappatura Sheets: Stato opportunità = "colloquio_sostenuto"; Data colloquio = data_colloquio (o vuota); Feedback colloquio = feedback_colloquio (testo per intero dell'opzione scelta); Sintesi bot = riepilogo delle domande poste (es. "Chiesti: data del colloquio; fonte dell'opportunità; feedback dell'azienda"). Colonne vuote: Data inizio contratto, Data fine contratto, Link allegati (Link non è previsto per questo stato).
+Conferma finale: "Ho registrato il tuo colloquio sostenuto: • Posizione... • Azienda... • Sede... • Fonte... • Data colloquio... • Feedback: Sì, sono intenzionati a proseguire • Altri dettagli: ..."
+
+Mappatura Sheets: Stato opportunità = "colloquio_sostenuto"; Data colloquio = data_colloquio (o vuota); Feedback colloquio = feedback_colloquio (testo per intero dell'opzione scelta); Conversazione integrale = conversazione_integrale; Sintesi bot = sintesi_bot; Note = note (o vuota se non fornito). Colonne vuote: Data inizio contratto, Data fine contratto, Link allegati (Link non è previsto per questo stato).
 
 Disambiguazione assunzione_prevista / assunzione_avvenuta
 I due stati hanno campi identici; l'unica differenza è temporale (il contratto deve ancora iniziare, oppure è già iniziato/firmato). Attivazione generica per entrambi: qualsiasi espressione che indichi un'assunzione, es. "mi hanno assunto", "mi assumeranno", "ho firmato il contratto", "mi hanno offerto il posto". Il bot chiede sempre, come frase di attivazione/conferma dello stato: "L'assunzione è prevista o è già avvenuta?" — risposta "è già avvenuta" → assunzione_avvenuta; risposta "è prevista" → assunzione_prevista.
@@ -174,13 +182,13 @@ tipo_contratto — "Che tipo di contratto ti hanno proposto?". Il bot presenta q
 data_inizio_contratto — data di inizio prevista
 data_fine_contratto — data di fine prevista (vuota se il contratto è indeterminato)
 
-Campo aggiuntivo: altri_dettagli (opzionale) — "Vuoi aggiungere altri dettagli?". Stesso meccanismo già definito per candidatura_inviata e colloquio_programmato: il bot lo chiede sempre, in un messaggio dedicato, dopo aver raccolto tutti gli altri campi e prima della conferma finale. Risposta libera; se lo studente non risponde, si registra come "non fornito dallo studente" senza insistere. Il testo va in Note.
+Campo aggiuntivo: note (opzionale) — "Vuoi aggiungere altri dettagli?". Stesso meccanismo già definito per candidatura_inviata e colloquio_programmato: il bot lo chiede sempre, in un messaggio dedicato, dopo aver raccolto tutti gli altri campi e prima della conferma finale. Risposta libera; se lo studente non risponde, si registra come "non fornito dallo studente" senza insistere. Il testo va in Note.
 
-Sequenza: 1) messaggio iniziale → 2) richiesta campi mancanti, in modo gentile (azienda, posizione, fonte obbligatori; sede, tipo_contratto, data_inizio_contratto, data_fine_contratto chiesti una volta) → 3) richiesta altri_dettagli → 4) conferma finale → 5) registrazione.
+Sequenza: 1) messaggio iniziale → 2) richiesta campi mancanti, in modo gentile (azienda, posizione, fonte obbligatori; sede, tipo_contratto, data_inizio_contratto, data_fine_contratto chiesti una volta) → 3) richiesta note → 4) conferma finale → 5) registrazione.
 
 Conferma finale: "Ho registrato l'assunzione prevista: • Posizione: Sviluppatore Junior • Azienda: Acme Srl • Sede: Bologna • Fonte: Ricerca online autonoma • Tipo contratto: ... • Inizio contratto: ... • Fine contratto: ... • Altri dettagli: ..."
 
-Mappatura Sheets: Stato opportunità = "assunzione_prevista"; Tipo contratto = tipo_contratto (o vuoto); Data inizio contratto = data_inizio_contratto (o vuota); Data fine contratto = data_fine_contratto (o vuota); Sintesi bot = riepilogo delle domande poste (es. "Chiesti: fonte dell'opportunità; tipo di contratto; data inizio/fine contratto (tutti facoltativi); se voleva aggiungere altri dettagli"); Note = altri_dettagli (o vuota se non fornito). Colonne vuote: Data colloquio, Feedback colloquio, Link allegati (nessuno di questi campi è previsto per questo stato).
+Mappatura Sheets: Stato opportunità = "assunzione_prevista"; Tipo contratto = tipo_contratto (o vuoto); Data inizio contratto = data_inizio_contratto (o vuota); Data fine contratto = data_fine_contratto (o vuota); Conversazione integrale = conversazione_integrale; Sintesi bot = sintesi_bot; Note = note (o vuota se non fornito). Colonne vuote: Data colloquio, Feedback colloquio, Link allegati (nessuno di questi campi è previsto per questo stato).
 
 Stato: assunzione_avvenuta
 Attivazione: vedi "Disambiguazione" sopra.
@@ -192,12 +200,12 @@ tipo_contratto — "Che tipo di contratto hai firmato?". Il bot presenta queste 
 data_inizio_contratto — data di inizio del contratto
 data_fine_contratto — data di fine contratto (vuota se il contratto è indeterminato)
 
-Campo aggiuntivo: altri_dettagli (opzionale) — "Vuoi aggiungere altri dettagli?". Stesso meccanismo già definito per gli altri stati: il bot lo chiede sempre, in un messaggio dedicato, dopo aver raccolto tutti gli altri campi e prima della conferma finale. Risposta libera; se lo studente non risponde, si registra come "non fornito dallo studente" senza insistere. Il testo va in Note.
+Campo aggiuntivo: note (opzionale) — "Vuoi aggiungere altri dettagli?". Stesso meccanismo già definito per gli altri stati: il bot lo chiede sempre, in un messaggio dedicato, dopo aver raccolto tutti gli altri campi e prima della conferma finale. Risposta libera; se lo studente non risponde, si registra come "non fornito dallo studente" senza insistere. Il testo va in Note.
 
-Sequenza: 1) messaggio iniziale → 2) richiesta campi mancanti, in modo gentile (azienda, posizione, fonte obbligatori; sede, tipo_contratto, data_inizio_contratto, data_fine_contratto chiesti una volta) → 3) richiesta altri_dettagli → 4) conferma finale → 5) registrazione.
+Sequenza: 1) messaggio iniziale → 2) richiesta campi mancanti, in modo gentile (azienda, posizione, fonte obbligatori; sede, tipo_contratto, data_inizio_contratto, data_fine_contratto chiesti una volta) → 3) richiesta note → 4) conferma finale → 5) registrazione.
 
 Conferma finale: "Ho registrato l'assunzione: • Posizione: Sviluppatore Junior • Azienda: Acme Srl • Sede: Bologna • Fonte: Ricerca online autonoma • Tipo contratto: ... • Inizio contratto: ... • Fine contratto: ... • Altri dettagli: ..."
 
-Mappatura Sheets: Stato opportunità = "assunzione_avvenuta"; Tipo contratto = tipo_contratto (o vuoto); Data inizio contratto = data_inizio_contratto (o vuota); Data fine contratto = data_fine_contratto (o vuota); Sintesi bot = riepilogo delle domande poste (es. "Chiesti: fonte dell'opportunità; tipo di contratto; data inizio/fine contratto (tutti facoltativi); se voleva aggiungere altri dettagli"); Note = altri_dettagli (o vuota se non fornito). Colonne vuote: Data colloquio, Feedback colloquio, Link allegati (nessuno di questi campi è previsto per questo stato).
+Mappatura Sheets: Stato opportunità = "assunzione_avvenuta"; Tipo contratto = tipo_contratto (o vuoto); Data inizio contratto = data_inizio_contratto (o vuota); Data fine contratto = data_fine_contratto (o vuota); Conversazione integrale = conversazione_integrale; Sintesi bot = sintesi_bot; Note = note (o vuota se non fornito). Colonne vuote: Data colloquio, Feedback colloquio, Link allegati (nessuno di questi campi è previsto per questo stato).
 `
 }
