@@ -326,24 +326,15 @@ const assignID = (sheet, prefix) => {
     Logger.log("There aren't any matching updates records")
   }
 
-  if (lastRow === 2) {
-    const newID = `${prefix}10000`
-    return newID
-  }
+  const lastValue = sheet.getRange(2, 1, lastRow).getValues()
+    .map(id => id[0].split(prefix)[1])
+    .reduce((acc, x) => {
+      const current = parseInt(x);
+      return current > acc ? current : acc
+    }, 0)
 
-  let lastValue = sheet.getRange(lastRow, 1).getValue();
-
-  while (lastValue === "") {
-    lastRow--
-    lastValue = sheet.getRange(lastRow, 1).getValue();
-  }
-
-  if (!lastValue.startsWith(prefix)) {
-    Logger.log(`Could not find an ID with matching prefix - ${prefix}`)
-    return
-  }
-  const lastValueNumber = parseInt(lastValue.split(prefix)[1]);
-  const newID = `${prefix}${lastValueNumber + 1}`
+  const newID = `${prefix}${lastValue > 0 ? lastValue + 1 : 10000}`
+  
   return newID
 }
 

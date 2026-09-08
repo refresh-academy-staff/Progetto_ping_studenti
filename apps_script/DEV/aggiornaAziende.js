@@ -41,8 +41,10 @@ const  aggiornaListaAziende = () => {
       return info
     }) 
 
-
-  const lastID = current[current.length - 1].id;
+  const lastID = current.reduce((acc, x) => {
+    const lastNumber = parseInt(x.id.split("AZ")[1]);
+    return lastNumber > acc ? lastNumber : acc
+  }, 0)
 
   const sourceData = shSource.getDataRange().getValues();
 
@@ -68,8 +70,7 @@ const  aggiornaListaAziende = () => {
 
   const uniqueNames = doublesRemover(newNames);
   const listaNuoveAziede = uniqueNames.map((x, index) => {
-    const lastIDNumber = parseInt(lastID.split("AZ")[1]);
-    const newID = `AZ${lastIDNumber + index + 1}`;
+    const newID = `AZ${lastID + index + 1}`;
     const nuovaAzienda = [newID, ...x];
     return nuovaAzienda
   })
