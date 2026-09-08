@@ -18,7 +18,7 @@ candidatura_inviata · colloquio_programmato · colloquio_sostenuto · assunzion
 
 Lo stato dell'opportunità deve essere sempre identificato e presente nel record.
 
-Nota: rispetto a una versione precedente del documento sono stati rimossi Correzione Candidatura, Cessazione contratto, Proroga contratto, Non interesse e Non classificato. Il comportamento del bot per correzioni, fine contratti e messaggi non riconosciuti (oltre alla prima richiesta di chiarimento, vedi sotto) va ridefinito.
+Nota: rispetto a una versione precedente del documento sono stati rimossi Correzione Candidatura, Cessazione contratto, Proroga contratto, Non interesse e Non classificato. Il comportamento del bot per correzioni e fine/proroga contratti va ancora ridefinito. Il comportamento per i messaggi non riconosciuti è invece già definito più sotto (vedi "Messaggio che non attiva nessuno stato").
 
 Campi comuni a tutti gli stati
 Indipendentemente dallo stato riconosciuto, il bot raccoglie sempre questi campi, in aggiunta agli eventuali campi specifici elencati in ciascuno stato più sotto. Il riconoscimento nel messaggio è indipendente dall'ordine in cui i dati compaiono.
@@ -107,11 +107,11 @@ Colonna Sheets	Campo interno	Obbligatorio/opzionale	Pertinente a
 Stato opportunità	slug dello stato	sempre presente	tutti
 Posizione	posizione	obbligatorio	tutti (campo comune)
 Azienda	azienda	obbligatorio	tutti (campo comune)
-Sede	sede	opzionale	tutti (campo comune)
+Sede	sede	opzionale, chiesto una volta	tutti (campo comune)
 Fonte	fonte	obbligatorio	tutti (campo comune)
 Data colloquio	data_colloquio	obbligatorio	colloquio_programmato, colloquio_sostenuto
-Feedback colloquio	feedback_colloquio	obbligatorio, 4 opzioni fisse (valore = testo per intero dell'opzione)	colloquio_sostenuto
-Tipo contratto	tipo_contratto	opzionale, chiesto una volta, 6 opzioni fisse (Tirocinio, Determinato, Indeterminato, Partita IVA, Apprendistato, Altro)	assunzione_prevista, assunzione_avvenuta
+Feedback colloquio	feedback_colloquio	obbligatorio, 4 opzioni fisse (valore = slug dell'opzione)	colloquio_sostenuto
+Tipo contratto	tipo_contratto	opzionale, chiesto una volta, 6 opzioni fisse (valore = slug dell'opzione)	assunzione_prevista, assunzione_avvenuta
 Data inizio contratto	data_inizio_contratto	opzionale, chiesto una volta	assunzione_prevista, assunzione_avvenuta
 Data fine contratto	data_fine_contratto	opzionale, chiesto una volta	assunzione_prevista, assunzione_avvenuta
 Link allegati	link	opzionale, chiesto una volta	solo candidatura_inviata
@@ -159,15 +159,15 @@ Mappatura Sheets: Stato opportunità = "colloquio_programmato"; Data colloquio =
 Stato: colloquio_sostenuto
 Attivazione: "ho sostenuto un colloquio", "ho avuto un colloquio". Se ambiguo, vedi "Disambiguazione" sopra.
 
-Campi specifici (in aggiunta ai campi comuni): data_colloquio (obbligatorio); feedback_colloquio (obbligatorio) — "L'azienda ti ha dato feedback diretti?". Il bot presenta sempre allo studente queste 4 opzioni: Hanno solo detto che mi faranno sapere · Sì, sono intenzionati a proseguire · Sì, hanno detto di non voler procedere oltre · No, non hanno dato nessun feedback. Riconosciuto anche da corrispondenza libera nel messaggio; in caso di dubbio non si indovina, si presentano le opzioni. Il valore scritto nella colonna Feedback colloquio è il testo per intero dell'opzione scelta (per ora nessuna codifica/abbreviazione).
+Campi specifici (in aggiunta ai campi comuni): data_colloquio (obbligatorio); feedback_colloquio (obbligatorio) — "L'azienda ti ha dato feedback diretti?". Il bot presenta sempre allo studente queste 4 opzioni: Hanno solo detto che mi faranno sapere · Sì, sono intenzionati a proseguire · Sì, hanno detto di non voler procedere oltre (chiudi opportunità) · No, non hanno dato nessun feedback. Riconosciuto anche da corrispondenza libera nel messaggio; in caso di dubbio non si indovina, si presentano le opzioni. Il valore scritto nel campo feedback_colloquio (e nella colonna Feedback colloquio) è lo slug dell'opzione scelta, non il testo esteso: "Hanno solo detto che mi faranno sapere" → feedback_colloquio_si_neutro; "Sì, sono intenzionati a proseguire" → feedback_colloquio_si_pos; "Sì, hanno detto di non voler procedere oltre (chiudi opportunità)" → feedback_colloquio_si_neg; "No, non hanno dato nessun feedback" → feedback_colloquio_no.
 
 Campo aggiuntivo: note (opzionale) — "Vuoi aggiungere altri dettagli?". Stesso meccanismo già definito per gli altri stati: il bot lo chiede sempre, in un messaggio dedicato, dopo aver raccolto tutti gli altri campi e prima della conferma finale. Risposta libera; se lo studente non risponde, si registra come "non fornito dallo studente" senza insistere. Il testo va in Note.
 
 Sequenza: 1) messaggio iniziale → 2) richiesta campi obbligatori mancanti (se presenti) → 3) richiesta note → 4) conferma finale → 5) registrazione.
 
-Conferma finale: "Ho registrato il tuo colloquio sostenuto: • Posizione... • Azienda... • Sede... • Fonte... • Data colloquio... • Feedback: Sì, sono intenzionati a proseguire • Altri dettagli: ..."
+Conferma finale: "Ho registrato il tuo colloquio sostenuto: • Posizione... • Azienda... • Sede... • Fonte... • Data colloquio... • Feedback: Sì, sono intenzionati a proseguire • Altri dettagli: ..." (nota: nel messaggio allo studente si usa sempre il testo esteso dell'opzione, mai lo slug — lo slug va solo nello structured output/Sheets)
 
-Mappatura Sheets: Stato opportunità = "colloquio_sostenuto"; Data colloquio = data_colloquio (o vuota); Feedback colloquio = feedback_colloquio (testo per intero dell'opzione scelta); Conversazione integrale = conversazione_integrale; Sintesi bot = sintesi_bot; Note = note (o vuota se non fornito). Colonne vuote: Data inizio contratto, Data fine contratto, Link allegati (Link non è previsto per questo stato).
+Mappatura Sheets: Stato opportunità = "colloquio_sostenuto"; Data colloquio = data_colloquio (o vuota); Feedback colloquio = feedback_colloquio (slug dell'opzione scelta); Conversazione integrale = conversazione_integrale; Sintesi bot = sintesi_bot; Note = note (o vuota se non fornito). Colonne vuote: Data inizio contratto, Data fine contratto, Link allegati (Link non è previsto per questo stato).
 
 Disambiguazione assunzione_prevista / assunzione_avvenuta
 I due stati hanno campi identici; l'unica differenza è temporale (il contratto deve ancora iniziare, oppure è già iniziato/firmato). Attivazione generica per entrambi: qualsiasi espressione che indichi un'assunzione, es. "mi hanno assunto", "mi assumeranno", "ho firmato il contratto", "mi hanno offerto il posto". Il bot chiede sempre, come frase di attivazione/conferma dello stato: "L'assunzione è prevista o è già avvenuta?" — risposta "è già avvenuta" → assunzione_avvenuta; risposta "è prevista" → assunzione_prevista.
@@ -178,7 +178,7 @@ Attivazione: vedi "Disambiguazione" sopra.
 Campi comuni usati: azienda, posizione, sede (opzionale), fonte — vedi sezione "Campi comuni a tutti gli stati".
 
 Campi specifici, tutti opzionali, chiesti una volta gentilmente (come Sede di lavoro — se lo studente non risponde o declina, si registrano come "non fornito dallo studente" e non si richiedono più):
-tipo_contratto — "Che tipo di contratto ti hanno proposto?". Il bot presenta queste opzioni fisse tra cui scegliere: Tirocinio · Determinato · Indeterminato · Partita IVA · Apprendistato · Altro. Riconosciuto anche da corrispondenza libera nel messaggio; in caso di dubbio non si indovina, si presentano le opzioni. Se lo studente risponde "Altro", si registra così com'è, senza chiedere ulteriori dettagli.
+tipo_contratto — "Che tipo di contratto ti hanno proposto?". Il bot presenta queste opzioni fisse tra cui scegliere: Tirocinio/stage · Apprendistato · Partita IVA · Determinato · Indeterminato · Altro. Riconosciuto anche da corrispondenza libera nel messaggio; in caso di dubbio non si indovina, si presentano le opzioni. Il valore scritto nel campo tipo_contratto (e nella colonna Tipo contratto) è lo slug dell'opzione scelta, non il testo esteso: "Tirocinio/stage" → contratto_tirocinio_stage; "Apprendistato" → contratto_apprendistato; "Partita IVA" → contratto_p_iva; "Determinato" → contratto_determ; "Indeterminato" → contratto_indet; "Altro" → contratto_altro.
 data_inizio_contratto — data di inizio prevista
 data_fine_contratto — data di fine prevista (vuota se il contratto è indeterminato)
 
@@ -196,7 +196,7 @@ Attivazione: vedi "Disambiguazione" sopra.
 Campi comuni usati: azienda, posizione, sede (opzionale), fonte — vedi sezione "Campi comuni a tutti gli stati".
 
 Campi specifici, tutti opzionali, chiesti una volta gentilmente (come Sede di lavoro — se lo studente non risponde o declina, si registrano come "non fornito dallo studente" e non si richiedono più):
-tipo_contratto — "Che tipo di contratto hai firmato?". Il bot presenta queste opzioni fisse tra cui scegliere: Tirocinio · Determinato · Indeterminato · Partita IVA · Apprendistato · Altro. Riconosciuto anche da corrispondenza libera nel messaggio; in caso di dubbio non si indovina, si presentano le opzioni. Se lo studente risponde "Altro", si registra così com'è, senza chiedere ulteriori dettagli.
+tipo_contratto — "Che tipo di contratto hai firmato?". Il bot presenta queste opzioni fisse tra cui scegliere: Tirocinio/stage · Apprendistato · Partita IVA · Determinato · Indeterminato · Altro. Riconosciuto anche da corrispondenza libera nel messaggio; in caso di dubbio non si indovina, si presentano le opzioni. Il valore scritto nel campo tipo_contratto (e nella colonna Tipo contratto) è lo slug dell'opzione scelta, non il testo esteso: "Tirocinio/stage" → contratto_tirocinio_stage; "Apprendistato" → contratto_apprendistato; "Partita IVA" → contratto_p_iva; "Determinato" → contratto_determ; "Indeterminato" → contratto_indet; "Altro" → contratto_altro.
 data_inizio_contratto — data di inizio del contratto
 data_fine_contratto — data di fine contratto (vuota se il contratto è indeterminato)
 
