@@ -1,9 +1,5 @@
 const doPost = (e) => {
 
-  const SPREADSHEET_ID = "1kfZTjFALTAEUg-qtBTo-SwcWhQGyvdqXaf50EcLLL4Y"
-
-  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
-
   const postData = JSON.parse(e.postData.contents)
 
   switch (postData.action) {
@@ -20,8 +16,6 @@ const doPost = (e) => {
 
 const aggiungiNuoviMatching = () => {
 
-  const SPREADSHEET_ID = '1kfZTjFALTAEUg-qtBTo-SwcWhQGyvdqXaf50EcLLL4Y'
-
   const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
   const shSource = ss.getSheetById(935935300);
   const shDest = ss.getSheetById(1910429051);
@@ -32,7 +26,7 @@ const aggiungiNuoviMatching = () => {
   }
 
   if (!shDest) {
-    SpreadsheetApp.getUi().alert("Error: Source sheet not found.");
+    SpreadsheetApp.getUi().alert("Error: Destination sheet not found.");
     return;
   }
 
@@ -40,19 +34,21 @@ const aggiungiNuoviMatching = () => {
   const sourceHeader = sourceData[0];
   const newMatchingsHeader = [...sourceHeader, "Index"]
 
-
-  const sIdxIDRegistrazione = sourceData[0].indexOf("ID registrazione");
+  const idxIDRegistrazione = newMatchingsHeader.indexOf("ID registrazione");
   const idxIDStudente = newMatchingsHeader.indexOf("ID studente");
   const idxStatoOpportunita = newMatchingsHeader.indexOf("Stato opportunità");
   const idxDataRegistrazione = newMatchingsHeader.indexOf("Data registrazione")
   const idxPosizione = newMatchingsHeader.indexOf("Posizione");
   const idxAzienda = newMatchingsHeader.indexOf("Azienda");
   const idxSede = newMatchingsHeader.indexOf("Sede");
+  const idxFonte = newMatchingsHeader.indexOf("Fonte");
   const idxDataColloquio = newMatchingsHeader.indexOf("Data colloquio");
+  const idxFeedbackColloquio = newMatchingsHeader.indexOf("Feedback colloquio");
   const idxTipoContratto = newMatchingsHeader.indexOf("Tipo contratto");
   const idxDataInizioContratto = newMatchingsHeader.indexOf("Data inizio contratto");
   const idxDataFineContratto = newMatchingsHeader.indexOf("Data fine contratto");
-  const idxMatchingCreato = sourceData[0].indexOf("Matching creato");
+  const idxMatchingCreato = newMatchingsHeader.indexOf("Matching creato");
+  const idxNote = newMatchingsHeader.indexOf("Note");
   const idxIndex = newMatchingsHeader.indexOf("Index");
 
   const newMatchings = sourceData
@@ -71,46 +67,61 @@ const aggiungiNuoviMatching = () => {
 
     if (index === 0) return
 
+    const idMatching = assignID(shDest, "MA");
+
     const newMatching = new Array(destHeader.length).fill("");
 
-    newMatching[dIdx.studenteID] = m[idxIDStudente] 
-    newMatching[dIdx.azienda] = m[idxAzienda]
-    newMatching[dIdx.posizione] = m[idxPosizione]
+    newMatching[dIdx.matchingID] = idMatching;
+    newMatching[dIdx.studenteID] = m[idxIDStudente];
+    newMatching[dIdx.azienda] = m[idxAzienda];
+    newMatching[dIdx.posizione] = m[idxPosizione];
+    newMatching[dIdx.sede] = m[idxSede];
+    newMatching[dIdx.fonte] = m[idxFonte];
+    newMatching[dIdx.ultimaModifica] = m[idxDataRegistrazione];
+    newMatching[dIdx.stato] = "aperto";
 
     switch (m[idxStatoOpportunita]) {
-      case "Candidatura": 
+      case "candidatura_inviata": 
         newMatching[dIdx.candidatura] = "inviata";
         newMatching[dIdx.dataCandidatura] = m[idxDataRegistrazione];
-        newMatching[idx.ultimaAttivita] = "Candidatura";
+        newMatching[dIdx.noteCandidatura] = m[idxNote];
+        newMatching[dIdx.ultimaAttivita] = "Candidatura";
         break;
-      case "Colloquio programmato":
+      case "colloquio_programmato":
         newMatching[dIdx.colloquio] = "programmato";
-        newMatching[dIdx.dataColloquioPrevista] = m[idxDataColloquio];
+        newMatching[dIdx.dataColloquio] = m[idxDataColloquio];
+        newMatching[dIdx.noteColloquio] = m[idxNote];
         newMatching[dIdx.ultimaAttivita] = "Colloquio programmato";
         break;
-      case "Colloquio sostenuto":
+      case "colloquio_sostenuto":
         newMatching[dIdx.colloquio] = "sostenuto";
         newMatching[dIdx.colloquiSvolti] = 1;
-        newMatching[dIdx.dataColloquioEffettiva] = m[idxDataColloquio];
-        newMatching[idx.ultimaAttivita] = "Colloquio sostenuto";
+        newMatching[dIdx.dataColloquio] = m[idxDataColloquio];
+        newMatching[dIdx.feedbackColloquio] = m[idxFeedbackColloquio];
+        newMatching[dIdx.noteColloquio] = m[idxNote];
+        newMatching[dIdx.ultimaAttivita] = "Colloquio sostenuto";
         break;
-      case "Assunzione prevista": 
+      case "assunzione_prevista": 
         newMatching[dIdx.assunzione] = "Assunzione prevista";
         newMatching[dIdx.tipoContratto] = m[idxTipoContratto];
         newMatching[dIdx.dataInizioContratto] = m[idxDataInizioContratto];
         newMatching[dIdx.dataScadenzaContratto] = m[idxDataFineContratto];
-        newMatching[idx.ultimaAttivita] = "Assunzione prevista";
+        newMatching[dIdx.noteAssunzione] = m[idxNote];
+        newMatching[dIdx.ultimaAttivita] = "Assunzione prevista";
         break; 
-      case "Assunzione avvenuta": 
+      case "assunzione_avvenuta": 
         newMatching[dIdx.assunzione] = "Assunzione avvenuta";
         newMatching[dIdx.tipoContratto] = m[idxTipoContratto];
         newMatching[dIdx.dataInizioContratto] = m[idxDataInizioContratto];
         newMatching[dIdx.dataScadenzaContratto] = m[idxDataFineContratto]; 
-        newMatching[idx.ultimaAttivita] = "Assunzione avvenuta";
+        newMatching[dIdx.noteAssunzione] = m[idxNote];
+        newMatching[dIdx.ultimaAttivita] = "Assunzione avvenuta";
         break;
     }
 
     shDest.appendRow(newMatching);
+    const idRegistrazione = assignID(shSource, "RE");
+    shSource.getRange(m[parseInt(idxIndex)], idxIDRegistrazione + 1).setValue(idRegistrazione);
     shSource.getRange(m[parseInt(idxIndex)], idxMatchingCreato + 1).setValue("sì");
 
     counter++
@@ -120,8 +131,6 @@ const aggiungiNuoviMatching = () => {
 }
 
 const aggiornaTuttiMatchings = () => {
-
-  const SPREADSHEET_ID = "1kfZTjFALTAEUg-qtBTo-SwcWhQGyvdqXaf50EcLLL4Y"
 
   const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
   const shSource = ss.getSheetById(594811163);
@@ -149,7 +158,6 @@ const aggiornaTuttiMatchings = () => {
 
   const sIdx = getSourceIndex(newInfoHeader);
 
-
   const newInfo = sourceData
     .map((row, index) => [...row, index + 1])
     .filter(row => row[sIdx.matchingAgg] === "no")
@@ -169,24 +177,25 @@ const aggiornaTuttiMatchings = () => {
 
     const nuovoStato = row[sIdx.nuovoStato]
 
+
     switch (nuovoStato) {
 
       case ("colloquio_programmato"):
         updatedRow[dIdx.colloquio] = "programmato"
-        updatedRow[dIdx.dataColloquioPrevista] = row[sIdx.dataColloquio]
+        updatedRow[dIdx.dataColloquio] = row[sIdx.dataColloquio]
         updatedRow[dIdx.ultimaAttivita] = "Colloquio programmato"
         break;
       case ("colloquio_sostenuto"):
       case ("collprog_avvenuto"):
         updatedRow[dIdx.colloquio] = "sostenuto"
-        updatedRow[dIdx.dataColloquioEffettiva] = row[sIdx.dataColloquio]
+        updatedRow[dIdx.dataColloquio] = row[sIdx.dataColloquio]
         updatedRow[dIdx.colloquiSvolti] = updatedRow[dIdx.colloquiSvolti] ? updatedRow[dIdx.colloquiSvolti] + 1 : 1
         updatedRow[dIdx.feedbackColloquio] = row[sIdx.feedbackColloquio]
         updatedRow[dIdx.ultimaAttivita] = "Colloquio sostenuto"
         break;
       case ("colloquio_rimandato"):
         updatedRow[dIdx.colloquio] = "rimandato"
-        updatedRow[dIdx.dataColloquioPrevista] = row[sIdx.dataColloquio]
+        updatedRow[dIdx.dataColloquio] = row[sIdx.dataColloquio]
         updatedRow[dIdx.ultimaAttivita] = "Colloquio rimandato"
         break;
       case ("colloquio_non_presentato"):
@@ -216,7 +225,7 @@ const aggiornaTuttiMatchings = () => {
         updatedRow[dIdx.ultimaAttivita] = "Colloquio annullata"
         break;
       case ("chiusura"):
-        updatedRow[dIdx.chiusura] = "chiusa"
+        updatedRow[dIdx.stato] = "chiuso"
         updatedRow[dIdx.motivoChiusura] = row[sIdx.motivoChiusura]
         updatedRow[dIdx.ultimaAttivita] = "Chiusura"
         break;
@@ -242,9 +251,12 @@ const aggiornaTuttiMatchings = () => {
 
     updatedRow[dIdx.ultimaModifica] = new Date();
 
-    const columnsToUpdate = updatedRow.slice(dIdx.chiusura +1)
+    const columnsToUpdate = updatedRow.slice(dIdx.stato +1)
 
-    shDest.getRange(idxMatchingToUpdate + 1, dIdx.chiusura + 2, 1, columnsToUpdate.length).setValues([columnsToUpdate]);
+    shDest.getRange(idxMatchingToUpdate + 1, dIdx.stato + 2, 1, columnsToUpdate.length).setValues([columnsToUpdate]);
+
+    const idAggiornamento = assignID(shSource, "AG");
+    shSource.getRange(row[parseInt(sIdx.index)], sIdx.idAggiornamento + 1).setValue(idAggiornamento);
     shSource.getRange(row[parseInt(sIdx.index)], sIdx.matchingAgg + 1).setValue("sì");
 
     counter++
@@ -264,7 +276,7 @@ const getDestIndex = (header) => {
     azienda: header.indexOf("Azienda"),
     posizione: header.indexOf("Posizione"),
     fonte: header.indexOf("Fonte"),
-    chiusura: header.indexOf("Opp_chiusa"),
+    stato: header.indexOf("Stato"),
     motivoChiusura: header.indexOf("Motivo chiusura"),
     noteChiusura: header.indexOf("Note chiusura"),
     candidatura: header.indexOf("Candidatura"),
@@ -272,8 +284,7 @@ const getDestIndex = (header) => {
     noteCandidatura: header.indexOf("Note candidatura"),
     colloquiSvolti: header.indexOf("Colloqui svolti"),
     colloquio: header.indexOf("Colloquio"),
-    dataColloquioPrevista: header.indexOf("Data colloquio prevista"),
-    dataColloquioEffettiva: header.indexOf("Data colloquio effettiva"),
+    dataColloquio: header.indexOf("Data colloquio"),
     feedbackColloquio: header.indexOf("Feedback colloquio"),
     noteColloquio: header.indexOf("Note colloquio"),
     assunzione: header.indexOf("Assunzione"),
@@ -307,5 +318,32 @@ const getSourceIndex = (header) => {
   }
 
   return sIdx
+}
+const assignID = (sheet, prefix) => {
+  let lastRow = sheet.getLastRow();
+
+  if (lastRow === 1) {
+    Logger.log("There aren't any matching updates records")
+  }
+
+  if (lastRow === 2) {
+    const newID = `${prefix}10000`
+    return newID
+  }
+
+  let lastValue = sheet.getRange(lastRow, 1).getValue();
+
+  while (lastValue === "") {
+    lastRow--
+    lastValue = sheet.getRange(lastRow, 1).getValue();
+  }
+
+  if (!lastValue.startsWith(prefix)) {
+    Logger.log(`Could not find an ID with matching prefix - ${prefix}`)
+    return
+  }
+  const lastValueNumber = parseInt(lastValue.split(prefix)[1]);
+  const newID = `${prefix}${lastValueNumber + 1}`
+  return newID
 }
 
