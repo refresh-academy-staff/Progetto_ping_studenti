@@ -3,20 +3,19 @@ const SPREADSHEET_ID = '1kfZTjFALTAEUg-qtBTo-SwcWhQGyvdqXaf50EcLLL4Y'
 const  aggiornaListaAziende = () => {
   
   const ssSource = SpreadsheetApp.openById(SPREADSHEET_ID);
-  const shSource = ssSource.getSheetByName("Data_PingStingBot");
-  const shDest = ssSource.getSheetByName("Tabelle_appoggio");
+  const shSource = ssSource.getSheetByName("Matching");
+  const shDest = ssSource.getSheetByName("Aziende");
   
   if (!shSource) {
-    SpreadsheetApp.getUi().alert("Error: Source sheet 'Data_PingStingBot' not found.");
+    SpreadsheetApp.getUi().alert("Error: Source sheet 'Registrazioni' not found.");
     return;
   }
   
   if (!shDest) {
-    SpreadsheetApp.getUi().alert("Error: Source sheet 'Tabelle_appoggio' not found.");
+    SpreadsheetApp.getUi().alert("Error: Source sheet 'Aziende' not found.");
     return;
   }
 
-  //Get all values for "Nome_aziende" in the "Aziende" table in "Tabelle_appoggio"
   const destData = shDest.getDataRange().getValues();
   if (destData.length < 1) {
     SpreadsheetApp.getUi().alert("The dest sheet doesn't contain a header row on Row 1.");
@@ -32,9 +31,20 @@ const  aggiornaListaAziende = () => {
     return;
   }
 
-  const names = destData
+  const current = destData
     .slice(1)
-    .map(row => row[idxNomeAzienda]) 
+    .map(row => {
+      const info = {
+        name: row[idxNomeAzienda],
+        id: row[0]
+      }
+      return info
+    }) 
+
+  const lastID = current.reduce((acc, x) => {
+    const lastNumber = parseInt(x.id.split("AZ")[1]);
+    return lastNumber > acc ? lastNumber : acc
+  }, 0)
 
   const sourceData = shSource.getDataRange().getValues();
 
@@ -43,7 +53,6 @@ const  aggiornaListaAziende = () => {
     return;
   }
   
-  // Headers are in Row 1 (Index 0)
   const sourceHeaders = sourceData[0]; 
 
   const idxAzienda = sourceHeaders.indexOf("Azienda");
@@ -53,53 +62,49 @@ const  aggiornaListaAziende = () => {
     return;
   }
 
+  const currentNames = current.map(azienda => azienda.name)
   const newNames = sourceData
   .slice(1)
-  .map(row => [row[idxAzienda]])
-  .filter(row => row[0] !== "non nota all'interessato" && row[0] !== "" && !names.includes(row[0]))
-  
-  const uniqueNames = doublesRemover(newNames);
-  
-  if (uniqueNames.length > 0) {
-    let lastRowValuedIndex = names.length;
+  .map(row => row[idxAzienda])
+  .filter(azienda => !currentNames.includes(azienda))
 
-    while (names[lastRowValuedIndex - 1] === "" && lastRowValuedIndex !== 0) {
+  const uniqueNames = doublesRemover(newNames);
+  const listaNuoveAziede = uniqueNames.map((x, index) => {
+    const newID = `AZ${lastID + index + 1}`;
+    const nuovaAzienda = [newID, ...x];
+    return nuovaAzienda
+  })
+
+  if (listaNuoveAziede.length > 0) {
+    
+    let lastRowValuedIndex = current.length;
+
+    while (current[lastRowValuedIndex - 1].name === "" && lastRowValuedIndex !== 0) {
       lastRowValuedIndex--
     }
 
-
-    shDest.getRange(lastRowValuedIndex + 2,idxNomeAzienda + 1,uniqueNames.length).setValues(uniqueNames);
+    shDest.getRange(lastRowValuedIndex + 2, 1, listaNuoveAziede.length, 2).setValues(listaNuoveAziede);
   }
 }
-
-const getMatchings = () => {
-  const ssSource = SpreadsheetApp.openById(SPREADSHEET_ID);
-  const shSource = ssSource.getSheetByName("Matching");
-
-  const sourceValues = shSource
-    .getDataRange()
-    .getValues()
-
-  const targetCol = sourceValues[0]
-    .indexOf("Azienda")
-    + 1
-  Logger.log(targetCol)
-  const data = shSource
-    .getRange(2, targetCol, 3)
-    .getValues()
-    .flatMap(x => x);
-
-  Logger.log(data)
-} 
 
 const doublesRemover = (array) => {
   const cleanArray = [];
   for (let i = 0; i < array.length; i++) {
-    if (cleanArray.includes(array[i][0])) {
+    if (cleanArray.includes(array[i])) {
       continue
     }
-    cleanArray.push(array[i][0])
+    cleanArray.push(array[i])
   }
   const structuredData = cleanArray.map(x => [x]);
   return structuredData
+}
+const appendRows = (sheet, rows) => {
+  if (rows.length === 0) return
+
+  sheet.getRange(
+    sheet.getLastRow() + 1,
+    1,
+    rows.length,
+    rows[0].length         
+  ).setValues(rows) 
 }
