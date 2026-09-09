@@ -16,9 +16,9 @@ const doPost = (e) => {
 
 const aggiungiNuoviMatching = () => {
 
-  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
-  const shSource = ss.getSheetById(935935300);
-  const shDest = ss.getSheetById(1910429051);
+  const ss = SpreadsheetApp.openById(DATA_SPREADSHEET_DEV);
+  const shSource = ss.getSheetById(SH_REGISTRAZIONI);
+  const shDest = ss.getSheetById(SH_MATCHING);
 
   if (!shSource) {
     SpreadsheetApp.getUi().alert("Error: Source sheet not found.");
@@ -34,32 +34,17 @@ const aggiungiNuoviMatching = () => {
   const sourceHeader = sourceData[0];
   const newMatchingsHeader = [...sourceHeader, "Index"]
 
-  const idxIDRegistrazione = newMatchingsHeader.indexOf("ID registrazione");
-  const idxIDStudente = newMatchingsHeader.indexOf("ID studente");
-  const idxStatoOpportunita = newMatchingsHeader.indexOf("Stato opportunità");
-  const idxDataRegistrazione = newMatchingsHeader.indexOf("Data registrazione")
-  const idxPosizione = newMatchingsHeader.indexOf("Posizione");
-  const idxAzienda = newMatchingsHeader.indexOf("Azienda");
-  const idxSede = newMatchingsHeader.indexOf("Sede");
-  const idxFonte = newMatchingsHeader.indexOf("Fonte");
-  const idxDataColloquio = newMatchingsHeader.indexOf("Data colloquio");
-  const idxFeedbackColloquio = newMatchingsHeader.indexOf("Feedback colloquio");
-  const idxTipoContratto = newMatchingsHeader.indexOf("Tipo contratto");
-  const idxDataInizioContratto = newMatchingsHeader.indexOf("Data inizio contratto");
-  const idxDataFineContratto = newMatchingsHeader.indexOf("Data fine contratto");
-  const idxMatchingCreato = newMatchingsHeader.indexOf("Matching creato");
-  const idxNote = newMatchingsHeader.indexOf("Note");
-  const idxIndex = newMatchingsHeader.indexOf("Index");
+  const sourceIndexes = getIndexes(newMatchingsHeader);
 
   const newMatchings = sourceData
     .map((row, index) => [...row, index + 1])
-    .filter(row => row[idxMatchingCreato] === "no")
+    .filter(row => row[sourceIndexes.matchingCreato] === "no")
 
   newMatchings.unshift(newMatchingsHeader);
 
   const destData = shDest.getDataRange().getValues();
   const destHeader = destData[0];
-  const dIdx = getDestIndex(destHeader);
+  const destIndexes = getIndexes(destHeader);
 
   let counter = 0;
 
@@ -71,63 +56,63 @@ const aggiungiNuoviMatching = () => {
 
     const newMatching = new Array(destHeader.length).fill("");
 
-    newMatching[dIdx.matchingID] = idMatching;
-    newMatching[dIdx.studenteID] = m[idxIDStudente];
-    newMatching[dIdx.azienda] = m[idxAzienda];
-    newMatching[dIdx.posizione] = m[idxPosizione];
-    newMatching[dIdx.sede] = m[idxSede];
-    newMatching[dIdx.fonte] = m[idxFonte];
-    newMatching[dIdx.ultimaModifica] = m[idxDataRegistrazione];
+    newMatching[destIndexes.idMatching] = idMatching;
+    newMatching[destIndexes.idStudente] = m[sourceIndexes.idStudente];
+    newMatching[destIndexes.azienda] = m[sourceIndexes.azienda];
+    newMatching[destIndexes.posizione] = m[sourceIndexes.posizione];
+    newMatching[destIndexes.sede] = m[sourceIndexes.sede];
+    newMatching[destIndexes.fonte] = m[sourceIndexes.fonte];
+    newMatching[destIndexes.ultimaModifica] = m[sourceIndexes.dataRegistrazione];
 
-    switch (m[idxStatoOpportunita]) {
+    switch (m[sourceIndexes.statoOpportunita]) {
       case "candidatura_inviata": 
-        newMatching[dIdx.candidatura] = "inviata";
-        newMatching[dIdx.dataCandidatura] = m[idxDataRegistrazione];
-        newMatching[dIdx.noteCandidatura] = m[idxNote];
-        newMatching[dIdx.ultimaAttivita] = "Candidatura";
+        newMatching[destIndexes.candidatura] = "inviata";
+        newMatching[destIndexes.dataCandidatura] = m[sourceIndexes.dataRegistrazione];
+        newMatching[destIndexes.noteCandidatura] = m[sourceIndexes.note];
+        newMatching[destIndexes.ultimaAttivita] = "Candidatura";
         break;
       case "colloquio_programmato":
-        newMatching[dIdx.colloquio] = "programmato";
-        newMatching[dIdx.dataColloquio] = m[idxDataColloquio];
-        newMatching[dIdx.noteColloquio] = m[idxNote];
-        newMatching[dIdx.ultimaAttivita] = "Colloquio programmato";
+        newMatching[destIndexes.colloquio] = "programmato";
+        newMatching[destIndexes.dataColloquio] = m[sourceIndexes.dataColloquio];
+        newMatching[destIndexes.noteColloquio] = m[sourceIndexes.note];
+        newMatching[destIndexes.ultimaAttivita] = "Colloquio programmato";
         break;
       case "colloquio_sostenuto":
-        newMatching[dIdx.colloquio] = "sostenuto";
-        newMatching[dIdx.colloquiSvolti] = 1;
-        newMatching[dIdx.dataColloquio] = m[idxDataColloquio];
-        newMatching[dIdx.feedbackColloquio] = m[idxFeedbackColloquio];
-        newMatching[dIdx.noteColloquio] = m[idxNote];
-        if (m[idxFeedbackColloquio] === "feedback_colloquio_si_neg") {
-          newMatching[dIdx.ultimaAttivita] = "Chiusura";
-          newMatching[dIdx.stato] = "chiuso"
-          newMatching[dIdx.motivoChiusura] = "Colloquio negativo"
+        newMatching[destIndexes.colloquio] = "sostenuto";
+        newMatching[destIndexes.colloquiSvolti] = 1;
+        newMatching[destIndexes.dataColloquio] = m[sourceIndexes.dataColloquio];
+        newMatching[destIndexes.feedbackColloquio] = m[sourceIndexes.feedbackColloquio];
+        newMatching[destIndexes.noteColloquio] = m[sourceIndexes.note];
+        if (m[sourceIndexes.feedbackColloquio] === "feedback_colloquio_si_neg") {
+          newMatching[destIndexes.ultimaAttivita] = "Chiusura";
+          newMatching[destIndexes.stato] = "chiuso"
+          newMatching[destIndexes.motivoChiusura] = "Colloquio negativo"
           break;
         }
-        newMatching[dIdx.ultimaAttivita] = "Colloquio sostenuto";
+        newMatching[destIndexes.ultimaAttivita] = "Colloquio sostenuto";
         break;
       case "assunzione_prevista": 
-        newMatching[dIdx.assunzione] = "Assunzione prevista";
-        newMatching[dIdx.tipoContratto] = m[idxTipoContratto];
-        newMatching[dIdx.dataInizioContratto] = m[idxDataInizioContratto];
-        newMatching[dIdx.dataScadenzaContratto] = m[idxDataFineContratto];
-        newMatching[dIdx.noteAssunzione] = m[idxNote];
-        newMatching[dIdx.ultimaAttivita] = "Assunzione prevista";
+        newMatching[destIndexes.assunzione] = "Assunzione prevista";
+        newMatching[destIndexes.tipoContratto] = m[sourceIndexes.tipoContratto];
+        newMatching[destIndexes.dataInizioContratto] = m[sourceIndexes.dataInizioContratto];
+        newMatching[destIndexes.dataScadenzaContratto] = m[sourceIndexes.dataFineContratto];
+        newMatching[destIndexes.noteAssunzione] = m[sourceIndexes.note];
+        newMatching[destIndexes.ultimaAttivita] = "Assunzione prevista";
         break; 
       case "assunzione_avvenuta": 
-        newMatching[dIdx.assunzione] = "Assunzione avvenuta";
-        newMatching[dIdx.tipoContratto] = m[idxTipoContratto];
-        newMatching[dIdx.dataInizioContratto] = m[idxDataInizioContratto];
-        newMatching[dIdx.dataScadenzaContratto] = m[idxDataFineContratto]; 
-        newMatching[dIdx.noteAssunzione] = m[idxNote];
-        newMatching[dIdx.ultimaAttivita] = "Assunzione avvenuta";
+        newMatching[destIndexes.assunzione] = "Assunzione avvenuta";
+        newMatching[destIndexes.tipoContratto] = m[sourceIndexes.tipoContratto];
+        newMatching[destIndexes.dataInizioContratto] = m[sourceIndexes.dataInizioContratto];
+        newMatching[destIndexes.dataScadenzaContratto] = m[sourceIndexes.dataFineContratto]; 
+        newMatching[destIndexes.noteAssunzione] = m[sourceIndexes.note];
+        newMatching[destIndexes.ultimaAttivita] = "Assunzione avvenuta";
         break;
     }
 
     shDest.appendRow(newMatching);
     const idRegistrazione = assignID(shSource, "RE");
-    shSource.getRange(m[parseInt(idxIndex)], idxIDRegistrazione + 1).setValue(idRegistrazione);
-    shSource.getRange(m[parseInt(idxIndex)], idxMatchingCreato + 1).setValue("sì");
+    shSource.getRange(m[parseInt(sourceIndexes.index)], sourceIndexes.idRegistrazione + 1).setValue(idRegistrazione);
+    shSource.getRange(m[parseInt(sourceIndexes.index)], sourceIndexes.matchingCreato + 1).setValue("sì");
 
     counter++
   })
@@ -137,9 +122,9 @@ const aggiungiNuoviMatching = () => {
 
 const aggiornaTuttiMatchings = () => {
 
-  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
-  const shSource = ss.getSheetById(594811163);
-  const shDest = ss.getSheetById(1910429051);
+  const ss = SpreadsheetApp.openById(DATA_SPREADSHEET_DEV);
+  const shSource = ss.getSheetById(SH_AGGIORNAMENTI_MATCHING);
+  const shDest = ss.getSheetById(SH_MATCHING);
 
   if (!shSource) {
     SpreadsheetApp.getUi().alert("Error: Source sheet not found.");
@@ -154,18 +139,18 @@ const aggiornaTuttiMatchings = () => {
   const destData = shDest.getDataRange().getValues();
   const destHeader = destData[0];
 
-  const dIdx = getDestIndex(destHeader);
+  const destIndexes = getIndexes(destHeader);
 
 
   const sourceData = shSource.getDataRange().getValues();
   const sourceHeader = sourceData[0];
   const newInfoHeader = [...sourceHeader, "Index"]
 
-  const sIdx = getSourceIndex(newInfoHeader);
+  const sourceIndexes = getIndexes(newInfoHeader);
 
   const newInfo = sourceData
     .map((row, index) => [...row, index + 1])
-    .filter(row => row[sIdx.matchingAgg] === "no")
+    .filter(row => row[sourceIndexes.matchingAggiornato] === "no")
 
 
   newInfo.unshift(newInfoHeader);
@@ -176,69 +161,69 @@ const aggiornaTuttiMatchings = () => {
 
     if (i === 0) return
 
-    const idxMatchingToUpdate = destData.findIndex(destRow => destRow[dIdx.matchingID] === row[sIdx.matchingID]);
+    const idxMatchingToUpdate = destData.findIndex(destRow => destRow[destIndexes.idMatching] === row[sourceIndexes.idMatching]);
     const matchingToUpdate = destData[idxMatchingToUpdate];
     const updatedRow = matchingToUpdate.slice();
 
-    const nuovoStato = row[sIdx.nuovoStato]
+    const nuovoStato = row[sourceIndexes.nuovoStato]
 
 
     switch (nuovoStato) {
 
       case ("colloquio_programmato"):
-        updatedRow[dIdx.colloquio] = "programmato"
-        updatedRow[dIdx.dataColloquio] = row[sIdx.dataColloquio]
-        updatedRow[dIdx.ultimaAttivita] = "Colloquio programmato"
+        updatedRow[destIndexes.colloquio] = "programmato"
+        updatedRow[destIndexes.dataColloquio] = row[sourceIndexes.dataColloquio]
+        updatedRow[destIndexes.ultimaAttivita] = "Colloquio programmato"
         break;
       case ("colloquio_sostenuto"):
       case ("collprog_avvenuto"):
-        updatedRow[dIdx.colloquio] = "sostenuto"
-        updatedRow[dIdx.dataColloquio] = row[sIdx.dataColloquio]
-        updatedRow[dIdx.colloquiSvolti] = updatedRow[dIdx.colloquiSvolti] ? updatedRow[dIdx.colloquiSvolti] + 1 : 1
-        updatedRow[dIdx.feedbackColloquio] = row[sIdx.feedbackColloquio]
-        if (row[sIdx.feedbackColloquio] === "feedback_colloquio_si_neg") {
-          updatedRow[dIdx.ultimaAttivita] = "Chiusura";
-          updatedRow[dIdx.motivoChiusura] = "Colloquio negativo"
+        updatedRow[destIndexes.colloquio] = "sostenuto"
+        updatedRow[destIndexes.dataColloquio] = row[sourceIndexes.dataColloquio]
+        updatedRow[destIndexes.colloquiSvolti] = updatedRow[destIndexes.colloquiSvolti] ? updatedRow[destIndexes.colloquiSvolti] + 1 : 1
+        updatedRow[destIndexes.feedbackColloquio] = row[sourceIndexes.feedbackColloquio]
+        if (row[sourceIndexes.feedbackColloquio] === "feedback_colloquio_si_neg") {
+          updatedRow[destIndexes.ultimaAttivita] = "Chiusura";
+          updatedRow[destIndexes.motivoChiusura] = "Colloquio negativo"
           break;
         }
-        updatedRow[dIdx.ultimaAttivita] = "Colloquio sostenuto"
+        updatedRow[destIndexes.ultimaAttivita] = "Colloquio sostenuto"
         break;
       case ("colloquio_rimandato"):
-        updatedRow[dIdx.colloquio] = "rimandato"
-        updatedRow[dIdx.dataColloquio] = row[sIdx.dataColloquio]
-        updatedRow[dIdx.ultimaAttivita] = "Colloquio rimandato"
+        updatedRow[destIndexes.colloquio] = "rimandato"
+        updatedRow[destIndexes.dataColloquio] = row[sourceIndexes.dataColloquio]
+        updatedRow[destIndexes.ultimaAttivita] = "Colloquio rimandato"
         break;
       case ("colloquio_non_presentato"):
-        updatedRow[dIdx.colloquio] = "non presente"
-        updatedRow[dIdx.ultimaAttivita] = "Non presente al colloquio"
+        updatedRow[destIndexes.colloquio] = "non presente"
+        updatedRow[destIndexes.ultimaAttivita] = "Non presente al colloquio"
         break;
       case ("colloquio_annullato"):
-        updatedRow[dIdx.colloquio] = "annullato"
-        updatedRow[dIdx.ultimaAttivita] = "Colloquio annullato"
+        updatedRow[destIndexes.colloquio] = "annullato"
+        updatedRow[destIndexes.ultimaAttivita] = "Colloquio annullato"
         break;
       case ("assunzione_prevista"):
-        updatedRow[dIdx.assunzione] = "prevista"
-        updatedRow[dIdx.tipoContratto] = row[sIdx.tipoContratto];
-        updatedRow[dIdx.dataInizioContratto] = row[sIdx.dataInizioContratto];
-        updatedRow[dIdx.dataScadenzaContratto] = row[sIdx.dataFineContratto];
-        updatedRow[dIdx.ultimaAttivita] = "Assunzione prevista"
+        updatedRow[destIndexes.assunzione] = "prevista"
+        updatedRow[destIndexes.tipoContratto] = row[sourceIndexes.tipoContratto];
+        updatedRow[destIndexes.dataInizioContratto] = row[sourceIndexes.inizioContratto];
+        updatedRow[destIndexes.dataScadenzaContratto] = row[sourceIndexes.dataFineContratto];
+        updatedRow[destIndexes.ultimaAttivita] = "Assunzione prevista"
         break;
       case ("assunzione_avvenuta"):
-        updatedRow[dIdx.assunzione] = "avvenuta"
-        updatedRow[dIdx.tipoContratto] = row[sIdx.tipoContratto];
-        updatedRow[dIdx.dataInizioContratto] = row[sIdx.dataInizioContratto];
-        updatedRow[dIdx.dataScadenzaContratto] = row[sIdx.dataFineContratto];
-        updatedRow[dIdx.ultimaAttivita] = "Assunzione avvenuta"
+        updatedRow[destIndexes.assunzione] = "avvenuta"
+        updatedRow[destIndexes.tipoContratto] = row[sourceIndexes.tipoContratto];
+        updatedRow[destIndexes.dataInizioContratto] = row[sourceIndexes.inizioContratto];
+        updatedRow[destIndexes.dataScadenzaContratto] = row[sourceIndexes.dataFineContratto];
+        updatedRow[destIndexes.ultimaAttivita] = "Assunzione avvenuta"
         break;
       case ("assunzione_annullata"):
-        updatedRow[dIdx.ultimaAttivita] = "Chiusura";
-        updatedRow[dIdx.motivoChiusura] = "Altro"
-        updatedRow[dIdx.noteChiusura] = row[sIdx.note];
-        updatedRow[dIdx.assunzione] = "Assunzione annullata"
+        updatedRow[destIndexes.ultimaAttivita] = "Chiusura";
+        updatedRow[destIndexes.motivoChiusura] = "Altro"
+        updatedRow[destIndexes.noteChiusura] = row[sourceIndexes.note];
+        updatedRow[destIndexes.assunzione] = "Assunzione annullata"
         break;
       case ("chiusura"):
-        updatedRow[dIdx.motivoChiusura] = row[sIdx.motivoChiusura]
-        updatedRow[dIdx.ultimaAttivita] = "Chiusura"
+        updatedRow[destIndexes.motivoChiusura] = row[sourceIndexes.motivoChiusura]
+        updatedRow[destIndexes.ultimaAttivita] = "Chiusura"
         break;
     }
 
@@ -248,25 +233,25 @@ const aggiornaTuttiMatchings = () => {
       case ("colloquio_rimandato"):
       case ("colloquio_annullato"):
       case ("colloquio_non_presentato"):
-        updatedRow[dIdx.noteColloquio] = row[sIdx.note];
+        updatedRow[destIndexes.noteColloquio] = row[sourceIndexes.note];
         break;
       case ("assunzione_prevista"):
       case ("assunzione_avvenuta"):
-        updatedRow[dIdx.noteAssunzione] = row[sIdx.note];
+        updatedRow[destIndexes.noteAssunzione] = row[sourceIndexes.note];
         break;
       case ("chiusura"):
-        updatedRow[dIdx.noteChiusura] = row[sIdx.note];
+        updatedRow[destIndexes.noteChiusura] = row[sourceIndexes.note];
         break;
     }
 
-    updatedRow[dIdx.ultimaModifica] = new Date();
+    updatedRow[destIndexes.ultimaModifica] = new Date();
 
-    const columnsToUpdate = updatedRow.slice(dIdx.stato +1)
-    shDest.getRange(idxMatchingToUpdate + 1, dIdx.stato + 2, 1, columnsToUpdate.length).setValues([columnsToUpdate]);
+    const columnsToUpdate = updatedRow.slice(destIndexes.stato +1)
+    shDest.getRange(idxMatchingToUpdate + 1, destIndexes.stato + 2, 1, columnsToUpdate.length).setValues([columnsToUpdate]);
 
     const idAggiornamento = assignID(shSource, "AG");
-    shSource.getRange(row[parseInt(sIdx.index)], sIdx.idAggiornamento + 1).setValue(idAggiornamento);
-    shSource.getRange(row[parseInt(sIdx.index)], sIdx.matchingAgg + 1).setValue("sì");
+    shSource.getRange(row[parseInt(sourceIndexes.index)], sourceIndexes.idAggiornamento + 1).setValue(idAggiornamento);
+    shSource.getRange(row[parseInt(sourceIndexes.index)], sourceIndexes.matchingAggiornato + 1).setValue("sì");
 
     counter++
 
@@ -277,73 +262,3 @@ const aggiornaTuttiMatchings = () => {
     Aggiornati ${counter} matching con successo.
   `)
 }
-const getDestIndex = (header) => {
-  const dIdx = {
-    matchingID: header.indexOf("ID matching"),
-    studente: header.indexOf("Studente"),
-    studenteID: header.indexOf("ID studente"),
-    azienda: header.indexOf("Azienda"),
-    posizione: header.indexOf("Posizione"),
-    fonte: header.indexOf("Fonte"),
-    stato: header.indexOf("Stato"),
-    motivoChiusura: header.indexOf("Motivo chiusura"),
-    noteChiusura: header.indexOf("Note chiusura"),
-    candidatura: header.indexOf("Candidatura"),
-    dataCandidatura: header.indexOf("Data candidatura"),
-    noteCandidatura: header.indexOf("Note candidatura"),
-    colloquiSvolti: header.indexOf("Colloqui svolti"),
-    colloquio: header.indexOf("Colloquio"),
-    dataColloquio: header.indexOf("Data colloquio"),
-    feedbackColloquio: header.indexOf("Feedback colloquio"),
-    noteColloquio: header.indexOf("Note colloquio"),
-    assunzione: header.indexOf("Assunzione"),
-    tipoContratto: header.indexOf("Tipo contratto"),
-    dataInizioContratto: header.indexOf("Data inizio contratto"),
-    dataScadenzaContratto: header.indexOf("Data scadenza contratto"),
-    noteAssunzione: header.indexOf("Note assunzione"),
-    ultimaAttivita: header.indexOf("Ultima attività"),
-    ultimaModifica: header.indexOf("Ultima modifica")
-  }
-  return dIdx
-}
-const getSourceIndex = (header) => {
-
-  const sIdx = {
-    idAggiornamento: header.indexOf("ID aggiornamento"),
-    matchingID: header.indexOf("ID matching"),
-    nomeStudente: header.indexOf("Studente"),
-    idStudente: header.indexOf("ID studente"),
-    nuovoStato: header.indexOf("Nuovo stato"),
-    dataColloquio: header.indexOf("Data colloquio"),
-    feedbackColloquio: header.indexOf("Feedback colloquio"),
-    tipoContratto	: header.indexOf("Tipo contratto"),
-    dataInizioContratto: header.indexOf("Inizio contratto"),
-    dataFineContratto: header.indexOf("Fine contratto"),
-    motivoChiusura: header.indexOf("Motivo chiusura"),
-    note: header.indexOf("Note"),
-    matchingAgg: header.indexOf("Matching aggiornato"),
-    dataAggiornamento: header.indexOf("Data aggiornamento"),
-    index: header.indexOf("Index")
-  }
-
-  return sIdx
-}
-const assignID = (sheet, prefix) => {
-  let lastRow = sheet.getLastRow();
-
-  if (lastRow === 1) {
-    Logger.log("There aren't any matching updates records")
-  }
-
-  const lastValue = sheet.getRange(2, 1, lastRow).getValues()
-    .map(id => id[0].split(prefix)[1])
-    .reduce((acc, x) => {
-      const current = parseInt(x);
-      return current > acc ? current : acc
-    }, 0)
-
-  const newID = `${prefix}${lastValue > 0 ? lastValue + 1 : 10000}`
-  
-  return newID
-}
-

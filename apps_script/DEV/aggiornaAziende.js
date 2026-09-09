@@ -1,10 +1,8 @@
-const SPREADSHEET_ID = '1kfZTjFALTAEUg-qtBTo-SwcWhQGyvdqXaf50EcLLL4Y'
-
 const  aggiornaListaAziende = () => {
   
-  const ssSource = SpreadsheetApp.openById(SPREADSHEET_ID);
-  const shSource = ssSource.getSheetByName("Matching");
-  const shDest = ssSource.getSheetByName("Aziende");
+  const ssSource = SpreadsheetApp.openById(DATA_SPREADSHEET_DEV);
+  const shSource = ssSource.getSheetById(SH_MATCHING);
+  const shDest = ssSource.getSheetById(SH_AZIENDE);
   
   if (!shSource) {
     SpreadsheetApp.getUi().alert("Error: Source sheet 'Registrazioni' not found.");
