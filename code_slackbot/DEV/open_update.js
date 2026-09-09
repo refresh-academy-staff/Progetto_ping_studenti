@@ -247,7 +247,7 @@ switch (ultimaAttività) {
     titoloAggiornamento = "Update colloquio";
     privateID = "update_colloquio_sost" ;
     break;
-  case "Assunzione":
+  case "Assunzione prevista":
     blocks.push(selezioneStatoAssunzione, altreInfoAssunzione)
     titoloAggiornamento = "Update assunzione";
     privateID = "update_assunzione";
@@ -286,7 +286,7 @@ switch (ultimaAttività) {
   case "Colloquio sostenuto":
     return {openViewBlocks}
   case "Colloquio programmato":
-  case "Assunzione":
+  case "Assunzione prevista":
     return {
       openViewBlocks: {
         ...openViewBlocks,

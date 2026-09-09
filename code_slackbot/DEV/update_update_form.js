@@ -181,19 +181,6 @@ const selezioneEsitoColloquio = {
     ]
   }
 }
-const ulterioreColloquio = {
-  "type": "actions",
-  "block_id": "selezione_ulteriore_colloquio",
-  "elements": [
-    {
-      "type": "checkboxes",
-      "action_id": "check_ulteriore_colloquio",
-      "options": [
-        buildOption("Ho la data del prossimo colloquio", "ulteriore_colloquio_selezionato")
-      ]
-    }
-  ]
-}
 
 const altreInfoColloquio = buildTextBox({ placeholder: "Qui puoi scrivere altre informazioni che ritieni significative", label: "Altro", blockID: "altre_info" });
 const altreInfoColloquioSostenuto = buildTextBox({ placeholder: "Qui puoi scrivere altro in merito al colloquio", label: "Impressioni/note aggiuntive", blockID: "altre_info" });
