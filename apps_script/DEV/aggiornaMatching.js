@@ -78,7 +78,6 @@ const aggiungiNuoviMatching = () => {
     newMatching[dIdx.sede] = m[idxSede];
     newMatching[dIdx.fonte] = m[idxFonte];
     newMatching[dIdx.ultimaModifica] = m[idxDataRegistrazione];
-    newMatching[dIdx.stato] = "aperto";
 
     switch (m[idxStatoOpportunita]) {
       case "candidatura_inviata": 
@@ -99,6 +98,12 @@ const aggiungiNuoviMatching = () => {
         newMatching[dIdx.dataColloquio] = m[idxDataColloquio];
         newMatching[dIdx.feedbackColloquio] = m[idxFeedbackColloquio];
         newMatching[dIdx.noteColloquio] = m[idxNote];
+        if (m[idxFeedbackColloquio] === "feedback_colloquio_si_neg") {
+          newMatching[dIdx.ultimaAttivita] = "Chiusura";
+          newMatching[dIdx.stato] = "chiuso"
+          newMatching[dIdx.motivoChiusura] = "Colloquio negativo"
+          break;
+        }
         newMatching[dIdx.ultimaAttivita] = "Colloquio sostenuto";
         break;
       case "assunzione_prevista": 
@@ -191,6 +196,11 @@ const aggiornaTuttiMatchings = () => {
         updatedRow[dIdx.dataColloquio] = row[sIdx.dataColloquio]
         updatedRow[dIdx.colloquiSvolti] = updatedRow[dIdx.colloquiSvolti] ? updatedRow[dIdx.colloquiSvolti] + 1 : 1
         updatedRow[dIdx.feedbackColloquio] = row[sIdx.feedbackColloquio]
+        if (row[sIdx.feedbackColloquio] === "feedback_colloquio_si_neg") {
+          updatedRow[dIdx.ultimaAttivita] = "Chiusura";
+          updatedRow[dIdx.motivoChiusura] = "Colloquio negativo"
+          break;
+        }
         updatedRow[dIdx.ultimaAttivita] = "Colloquio sostenuto"
         break;
       case ("colloquio_rimandato"):
@@ -218,14 +228,15 @@ const aggiornaTuttiMatchings = () => {
         updatedRow[dIdx.tipoContratto] = row[sIdx.tipoContratto];
         updatedRow[dIdx.dataInizioContratto] = row[sIdx.dataInizioContratto];
         updatedRow[dIdx.dataScadenzaContratto] = row[sIdx.dataFineContratto];
-        updatedRow[dIdx.ultimaAttivita] = "Assunzione programmata"
+        updatedRow[dIdx.ultimaAttivita] = "Assunzione avvenuta"
         break;
       case ("assunzione_annullata"):
-        updatedRow[dIdx.assunzione] = "annullata"
-        updatedRow[dIdx.ultimaAttivita] = "Colloquio annullata"
+        updatedRow[dIdx.ultimaAttivita] = "Chiusura";
+        updatedRow[dIdx.motivoChiusura] = "Altro"
+        updatedRow[dIdx.noteChiusura] = row[sIdx.note];
+        updatedRow[dIdx.assunzione] = "Assunzione annullata"
         break;
       case ("chiusura"):
-        updatedRow[dIdx.stato] = "chiuso"
         updatedRow[dIdx.motivoChiusura] = row[sIdx.motivoChiusura]
         updatedRow[dIdx.ultimaAttivita] = "Chiusura"
         break;
@@ -241,7 +252,6 @@ const aggiornaTuttiMatchings = () => {
         break;
       case ("assunzione_prevista"):
       case ("assunzione_avvenuta"):
-      case ("assunzione_annulata"):
         updatedRow[dIdx.noteAssunzione] = row[sIdx.note];
         break;
       case ("chiusura"):
@@ -252,7 +262,6 @@ const aggiornaTuttiMatchings = () => {
     updatedRow[dIdx.ultimaModifica] = new Date();
 
     const columnsToUpdate = updatedRow.slice(dIdx.stato +1)
-
     shDest.getRange(idxMatchingToUpdate + 1, dIdx.stato + 2, 1, columnsToUpdate.length).setValues([columnsToUpdate]);
 
     const idAggiornamento = assignID(shSource, "AG");
