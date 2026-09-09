@@ -108,6 +108,7 @@ const matchingsBlocks = matchingPresenti ? [
     "elements": [
       {
         "type": "static_select",
+        "action_id": "choose_matching",
         "option_groups": optionGroups
       }
     ]
