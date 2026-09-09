@@ -124,7 +124,6 @@ const buildTextBox = (props) => {
 }
 
 const selectedMatching = $('payload_parser').first().json.view.state.values.selezione_matching.choose_matching.selected_option;
-return {a: selectedMatching}
 const selectedMatchingText = selectedMatching.text.text
 const selectedMatchingID = selectedMatching.value
 
