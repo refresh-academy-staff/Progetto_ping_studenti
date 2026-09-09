@@ -36,7 +36,14 @@ const buildLabel = (text) => {
   ]
  }
 
-const rows = matchings.map(m => buildRow(m.json))
+const rows = matchings
+  .sort((a, b) => {
+    if (b.json["Stato"] === "chiuso") return -1
+    if (a.json["Ultima attività"] > b.json["Ultima attività"]) return 1
+    if (a.json["Ultima attività"] < b.json["Ultima attività"]) return -1
+    return 0
+  })
+  .map(m => buildRow(m.json))
 
 const candidature = matchings
   .filter(m => m.json["Ultima attività"] === "Candidatura")
