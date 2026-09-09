@@ -1,0 +1,180 @@
+{
+  "type": "object",
+  "properties": {
+    "messaggio_studente": {
+      "type": "string",
+      "description": "Testo da inviare allo studente in questo turno."
+    },
+    "pronto_per_registrazione": {
+      "type": "boolean",
+      "description": "true solo quando, per TUTTI gli eventi del messaggio, i campi obbligatori (e gli opzionali chiesti-una-volta) sono stati raccolti o dichiarati non forniti."
+    },
+    "eventi": {
+      "type": "array",
+      "description": "Un oggetto per ogni evento distinto individuato nel messaggio. Vuoto se pronto_per_registrazione è false.",
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "stato_opportunita": { "const": "candidatura_inviata" },
+              "posizione": { "type": "string", "description": "Posizione lavorativa per cui lo studente si è candidato." },
+              "azienda": { "type": "string", "description": "Nome dell'azienda." },
+              "sede": { "type": "string", "description": "Sede di lavoro, opzionale. Stringa vuota se non fornita." },
+              "fonte": {
+                "type": "string",
+                "enum": ["Ricerca online autonoma", "Foglio Google condiviso", "Speed Interview", "L'azienda ha cercato il mio contatto", "Altro"],
+                "description": "Come lo studente ha trovato l'opportunità."
+              },
+              "link": { "type": "string", "description": "Link generico (annuncio, sito aziendale, ecc.), opzionale. Stringa vuota se non fornito." },
+              "note": { "type": "string", "description": "Risposta libera a 'Vuoi aggiungere altri dettagli?', opzionale. Stringa vuota se non fornita." },
+              "conversazione_integrale": { "type": "string", "description": "Trascrizione dell'intero scambio con lo studente, formato 'Studente: ...' / 'Bot: ...' riga per riga." },
+              "sintesi_bot": { "type": "string", "description": "Riepilogo di quali domande/campi il bot ha chiesto allo studente, non dei valori di risposta." }
+            },
+            "required": ["stato_opportunita", "posizione", "azienda", "fonte", "sede", "link", "note", "conversazione_integrale", "sintesi_bot"],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "stato_opportunita": { "const": "colloquio_programmato" },
+              "posizione": { "type": "string", "description": "Posizione lavorativa per cui è previsto il colloquio." },
+              "azienda": { "type": "string", "description": "Nome dell'azienda." },
+              "sede": { "type": "string", "description": "Sede di lavoro, opzionale. Stringa vuota se non fornita." },
+              "fonte": {
+                "type": "string",
+                "enum": ["Ricerca online autonoma", "Foglio Google condiviso", "Speed Interview", "L'azienda ha cercato il mio contatto", "Altro"],
+                "description": "Come lo studente ha trovato l'opportunità."
+              },
+              "data_colloquio": { "type": "string", "description": "Data prevista del colloquio, formato ISO 8601 (aaaa-mm-gg). Sempre valorizzata." },
+              "note": { "type": "string", "description": "Risposta libera a 'Vuoi aggiungere altri dettagli?', opzionale. Stringa vuota se non fornita." },
+              "conversazione_integrale": { "type": "string", "description": "Trascrizione dell'intero scambio con lo studente, formato 'Studente: ...' / 'Bot: ...' riga per riga." },
+              "sintesi_bot": { "type": "string", "description": "Riepilogo di quali domande/campi il bot ha chiesto allo studente, non dei valori di risposta." }
+            },
+            "required": ["stato_opportunita", "posizione", "azienda", "fonte", "sede", "data_colloquio", "note", "conversazione_integrale", "sintesi_bot"],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "stato_opportunita": { "const": "colloquio_sostenuto" },
+              "posizione": { "type": "string", "description": "Posizione lavorativa per cui si è svolto il colloquio." },
+              "azienda": { "type": "string", "description": "Nome dell'azienda." },
+              "sede": { "type": "string", "description": "Sede di lavoro, opzionale. Stringa vuota se non fornita." },
+              "fonte": {
+                "type": "string",
+                "enum": ["Ricerca online autonoma", "Foglio Google condiviso", "Speed Interview", "L'azienda ha cercato il mio contatto", "Altro"],
+                "description": "Come lo studente ha trovato l'opportunità."
+              },
+              "data_colloquio": { "type": "string", "description": "Data in cui si è svolto il colloquio, formato ISO 8601 (aaaa-mm-gg). Sempre valorizzata." },
+              "feedback_colloquio": {
+                "type": "string",
+                "enum": ["feedback_colloquio_si_neutro", "feedback_colloquio_si_pos", "feedback_colloquio_si_neg", "feedback_colloquio_no"],
+                "description": "Slug corrispondente alla risposta a 'L'azienda ti ha dato feedback diretti?'. Sempre valorizzato."
+              },
+              "note": { "type": "string", "description": "Risposta libera a 'Vuoi aggiungere altri dettagli?', opzionale. Stringa vuota se non fornita." },
+              "conversazione_integrale": { "type": "string", "description": "Trascrizione dell'intero scambio con lo studente, formato 'Studente: ...' / 'Bot: ...' riga per riga." },
+              "sintesi_bot": { "type": "string", "description": "Riepilogo di quali domande/campi il bot ha chiesto allo studente, non dei valori di risposta." }
+            },
+            "required": ["stato_opportunita", "posizione", "azienda", "fonte", "sede", "data_colloquio", "feedback_colloquio", "note", "conversazione_integrale", "sintesi_bot"],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "stato_opportunita": { "const": "assunzione_prevista" },
+              "posizione": { "type": "string", "description": "Posizione lavorativa oggetto dell'assunzione." },
+              "azienda": { "type": "string", "description": "Nome dell'azienda." },
+              "sede": { "type": "string", "description": "Sede di lavoro, opzionale. Stringa vuota se non fornita." },
+              "fonte": {
+                "type": "string",
+                "enum": ["Ricerca online autonoma", "Foglio Google condiviso", "Speed Interview", "L'azienda ha cercato il mio contatto", "Altro"],
+                "description": "Come lo studente ha trovato l'opportunità."
+              },
+              "tipo_contratto": {
+                "type": "string",
+                "enum": ["contratto_tirocinio_stage", "contratto_apprendistato", "contratto_p_iva", "contratto_determ", "contratto_indet", "contratto_altro", ""],
+                "description": "Slug del tipo di contratto proposto, opzionale. Stringa vuota se non fornito."
+              },
+              "data_inizio_contratto": { "type": "string", "description": "Data di inizio prevista, formato ISO 8601 (aaaa-mm-gg), opzionale. Stringa vuota se non fornita." },
+              "data_fine_contratto": { "type": "string", "description": "Data di fine prevista, formato ISO 8601 (aaaa-mm-gg), opzionale o se contratto indeterminato. Stringa vuota se non fornita." },
+              "note": { "type": "string", "description": "Risposta libera a 'Vuoi aggiungere altri dettagli?', opzionale. Stringa vuota se non fornita." },
+              "conversazione_integrale": { "type": "string", "description": "Trascrizione dell'intero scambio con lo studente, formato 'Studente: ...' / 'Bot: ...' riga per riga." },
+              "sintesi_bot": { "type": "string", "description": "Riepilogo di quali domande/campi il bot ha chiesto allo studente, non dei valori di risposta." }
+            },
+            "required": ["stato_opportunita", "posizione", "azienda", "fonte", "sede", "tipo_contratto", "data_inizio_contratto", "data_fine_contratto", "note", "conversazione_integrale", "sintesi_bot"],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "stato_opportunita": { "const": "assunzione_avvenuta" },
+              "posizione": { "type": "string", "description": "Posizione lavorativa oggetto dell'assunzione." },
+              "azienda": { "type": "string", "description": "Nome dell'azienda." },
+              "sede": { "type": "string", "description": "Sede di lavoro, opzionale. Stringa vuota se non fornita." },
+              "fonte": {
+                "type": "string",
+                "enum": ["Ricerca online autonoma", "Foglio Google condiviso", "Speed Interview", "L'azienda ha cercato il mio contatto", "Altro"],
+                "description": "Come lo studente ha trovato l'opportunità."
+              },
+              "tipo_contratto": {
+                "type": "string",
+                "enum": ["contratto_tirocinio_stage", "contratto_apprendistato", "contratto_p_iva", "contratto_determ", "contratto_indet", "contratto_altro", ""],
+                "description": "Slug del tipo di contratto firmato, opzionale. Stringa vuota se non fornito."
+              },
+              "data_inizio_contratto": { "type": "string", "description": "Data di inizio contratto, formato ISO 8601 (aaaa-mm-gg), opzionale. Stringa vuota se non fornita." },
+              "data_fine_contratto": { "type": "string", "description": "Data di fine contratto, formato ISO 8601 (aaaa-mm-gg), opzionale o se contratto indeterminato. Stringa vuota se non fornita." },
+              "note": { "type": "string", "description": "Risposta libera a 'Vuoi aggiungere altri dettagli?', opzionale. Stringa vuota se non fornita." },
+              "conversazione_integrale": { "type": "string", "description": "Trascrizione dell'intero scambio con lo studente, formato 'Studente: ...' / 'Bot: ...' riga per riga." },
+              "sintesi_bot": { "type": "string", "description": "Riepilogo di quali domande/campi il bot ha chiesto allo studente, non dei valori di risposta." }
+            },
+            "required": ["stato_opportunita", "posizione", "azienda", "fonte", "sede", "tipo_contratto", "data_inizio_contratto", "data_fine_contratto", "note", "conversazione_integrale", "sintesi_bot"],
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "campi_raccolti": {
+      "type": "array",
+      "description": "Stato aggiornato dei campi raccolti finora per ciascun evento ancora in corso di raccolta (non ancora pronto per la registrazione). Il bot lo aggiorna ad ogni turno partendo dal proprio campi_raccolti del turno precedente (visibile nella memoria della conversazione), non lo ricostruisce da zero rileggendo tutta la cronologia. Vuoto ([]) se non c'è nessun evento in corso di raccolta in questo momento (es. evento già confermato, o messaggio che non attiva nessuno stato).",
+      "items": {
+        "type": "object",
+        "properties": {
+          "stato_opportunita": {
+            "type": "string",
+            "enum": ["candidatura_inviata", "colloquio_programmato", "colloquio_sostenuto", "assunzione_prevista", "assunzione_avvenuta"],
+            "description": "Stato riconosciuto per questo evento, anche se non ancora tutti i campi sono stati raccolti."
+          },
+          "posizione": { "type": "string", "description": "Stringa vuota se non ancora raccolto." },
+          "azienda": { "type": "string", "description": "Stringa vuota se non ancora raccolto." },
+          "sede": { "type": "string", "description": "Stringa vuota se non ancora raccolto o dichiarato non fornito dallo studente." },
+          "fonte": {
+            "type": "string",
+            "enum": ["Ricerca online autonoma", "Foglio Google condiviso", "Speed Interview", "L'azienda ha cercato il mio contatto", "Altro", ""],
+            "description": "Stringa vuota se non ancora raccolto."
+          },
+          "data_colloquio": { "type": "string", "description": "Stringa vuota se non ancora raccolto. Formato ISO 8601 (aaaa-mm-gg) quando presente." },
+          "feedback_colloquio": {
+            "type": "string",
+            "enum": ["feedback_colloquio_si_neutro", "feedback_colloquio_si_pos", "feedback_colloquio_si_neg", "feedback_colloquio_no", ""],
+            "description": "Stringa vuota se non ancora raccolto."
+          },
+          "tipo_contratto": {
+            "type": "string",
+            "enum": ["contratto_tirocinio_stage", "contratto_apprendistato", "contratto_p_iva", "contratto_determ", "contratto_indet", "contratto_altro", ""],
+            "description": "Stringa vuota se non ancora raccolto o dichiarato non fornito dallo studente."
+          },
+          "data_inizio_contratto": { "type": "string", "description": "Stringa vuota se non ancora raccolto o dichiarato non fornito dallo studente." },
+          "data_fine_contratto": { "type": "string", "description": "Stringa vuota se non ancora raccolto o dichiarato non fornito dallo studente." },
+          "link": { "type": "string", "description": "Stringa vuota se non ancora raccolto o dichiarato non fornito dallo studente." },
+          "note": { "type": "string", "description": "Stringa vuota se non ancora raccolto o dichiarato non fornito dallo studente." },
+          "conversazione_integrale": { "type": "string", "description": "Trascrizione accumulata fino a questo turno, formato 'Studente: ...' / 'Bot: ...' riga per riga. Il bot vi appende solo lo scambio appena avvenuto, partendo dal valore del proprio turno precedente — non lo ricostruisce da zero." },
+          "sintesi_bot": { "type": "string", "description": "Riepilogo accumulato fino a questo turno di quali domande/campi il bot ha chiesto allo studente. Il bot lo aggiorna aggiungendo la domanda appena posta, partendo dal valore del proprio turno precedente — non lo ricostruisce da zero." }
+        },
+        "required": ["stato_opportunita", "posizione", "azienda", "sede", "fonte", "data_colloquio", "feedback_colloquio", "tipo_contratto", "data_inizio_contratto", "data_fine_contratto", "link", "note", "conversazione_integrale", "sintesi_bot"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["messaggio_studente", "pronto_per_registrazione", "eventi", "campi_raccolti"]
+}
