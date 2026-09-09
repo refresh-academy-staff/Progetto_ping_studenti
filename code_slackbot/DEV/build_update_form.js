@@ -62,7 +62,7 @@ const buildButton = (text, value, actionID, style) => {
       },
       "value": value,
       "action_id": actionID,
-      "style": "danger"
+      "style": "primary"
     }
   } else {
     return {
@@ -123,7 +123,8 @@ const buildTextBox = (props) => {
   }
 }
 
-const selectedMatching = $('payload_parser').first().json.view.state.values.matching_list.choose_matching.selected_option;
+const selectedMatching = $('payload_parser').first().json.view.state.values.selezione_matching.choose_matching.selected_option;
+return {a: selectedMatching}
 const selectedMatchingText = selectedMatching.text.text
 const selectedMatchingID = selectedMatching.value
 

@@ -78,7 +78,7 @@ const optionGroupColloqui =
   : {options: null}
 
 const assunzioni = matchings
-  .filter(m => m.json["Ultima attività"].startsWith("Assunzione"))
+  .filter(m => m.json["Ultima attività"] === ("Assunzione prevista"))
   .map(m => buildMatchingOption(m.json))
 
 const optionGroupAssunzioni =
@@ -148,6 +148,7 @@ const optionGroups = [optionGroupCandidature, optionGroupColloqui, optionGroupAs
           "elements": [
             {
               "type": "static_select",
+              "action_id": "choose_matching",
               "option_groups": optionGroups
             }
           ]
