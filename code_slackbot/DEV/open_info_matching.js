@@ -119,25 +119,6 @@ const riepilogoAzienda2 = {
 
 }
 
-const riepilogoAzienda = {
-  "type": "rich_text",
-  "block_id": "info_matching",
-  "elements": [
-    {
-      "type": "rich_text_list",
-      "elements": [
-        ...[azienda, posizione, sede]
-          .filter(x => x)
-          .map(o => buildTextSection(o, "italic")),
-        buildTextSection(fonte, "italic"),
-      ],
-      "style": "bullet",
-      "indent": 0,
-      "border": 0
-    }
-  ]
-}
-
 const divider = {
   "type": "divider"
 }
@@ -172,10 +153,6 @@ const openViewBlocks = {
       "text": "Nuova opportunità"
     },
     "blocks": blocks,
-    "submit": {
-      "type": "plain_text",
-      "text": "Registra",
-    },
     "close": {
       "type": "plain_text",
       "text": "Esci"
