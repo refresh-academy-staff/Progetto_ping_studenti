@@ -38,7 +38,12 @@ const buildLabel = (text) => {
 
 const rows = matchings
   .sort((a, b) => {
-    if (b.json["Stato"] === "chiuso") return -1
+    if (a.json["Stato"] > b.json["Stato"]) return 1
+    if (a.json["Stato"] < b.json["Stato"]) return -1
+    return 0
+  })
+  .sort((a, b) => {
+    if (a.json["Stato"] === "chiuso") return 1
     if (a.json["Ultima attività"] > b.json["Ultima attività"]) return 1
     if (a.json["Ultima attività"] < b.json["Ultima attività"]) return -1
     return 0
