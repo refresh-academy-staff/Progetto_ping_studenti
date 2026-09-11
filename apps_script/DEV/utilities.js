@@ -13,16 +13,11 @@ const assignID = (sheet, prefix) => {
   if (lastRow === 1) {
     Logger.log("There aren't any matching updates records")
   }
-
-  const lastValue = sheet.getRange(2, 1, lastRow).getValues()
-    .map(id => id[0].split(prefix)[1])
-    .reduce((acc, x) => {
-      const current = parseInt(x);
-      return current > acc ? current : acc
-    }, 0)
-
-  const newID = `${prefix}${lastValue > 0 ? lastValue + 1 : 10000}`
-  
+  const currentIDS = sheet.getRange(2, 1, lastRow).getValues();
+  let newID = `${prefix}-${Utilities.getUuid().slice(0, 5)}` 
+  while (currentIDS.includes(newID)) {
+    newID = `${prefix}-${Utilities.getUuid().slice(0, 5)}`
+  }
   return newID
 }
 
