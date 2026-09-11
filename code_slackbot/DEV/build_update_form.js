@@ -123,7 +123,7 @@ const buildTextBox = (props) => {
   }
 }
 
-const selectedMatching = $('payload_parser').first().json.view.state.values.selezione_matching.choose_matching.selected_option;
+const selectedMatching = $('payload_parser').first().json.payload.view.state.values.selezione_matching.choose_matching.selected_option;
 const selectedMatchingText = selectedMatching.text.text
 const selectedMatchingID = selectedMatching.value
 
@@ -264,7 +264,7 @@ const submitButton = {
 }
 
 const openViewBlocks = {
-  "trigger_id": $('payload_parser').first().json.trigger_id,
+  "trigger_id": $('payload_parser').first().json.payload.trigger_id,
   "view": {
     "type": "modal",
     "title": {

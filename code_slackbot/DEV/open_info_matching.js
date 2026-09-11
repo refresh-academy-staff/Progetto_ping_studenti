@@ -83,7 +83,7 @@ const buildTextObject = (text) => {
   }
 }
 
-const values = $input.first().json.view.state.values
+const values = $input.first().json.payload.view.state.values
 const azienda = values.nome_azienda.text_input.value
 const posizione = values.posizione.text_input.value
 const sede = values.sede.text_input.value
@@ -145,7 +145,7 @@ const selezioneStato = {
 const blocks = [riepilogoAzienda2, divider, textSection, selezioneStato]
 
 const openViewBlocks = {
-  "trigger_id": $('payload_parser').first().json.trigger_id,
+  "trigger_id": $input.first().json.payload.trigger_id,
   "view": {
     "type": "modal",
     "title": {

@@ -179,8 +179,8 @@ const altreInfoAssunzione = buildTextBox({
   multiline: true,
   optional: true
 });
-const action = $input.first().json.actions[0].action_id
-const infoAzienda = $input.first().json.view.blocks.find(b => b.block_id === "info_matching")
+const action = $input.first().json.payload.actions[0].action_id
+const infoAzienda = $input.first().json.payload.view.blocks.find(b => b.block_id === "info_matching")
 const nomeAzienda = infoAzienda.fields[1].text.replaceAll("_", "").replaceAll("*", "");
 const divider = {
   "type": "divider"
@@ -218,7 +218,7 @@ switch (action) {
     blocks.push(selezioneStatoColloquio)
     break;
   case "selezione_stato_colloquio":
-    const selectedOption = $input.first().json.actions[0].selected_option.value;
+    const selectedOption = $input.first().json.payload.actions[0].selected_option.value;
     switch (selectedOption) {
       case "colloquio_sostenuto":
         blocks.push(
@@ -260,7 +260,7 @@ switch (action) {
 }
 
 const uploadViewBlocks = {
-  view_id: $("payload_parser").first().json.view.id,
+  view_id: $("payload_parser").first().json.payload.view.id,
   view: {
     type: "modal",
     title: {

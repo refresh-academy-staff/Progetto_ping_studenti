@@ -1,4 +1,4 @@
-const infoMatching = $input.first().json.view.blocks.find(b => b.block_id === "info_matching");
+const infoMatching = $input.first().json.payload.view.blocks.find(b => b.block_id === "info_matching");
 
 const azienda = infoMatching.fields[1].text
 const posizione = infoMatching.fields[3].text
@@ -17,12 +17,12 @@ const removeMrkdwn = (text) => {
   return text.slice(1, -1);
 }
 
-const userID = $input.first().json.user.id
+const userID = $input.first().json.payload.user.id
 if (!userID) {
   return {error: "User ID non presente"}
 }
 
-const values = $input.first().json.view.state.values
+const values = $input.first().json.payload.view.state.values
 if (!values) {
   return {error: "Nessun valore trovato"}
 }

@@ -121,7 +121,7 @@ const buildTextBox = (props) => {
 }
 
 //blocks
-const matchingReferenceBlock = $input.first().json.view.blocks[0];
+const matchingReferenceBlock = $input.first().json.payload.view.blocks[0];
 const divider = {
   "type": "divider",
 };
@@ -310,10 +310,10 @@ const altreInfoChiusura = buildTextBox({
 
 //blocks build
 
-const viewID = $input.first().json.view.private_metadata;
+const viewID = $input.first().json.payload.view.private_metadata;
 const blocks = [];
 
-const action = $input.first().json.actions[0];
+const action = $input.first().json.payload.actions[0];
 const actionID = action.action_id;
 
 //assunzione
@@ -386,7 +386,7 @@ if (
   blocks.push(selezioneStatoColloquio, datePickerColloquio, altreInfoColloquio);
 }
 if (actionID === "selezione_motivazione_colloquio_non_sostenuto") {
-  const selectedOption = $input.first().json.actions[0].selected_option.value;
+  const selectedOption = $input.first().json.payload.actions[0].selected_option.value;
   switch (selectedOption) {
     case "colloquio_rimandato":
       blocks.push(
@@ -408,7 +408,7 @@ if (actionID === "colloquio_rimandato") {
   );
 }
 if (actionID === "selezione_stato_colloquio") {
-  const selectedOption = $input.first().json.actions[0].selected_option.value;
+  const selectedOption = $input.first().json.payload.actions[0].selected_option.value;
   switch (selectedOption) {
     case "colloquio_sostenuto":
       blocks.push(
@@ -431,7 +431,7 @@ if (actionID === "selezione_stato_colloquio") {
 }
 
 if (actionID === "selezione_stato_assunzione") {
-  const selectedOption = $input.first().json.actions[0].selected_option.value;
+  const selectedOption = $input.first().json.payload.actions[0].selected_option.value;
 
   if (
     selectedOption === "assunzione_prevista" ||
@@ -453,7 +453,7 @@ if (actionID === "selezione_stato_assunzione") {
 }
 
 if (blocks.length === 0) {
-  const previousBlocks = $input.first().json.view.blocks;
+  const previousBlocks = $input.first().json.payload.view.blocks;
   blocks.push(...previousBlocks);
 } else {
   if (blocks[0].block_id !== matchingReferenceBlock.block_id) {
@@ -462,7 +462,7 @@ if (blocks.length === 0) {
 }
 
 const uploadViewBlocks = {
-  view_id: $("payload_parser").first().json.view.id,
+  view_id: $("payload_parser").first().json.payload.view.id,
   view: {
     type: "modal",
     title: {
