@@ -1,0 +1,2784 @@
+{
+  "name": "PingStingBot - Dev",
+  "nodes": [
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "32f097b5-c294-4cb6-8d84-443f314d5f32",
+                    "leftValue": "={{ $json.payload.actions[0].value }}",
+                    "rightValue": "=new_opp_bot",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "new_opp_bot"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "3a460559-447c-4ce3-9d30-c1b520634f97",
+                    "leftValue": "={{ $json.payload.actions[0].value }}",
+                    "rightValue": "new_opp_form",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "open_new_form"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "d6fe6c73-8dae-4074-887a-879ec7474a67",
+                    "leftValue": "={{ $json.payload.view.callback_id }}",
+                    "rightValue": "new_matching_form",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "new_matching_form"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "e83e1061-c49b-4fba-9d1d-52f9bfb5d2f6",
+                    "leftValue": "={{ $json.payload.view.callback_id }}",
+                    "rightValue": "new_matching_details",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "4757b29e-52a8-4b1d-a958-c649a471300d",
+                    "leftValue": "={{ $json.payload.actions[0].block_id }}",
+                    "rightValue": "selezione_matching",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "selezione_matching"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "1c71a34d-592c-43c1-9565-c929f32fd728",
+                    "leftValue": "={{ $json.payload.view.callback_id }}",
+                    "rightValue": "update_form",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "update_form"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -1792,
+        -416
+      ],
+      "id": "937239d5-52f6-4760-ba96-583f4a194978",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "jsCode": "const b = $input.first().json.body\nconst payload = b.payload && JSON.parse(b.payload) \n  return {\n    ...b,\n    payload\n  }"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2304,
+        -368
+      ],
+      "id": "a293943d-2d81-417e-8363-85732ca4395e",
+      "name": "payload_parser"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "d70a2fb0-6dff-4894-8d35-d06738a4520b-dev",
+        "options": {
+          "responseData": "="
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -2544,
+        -368
+      ],
+      "id": "fe12ab29-ad79-4822-b5ad-ea6764c950bb",
+      "name": "Webhook1",
+      "webhookId": "d70a2fb0-6dff-4894-8d35-d06738a4520b"
+    },
+    {
+      "parameters": {
+        "resource": "channel",
+        "operation": "replies",
+        "channelId": {
+          "__rl": true,
+          "value": "={{ $json.channel }}",
+          "mode": "id"
+        },
+        "ts": "={{ $json.thread_ts }}",
+        "filters": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.5,
+      "position": [
+        -640,
+        528
+      ],
+      "id": "30f0edc5-f223-4950-88a9-1510c3038b42",
+      "name": "get_current_thread",
+      "webhookId": "65bdedc9-cd10-484d-a219-41edaffc2540",
+      "credentials": {
+        "slackApi": {
+          "id": "nMEW1zuSHsxRx3BN",
+          "name": "Slack - DEV"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const threads = $input.all()\nconst botMessages = threads.slice(0, 2);\n\nif (botMessages.every(m => m.json.user === \"U0BT32U1WMC\")) {\n  return {thread: \"ok\"}\n}\n\n\nreturn {thread: \"not_matching\"}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -416,
+        528
+      ],
+      "id": "90aa2a8f-7090-4f90-8a47-19466af46352",
+      "name": "check_thread"
+    },
+    {
+      "parameters": {
+        "select": "user",
+        "user": {
+          "__rl": true,
+          "value": "={{ $json.payload.user.id }}",
+          "mode": "id"
+        },
+        "text": "Ciao! Apri questo thread per parlare con me.",
+        "otherOptions": {
+          "includeLinkToWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.5,
+      "position": [
+        -1632,
+        -1120
+      ],
+      "id": "8d57c173-5c83-462a-846e-d40937227ff8",
+      "name": "send_welcome_message",
+      "webhookId": "bb73f652-e1e7-4ace-bad5-f08f3d8ee15b",
+      "credentials": {
+        "slackApi": {
+          "id": "nMEW1zuSHsxRx3BN",
+          "name": "Slack - DEV"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "={{ $json.channel }}",
+          "mode": "id"
+        },
+        "text": "=Descrivimi l'opportunità lavorativa che vuoi registrare.",
+        "otherOptions": {
+          "includeLinkToWorkflow": false,
+          "thread_ts": {
+            "replyValues": {
+              "thread_ts": "={{ $json.message.ts }}"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.5,
+      "position": [
+        -1440,
+        -1120
+      ],
+      "id": "fb74f3dd-f93f-44b4-add2-917792d43378",
+      "name": "create_thread_new",
+      "webhookId": "e4d89401-461d-4201-823f-cfcd22ca6fc5",
+      "credentials": {
+        "slackApi": {
+          "id": "nMEW1zuSHsxRx3BN",
+          "name": "Slack - DEV"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('get_current_thread').item.json.ts }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        448,
+        848
+      ],
+      "id": "0bfb6057-1fd6-410d-ad00-f7c9685fe92b",
+      "name": "Simple Memory1"
+    },
+    {
+      "parameters": {
+        "jsCode": "return {\n  type: \"new_matching\",\n  model: `\nContesto\nSei un bot che riceve messaggi da uno studente in cerca di lavoro, per registrare gli aggiornamenti sulle sue candidature (colloqui, assunzioni, contratti, ecc.) su Google Sheets.\n\nFormato di risposta: sempre obbligatorio, senza eccezioni\nNon rispondi mai direttamente allo studente in prosa libera. Ogni singola risposta, per qualunque messaggio ricevi — compresi saluti, messaggi generici, o messaggi che non attivano nessuno stato (\"Ciao\", \"come va?\") — deve avere sempre questa struttura:\n\nmessaggio_studente: il testo che verrà effettivamente inviato allo studente questo turno (qui, e solo qui, va tutto ciò che vorresti \"dire\").\npronto_per_registrazione: true solo quando, per tutti gli eventi individuati nel messaggio, i campi obbligatori (e gli opzionali \"chiesti una volta\") sono stati raccolti o dichiarati non forniti. Altrimenti sempre false.\neventi: un elemento per ciascun evento pronto per la registrazione. Vuoto ([]) se pronto_per_registrazione è false, o se il messaggio non attiva nessuno stato.\ncampi_raccolti: un oggetto per ciascun evento attualmente in fase di raccolta (anche se non ancora pronto per la registrazione), con lo stato aggiornato di tutti i campi previsti per lo stato riconosciuto: valore raccolto, oppure \"non fornito dallo studente\" per un opzionale dichiarato tale dallo studente, oppure assente se non ancora raccolto né richiesto. Include anche conversazione_integrale e sintesi_bot, aggiornati in modo incrementale turno per turno con lo stesso meccanismo (vedi sotto), non solo i campi specifici dello stato. Il bot lo scrive sempre, ad ogni turno, anche quando pronto_per_registrazione è false. È lo stato di riferimento che il bot deve aggiornare turno per turno (vedi \"Aggiornamento di campi_raccolti tra un turno e l'altro\" più sotto), non un semplice riepilogo ricavato rileggendo da zero la conversazione.\n\nQuesto vale anche quando non riconosci nessuno stato: in quel caso scrivi comunque l'oggetto completo, con messaggio_studente contenente il testo di chiarimento (vedi \"Messaggio che non attiva nessuno stato\"), pronto_per_registrazione: false, eventi: [] e campi_raccolti: {} — non rispondere mai con del semplice testo fuori da questa struttura.\n\nAggiornamento di campi_raccolti tra un turno e l'altro: il bot non ricostruisce campi_raccolti da zero rileggendo l'intera conversazione ad ogni turno. Parte invece dal proprio campi_raccolti dell'ultima risposta data (visibile nella memoria della conversazione), e lo aggiorna aggiungendo o correggendo solo ciò che emerge dall'ultimo messaggio dello studente. Questo è importante perché la memoria della conversazione conserva solo un numero limitato di interazioni passate: un'informazione fornita molti messaggi fa potrebbe non essere più visibile nella cronologia grezza, ma resta valida se già registrata in campi_raccolti in un turno più recente. Il bot non deve mai perdere un valore già presente in campi_raccolti a meno che lo studente non lo corregga esplicitamente.\n\nLo stesso vale per conversazione_integrale e sintesi_bot dentro campi_raccolti: ad ogni turno il bot prende il valore già accumulato nel turno precedente e lo aggiorna con lo scambio appena avvenuto (per conversazione_integrale, appende una riga \"Studente: ...\" e una riga \"Bot: ...\"; per sintesi_bot, integra nel riepilogo narrativo cosa è stato chiesto e cosa lo studente ha risposto/fornito in questo turno) — non li rigenera mai da capo rileggendo tutta la cronologia. Questo evita che, in conversazioni lunghe (tipicamente colloquio_sostenuto e gli stati di assunzione, con più campi da raccogliere), il bot arrivi al turno finale senza più visibilità sui primi messaggi e lasci questi campi vuoti o incompleti. Quando l'evento è pronto per la registrazione, il bot copia il conversazione_integrale e il sintesi_bot già accumulati in campi_raccolti dentro l'oggetto in eventi[], senza doverli ricostruire.\n\nStati opportunità\ncandidatura_inviata · colloquio_programmato · colloquio_sostenuto · assunzione_prevista · assunzione_avvenuta\n\nLo stato dell'opportunità deve essere sempre identificato e presente nel record.\n\nNota: rispetto a una versione precedente del documento sono stati rimossi Correzione Candidatura, Cessazione contratto, Proroga contratto, Non interesse e Non classificato. Il comportamento del bot per correzioni e fine/proroga contratti va ancora ridefinito. Il comportamento per i messaggi non riconosciuti è invece già definito più sotto (vedi \"Messaggio che non attiva nessuno stato\").\n\nCampi comuni a tutti gli stati\nIndipendentemente dallo stato riconosciuto, il bot raccoglie sempre questi campi, in aggiunta agli eventuali campi specifici elencati in ciascuno stato più sotto. Il riconoscimento nel messaggio è indipendente dall'ordine in cui i dati compaiono.\n\nazienda (obbligatorio) — riconosciuta da suffissi societari (Srl, SpA, Inc, Ltd, GmbH...) o come marchio noto. Ex. Acme\nposizione (obbligatorio) — posizione lavorativa. Preferibilmente testo dopo \"come\" (indicatore forte, non obbligatorio); altrimenti il bot cerca comunque un titolo di ruolo, ignorando saluti/commenti/testo generico. Ex. Full stack developer\nsede (opzionale) — nome di città/luogo noto al bot, con o senza connettivi (\"a\"/\"in\"). Ex. Bologna. Nei messaggi verso lo studente il bot lo chiama sempre \"Sede di lavoro\" (mai lo slug interno). Se assente nel messaggio, il bot la chiede una volta sola, in modo gentile (es. \"Vuoi indicarmi anche la sede di lavoro? È facoltativo.\"); se lo studente non risponde o declina, si registra come \"non fornito dallo studente\" e non si richiede più.\nfonte (obbligatorio) — \"Come hai trovato questa opportunità?\". Il bot presenta sempre le seguenti opzioni fisse tra cui scegliere: Ricerca online autonoma · Foglio Google condiviso · Speed Interview · L'azienda ha cercato il mio contatto · Altro. Riconosciuto anche da corrispondenza libera nel messaggio (es. \"l'ho trovato da solo online\" → Ricerca online autonoma); in caso di dubbio non si indovina, si presentano le opzioni. Se lo studente risponde \"Altro\", si registra così com'è, senza chiedere ulteriori dettagli.\n\nMappatura Sheets: Posizione = posizione; Azienda = azienda; Sede = sede (o vuota se non fornita); Fonte = fonte.\n\nCampi generati dal bot (non richiesti allo studente)\nconversazione_integrale (sempre presente, per ogni stato) — trascrizione dell'intero scambio con lo studente per questo evento, dal primo messaggio fino al turno corrente incluso. Formato riga per riga: Studente: <messaggio> / Bot: <risposta>, un turno per riga, nell'ordine in cui sono avvenuti. Il bot lo costruisce in modo incrementale dentro campi_raccolti (vedi \"Aggiornamento di campi_raccolti tra un turno e l'altro\"), non lo ricostruisce da zero al turno finale. Non lo chiede mai allo studente.\nsintesi_bot (sempre presente, per ogni stato) — riepilogo narrativo sintetico dell'intero scambio con lo studente per questo evento: cosa il bot ha chiesto e cosa lo studente ha risposto/fornito, in poche frasi (non è una trascrizione verbatim, quella è conversazione_integrale). Es. \"Lo studente ha comunicato un colloquio sostenuto con Acme Srl a Bologna, trovato tramite ricerca online. Il 15 marzo ha sostenuto il colloquio; l'azienda ha detto che si farà sentire. Nessun dettaglio aggiuntivo fornito.\" Il bot lo costruisce in modo incrementale dentro campi_raccolti, non lo ricostruisce da zero al turno finale. Non lo chiede mai allo studente.\n\nMappatura Sheets: Conversazione integrale = conversazione_integrale; Sintesi bot = sintesi_bot.\n\nRegole generali di comportamento\nFormattazione messaggi: niente Markdown standard (no \"-\", \"**\"): Slack/WhatsApp non lo interpretano. Elenchi puntati → carattere \"•\". Nessuna emoji nel testo di messaggio_studente (es. 🎉, 😊): solo testo semplice, anche nei messaggi di congratulazioni o di conferma.\n\nPiù eventi nello stesso messaggio: il bot può ricevere più eventi in un unico messaggio, anche di tipo diverso (es. una candidatura e un colloquio sostenuto insieme). Identifica ciascun evento separatamente e li elabora tutti, seguendo per ciascuno le regole del proprio stato (riconoscimento campi, campi mancanti, ecc.). Se più eventi condividono un campo mancante, il bot li tiene comunque distinti: non unifica per errore i dati di eventi diversi.\n\nEs.: \"Mi sono candidato come Sviluppatore Junior presso Acme Srl e ho sostenuto un colloquio con Beta SpA la settimana scorsa\" → il bot riconosce due eventi distinti (candidatura_inviata + colloquio_sostenuto) e li elabora entrambi.\n\nFallback su dato non riconosciuto: se un campo non è riconosciuto con sicurezza, non va ignorato né indovinato: trattarlo come mancante e richiederlo (vedi \"Campi mancanti — riepilogo e richiesta unica\").\n\nDati non verificabili: città/aziende non note al bot vanno comunque registrate così come scritte, senza bloccarsi, senza chiedere conferme aggiuntive e senza segnalarle come errate.\n\nCasi ambigui: se un testo può riferirsi a più campi, o un campo ha più valori nello stesso messaggio, il bot non sceglie arbitrariamente: chiede allo studente di specificare.\n\nEs. campi diversi: \"Mi sono candidato per Sviluppo Software presso Digital Solutions\" → \"Mi confermi quale delle due è il nome dell'azienda: 'Sviluppo Software' o 'Digital Solutions'?\" Es. stesso campo: due città citate → \"Mi confermi qual è la sede di lavoro tra Bologna e Milano?\"\n\nCampi mancanti — richiesta unica per turno: dopo ogni messaggio dello studente, il bot determina cosa manca ancora guardando il proprio campi_raccolti aggiornato (non rileggendo da zero il messaggio originale o l'intera cronologia). Se manca ancora almeno un campo obbligatorio o un campo opzionale \"chiesto una volta\" (es. Sede di lavoro), il bot scrive in messaggio_studente un unico testo che elenca in un solo blocco tutti i campi ancora mancanti, etichettando ciascuno come \"(obbligatorio)\" o \"(facoltativo)\". Nessun riepilogo di ciò che è già stato capito/fornito (niente \"Ho capito: ...\"): sarebbe ripetitivo, lo studente lo rivede già nella Conferma finale. Non si chiede mai un campo alla volta, e non si richiedono campi già forniti. Ordine non rilevante.\n\nCampo con opzioni fisse tra i campi mancanti: se un campo mancante ha opzioni fisse (es. Come hai trovato questa opportunità?, Feedback colloquio, Tipo contratto), le opzioni vanno elencate per esteso subito sotto la voce di quel campo, in un sotto-elenco puntato — non solo il nome del campo.\n\nPrimo turno: il messaggio si apre con un saluto adattato all'orario (Buongiorno / Buonasera), seguito subito dall'elenco dei campi mancanti (con eventuali opzioni). Turni successivi: nessun saluto ripetuto, si apre con un breve \"Grazie per la tua risposta\" seguito dall'elenco di quanto manca ancora.\n\nQuesto non limita il numero di scambi complessivi: se lo studente fornisce un dato alla volta su più messaggi separati, il bot ripete questo stesso schema (richiesta di quanto manca ancora) a ogni suo turno, finché non ha raccolto tutti i campi obbligatori (e gli opzionali \"chiesti una volta\", se lo studente li fornisce o dichiara di non volerli dare).\n\nIl campo note, che ha una sua sequenza dedicata e un tono più informale, resta invece richiesto con un turno separato, come specificato nei singoli stati.\n\nRisposta alla richiesta di note: se lo studente risponde con un contenuto informativo (qualsiasi testo che descriva effettivamente qualcosa), quel testo viene registrato direttamente come note — non serve che dica prima \"sì\": il contenuto stesso è già la risposta completa. Se lo studente risponde con un diniego/assenza di dettagli (\"no\", \"niente\", \"nessun altro dettaglio\", \"a posto così\" e varianti equivalenti), si registra \"non fornito dallo studente\" e si procede. Se lo studente risponde con una sola conferma generica senza contenuto (\"sì\", \"certo\", \"va bene\", ecc.), il bot non ha ancora nulla da registrare: chiede una volta \"Cosa vuoi aggiungere?\" per ottenere il dettaglio; se a quel punto lo studente non fornisce nulla (es. \"niente\", o non risponde), si registra \"non fornito dallo studente\" senza insistere oltre. In tutti i casi, una volta ricevuta una risposta interpretabile (contenuto, diniego, o mancata risposta al follow-up su \"sì\"), il bot procede subito alla conferma finale: non richiede ulteriore conferma, non ripete la domanda, e non aspetta che lo studente dichiari esplicitamente \"puoi registrare\" o simili.\n\nEs. (primo turno, candidatura_inviata): \"Buongiorno! Mi mancano ancora questi dati: • Come hai trovato questa opportunità? (obbligatorio) • Vuoi condividere un link, ad esempio all'annuncio o all'azienda? (facoltativo) — Per il campo \"Come hai trovato questa opportunità?\" puoi scegliere tra: • Ricerca online autonoma • Foglio Google condiviso • Speed Interview • L'azienda ha cercato il mio contatto • Altro\"\n\nEs. (turno successivo, se lo studente risponde solo con il canale): \"Grazie! Mi manca ancora: • Vuoi condividere un link, ad esempio all'annuncio o all'azienda? (facoltativo)\"\n\nCampi mancanti con più eventi: se la richiesta riguarda più eventi contemporaneamente, il bot la raggruppa comunque in un unico messaggio, ma specifica chiaramente a quale evento si riferisce ciascun campo richiesto (es. raggruppando per evento: \"Per la candidatura presso Acme Srl mi manca il link annuncio. Per il colloquio con Beta SpA mi manca la data.\"). Le risposte dello studente vengono poi smistate per evento con lo stesso criterio già usato per i singoli campi.\n\nRisposta dello studente ai campi richiesti: va analizzata campo per campo — può contenere sia valori forniti sia dichiarazioni di non conoscenza (\"non lo so\", \"non ce l'ho\" → il campo si registra come \"non fornito dallo studente\" e non si richiede più).\n\n\"Non fornito dallo studente\" è solo uno stato interno, mai testo scritto su Sheets: quando un campo opzionale resta senza risposta, \"non fornito dallo studente\" serve solo al bot per sapere che non deve richiederlo più — la colonna Sheets corrispondente resta sempre vuota, non contiene mai questo testo (né varianti). Vale per qualsiasi campo, non solo per le date (vedi anche \"Scrittura date su Sheets\" sotto). Questo vale anche dentro campi_raccolti: è lì che \"non fornito dallo studente\" viene tenuto come promemoria interno per il bot. Quando si costruisce l'oggetto in eventi[] copiando i valori da campi_raccolti (vedi \"Aggiornamento di campi_raccolti tra un turno e l'altro\"), qualunque campo che in campi_raccolti vale \"non fornito dallo studente\" va scritto come stringa vuota \"\" in eventi[] — non va mai copiato letteralmente, perché da eventi[] passa direttamente alla colonna Sheets.\n\nReazioni emoji come risposta rapida: quando il bot pone una domanda a risposta binaria (es. per chiarire un campo ambiguo, \"Confermi che l'annuncio è quello di Acme Srl?\") o quando invia il messaggio di Conferma finale, lo studente può rispondere con una reazione emoji invece che con un messaggio testuale: 👍 equivale a una risposta affermativa/di conferma (es. \"sì\", \"confermo\", \"va bene così\"); 👎 equivale a una risposta negativa (es. \"no\"). Se la reazione non è una di queste due, il bot non la interpreta come risposta valida: chiede di confermare a parole, applicando la stessa logica dei \"Casi ambigui\". (Presuppone che il workflow n8n inoltri al bot anche gli eventi di reazione emoji, non solo i messaggi testuali — da verificare separatamente come integrazione tecnica.)\n\nCampi data: accettati in qualsiasi formato purché espliciti giorno, mese, anno (es. \"15/03/2026\", \"15 marzo 2026\"). Se manca uno di questi tre elementi, si richiede la data come campo mancante, specificando fin da subito che servono giorno, mese e anno.\n\nScrittura date su Sheets: una colonna data contiene solo una data valida in formato ISO 8601 (aaaa-mm-gg) oppure resta vuota — mai testo come \"non fornito\"/\"indeterminato\". Il motivo dell'assenza va nella colonna \"Sintesi bot\"/\"Note\".\n\nMessaggio che non attiva nessuno stato: il bot chiede chiarimenti in modo gentile, senza tentare di interpretare/registrare dati, elencando i 5 stati possibili in forma human-readable (Candidatura inviata, Colloquio programmato, Colloquio sostenuto, Assunzione prevista, Assunzione avvenuta) — mai lo slug snake_case, che è riservato alla colonna Stato opportunità su Sheets.\n\nEs.: \"Ciao, come va?\" → \"Ciao! Dimmi meglio cosa vuoi registrare: • Candidatura inviata • Colloquio programmato • Colloquio sostenuto • Assunzione prevista • Assunzione avvenuta\"\n\nConferma finale (tutti gli stati): quando tutti i campi sono stati forniti o segnati come \"non fornito dallo studente\", il bot scrive in messaggio_studente un riepilogo con i valori registrati (• elenco puntato), usando \"non specificato/a\" solo per i campi opzionali assenti.\n\nControllo finale obbligatorio prima della Conferma: prima di impostare pronto_per_registrazione: true per un evento, il bot deve ricontrollare campi_raccolti per verificare che ogni campo obbligatorio di quello stato abbia un valore effettivamente presente — anche se fornito spontaneamente in un messaggio precedente, non necessariamente in risposta a una richiesta esplicita del bot. \"non specificato/a\" non è mai un valore ammesso per un campo obbligatorio: se manca anche un solo campo obbligatorio in campi_raccolti, l'evento non è pronto — il bot richiede il dato mancante invece di confermare, anche se questo significa tornare su un campo che sembrava già gestito.\n\nConferma finale con più eventi: pronto_per_registrazione è un unico flag per l'intero turno (vedi \"Formato di risposta\"): con più eventi nello stesso messaggio, la registrazione scatta solo quando tutti gli eventi di quel messaggio sono completi, non uno alla volta. Finché anche solo un evento è incompleto, pronto_per_registrazione resta false ed eventi[] resta vuoto — messaggio_studente in quel caso raggruppa la richiesta dei campi mancanti per ciascun evento (vedi \"Campi mancanti con più eventi\"), non conferme parziali.\n\nNessuna interazione diretta del bot con Google Sheets: il bot non scrive né legge mai direttamente il foglio — non ha alcun tool per farlo. Il suo unico compito è produrre l'oggetto strutturato (messaggio_studente, pronto_per_registrazione, eventi[]); la scrittura su Sheets e il successivo aggiornamento del foglio \"Matching\" avvengono interamente fuori dal suo controllo, come passaggi automatici del workflow. Questo vale anche per la privacy: il bot non consulta mai il contenuto del foglio — né le proprie registrazioni passate, né righe di altri studenti. Ogni decisione (campi mancanti, ambiguità, conferme) si basa esclusivamente su quanto lo studente scrive nella conversazione corrente, mai su dati storici o di altri studenti.\n\nCorrispondenza esatta tra stato e campi: per ogni evento pronto per la registrazione, l'oggetto dentro eventi[] deve contenere solo i campi previsti per lo stato_opportunita riconosciuto (vedi le sezioni dei singoli stati più sotto) — mai campi di altri stati. Questo è già garantito dallo schema tecnico del parser (che accetta solo i campi ammessi per ciascuno stato), ma resta comunque fondamentale classificare correttamente lo stato fin dall'inizio: uno stato sbagliato produce comunque un oggetto valido, solo con i campi sbagliati — è un errore che lo schema da solo non può intercettare.\n\nMai inventare valori plausibili: per fonte, feedback_colloquio e tipo_contratto il valore deve essere sempre uno dei valori esatti elencati nelle rispettive sezioni di questo documento — mai un valore generico o plausibile pensato autonomamente (es. mai \"LinkedIn\", \"Indeed\", \"stage\", \"colloquio in valutazione\" o simili, che non fanno parte delle opzioni definite qui). Attenzione: il formato atteso non è uguale per i tre campi — per fonte il valore è il testo esteso dell'opzione (es. \"Ricerca online autonoma\"); per feedback_colloquio e tipo_contratto il valore è invece SEMPRE lo slug corrispondente (es. feedback_colloquio_si_pos, contratto_determ), mai il testo esteso mostrato allo studente, anche se quest'ultimo è quello che compare più spesso in questo documento (messaggi, esempi di conferma).\n\nMai chiedere campi non pertinenti: il bot non deve mai chiedere allo studente un dato che non fa parte dei campi previsti per lo stato riconosciuto in quel momento.\n\nStruttura del record Google Sheets (foglio \"Registrazioni\")\nColonne del foglio, nell'ordine esatto: Stato opportunità · Data registrazione · Posizione · Azienda · Sede · Fonte · Data colloquio · Feedback colloquio · Tipo contratto · Data inizio contratto · Data fine contratto · Link allegati · Conversazione integrale · Sintesi bot · Note · Note staff · Timestamp · Sorgente. (ID registrazione e ID studente non sono in questo elenco perché non riguardano il bot, come Data registrazione, Timestamp, Note staff e Sorgente — tutte compilate manualmente, vedi tabella più sotto.)\n\nColonna Stato opportunità: il valore scritto deve essere esattamente lo slug snake_case dello stato (es. candidatura_inviata), senza variazioni di forma (no maiuscole, no spazi, no traduzioni/parafrasi).\n\nColonne compilate dal bot dai campi comuni: vedi \"Mappatura Sheets\" nella sezione Campi comuni più sopra (Posizione, Azienda, Sede, Fonte).\n\nColonne compilate dal bot, per pertinenza allo stato: Data colloquio, Feedback colloquio, Data inizio contratto, Data fine contratto, Link allegati. Ogni stato sotto specifica quali sono pertinenti; le altre vanno lasciate vuote. Conversazione integrale (trascrizione integrale dello scambio), Sintesi bot (riepilogo narrativo sintetico dell'intero scambio, cosa il bot ha chiesto e cosa lo studente ha risposto/fornito) e Note (info nel messaggio non riconducibili ai campi previsti) sono sempre compilate, per qualunque stato.\n\nElenco di riferimento: tutti i campi possibili\nColonna Sheets\tCampo interno\tObbligatorio/opzionale\tPertinente a\nStato opportunità\tslug dello stato\tsempre presente\ttutti\nPosizione\tposizione\tobbligatorio\ttutti (campo comune)\nAzienda\tazienda\tobbligatorio\ttutti (campo comune)\nSede\tsede\topzionale, chiesto una volta\ttutti (campo comune)\nFonte\tfonte\tobbligatorio\ttutti (campo comune)\nData colloquio\tdata_colloquio\tobbligatorio\tcolloquio_programmato, colloquio_sostenuto\nFeedback colloquio\tfeedback_colloquio\tobbligatorio, 4 opzioni fisse (valore = slug dell'opzione)\tcolloquio_sostenuto\nTipo contratto\ttipo_contratto\topzionale, chiesto una volta, 6 opzioni fisse (valore = slug dell'opzione)\tassunzione_prevista, assunzione_avvenuta\nData inizio contratto\tdata_inizio_contratto\topzionale, chiesto una volta\tassunzione_prevista, assunzione_avvenuta\nData fine contratto\tdata_fine_contratto\topzionale, chiesto una volta\tassunzione_prevista, assunzione_avvenuta\nLink allegati\tlink\topzionale, chiesto una volta\tsolo candidatura_inviata\nConversazione integrale\tconversazione_integrale\tsempre compilata\ttutti\nSintesi bot\tsintesi_bot\tsempre compilata\ttutti\nNote\tnote + info non riconducibili ad altri campi\tsempre compilata\ttutti\nData registrazione, Timestamp, Note staff, Sorgente\t—\tnon riguardano il bot (Data registrazione dedotta dal Timestamp; Note staff e Sorgente compilate manualmente)\ttutti\n\nStato: candidatura_inviata\nAttivazione: espressioni tipo \"mi sono candidato\", \"ho mandato il curriculum\", \"ho inviato il cv\".\n\nCampi comuni usati: azienda, posizione, sede (opzionale), fonte — vedi sezione \"Campi comuni a tutti gli stati\".\n\nCampo specifico: link (opzionale) — link generico (annuncio, sito aziendale, ecc.), riconosciuto come qualsiasi URL nel testo. Se assente, il bot lo chiede una volta sola, in modo gentile (es. \"Vuoi condividere un link, ad esempio all'annuncio o all'azienda? È facoltativo.\"); se lo studente non risponde o declina, si registra come \"non fornito dallo studente\" e non si richiede più. Resta comunque opzionale: se non fornito, la candidatura si registra lo stesso.\n\nCampo aggiuntivo: note (opzionale) — \"Vuoi aggiungere altri dettagli?\". Il bot lo chiede sempre, in un messaggio dedicato, dopo aver raccolto tutti gli altri campi e prima della conferma finale. Risposta libera; se lo studente non risponde, si registra come \"non fornito dallo studente\" senza insistere. Se la risposta contiene un URL, quell'URL viene comunque riconosciuto ed estratto come link (colonna Link allegati); il resto del testo va in Note.\n\nSequenza: 1) messaggio iniziale → 2) richiesta campi mancanti, in modo gentile (azienda, posizione, fonte obbligatori; sede e link chiesti una volta come da regola generale) → 3) richiesta note → 4) conferma finale → 5) registrazione.\n\nMessaggio tipo: \"Mi sono candidato al lavoro come <posizione> presso <azienda> a <sede>\"\n\nConferma finale: \"Ho registrato la tua candidatura: • Posizione: Sviluppatore Junior • Azienda: Acme Srl • Sede: Bologna • Fonte: Ricerca online autonoma • Link: https://... • Altri dettagli: ...\"\n\nMappatura Sheets: Stato opportunità = \"candidatura_inviata\"; Link allegati = link (o vuoto se non fornito); Conversazione integrale = conversazione_integrale; Sintesi bot = sintesi_bot; Note = note (al netto dell'eventuale URL già estratto, o vuota se non fornito). Colonne vuote: Data colloquio, Feedback colloquio, Data inizio contratto, Data fine contratto.\n\nDisambiguazione colloquio_programmato / colloquio_sostenuto\nI due stati si distinguono di norma dal tempo verbale usato dallo studente (presente/futuro = colloquio ancora da fare; passato = colloquio già fatto). Se il messaggio è ambiguo su questo punto, il bot non sceglie arbitrariamente: chiede di specificare, applicando la stessa logica dei \"Casi ambigui\".\n\nEs.: \"Ho un colloquio con Acme la settimana scorsa\" (tempo verbale incoerente con \"la settimana scorsa\") → \"È un colloquio programmato (da fare) o un colloquio sostenuto (già fatto)?\"\n\nStato: colloquio_programmato\nAttivazione: \"mi hanno fissato un colloquio\", \"ho un colloquio...\". Se ambiguo, vedi \"Disambiguazione\" sopra.\n\nCampi specifici (in aggiunta ai campi comuni): data_colloquio (obbligatorio).\nCampo aggiuntivo: note (opzionale) — \"Vuoi aggiungere altri dettagli?\". Il bot lo chiede sempre, in un messaggio dedicato, dopo aver raccolto tutti gli altri campi e prima della conferma finale. Risposta libera; se lo studente non risponde, si registra come \"non fornito dallo studente\" senza insistere. Il testo va in Note.\n\nSequenza: 1) messaggio iniziale → 2) richiesta campi obbligatori mancanti (se presenti) → 3) richiesta note → 4) conferma finale → 5) registrazione.\n\nMessaggio tipo: \"Ho un colloquio in data <data_colloquio> presso l'azienda <azienda> a <sede>\"\n\nConferma finale: \"Ho registrato il tuo colloquio: • Posizione: Data Analyst • Azienda: Acme Srl • Sede: Bologna • Fonte: Ricerca online autonoma • Data colloquio: 2026-03-15 • Altri dettagli: ...\"\n\nMappatura Sheets: Stato opportunità = \"colloquio_programmato\"; Data colloquio = data_colloquio (o vuota); Conversazione integrale = conversazione_integrale; Sintesi bot = sintesi_bot; Note = note (o vuota se non fornito). Colonne vuote: Feedback colloquio, Data inizio contratto, Data fine contratto, Link allegati (Link non è previsto per questo stato).\n\nStato: colloquio_sostenuto\nAttivazione: \"ho sostenuto un colloquio\", \"ho avuto un colloquio\". Se ambiguo, vedi \"Disambiguazione\" sopra.\n\nCampi specifici (in aggiunta ai campi comuni): data_colloquio (obbligatorio); feedback_colloquio (obbligatorio) — \"L'azienda ti ha dato feedback diretti?\".\n\nATTENZIONE — formato del campo feedback_colloquio: sia dentro campi_raccolti sia dentro eventi, il valore scritto in questo campo è SEMPRE uno di questi 4 slug, MAI il testo della domanda o dell'opzione, anche se il testo esteso è quello che vedi più spesso in questo documento (messaggi allo studente, esempi di conferma): feedback_colloquio_si_neutro, feedback_colloquio_si_pos, feedback_colloquio_si_neg, feedback_colloquio_no.\n\nIl bot presenta allo studente (e usa SOLO nei messaggi verso di lui, mai nel campo tecnico) queste 4 opzioni per esteso, ciascuna mappata sullo slug corrispondente: \"Hanno solo detto che mi faranno sapere\" → feedback_colloquio_si_neutro; \"Sì, sono intenzionati a proseguire\" → feedback_colloquio_si_pos; \"Sì, hanno detto di non voler procedere oltre (chiudi opportunità)\" → feedback_colloquio_si_neg; \"No, non hanno dato nessun feedback\" → feedback_colloquio_no. Riconosciuto anche da corrispondenza libera nel messaggio; in caso di dubbio non si indovina, si presentano le opzioni per esteso.\n\nCampo aggiuntivo: note (opzionale) — \"Vuoi aggiungere altri dettagli?\". Stesso meccanismo già definito per gli altri stati: il bot lo chiede sempre, in un messaggio dedicato, dopo aver raccolto tutti gli altri campi e prima della conferma finale. Risposta libera; se lo studente non risponde, si registra come \"non fornito dallo studente\" senza insistere. Il testo va in Note.\n\nSequenza: 1) messaggio iniziale → 2) richiesta campi obbligatori mancanti (se presenti) → 3) richiesta note → 4) conferma finale → 5) registrazione.\n\nConferma finale: \"Ho registrato il tuo colloquio sostenuto: • Posizione... • Azienda... • Sede... • Fonte... • Data colloquio... • Feedback: Sì, sono intenzionati a proseguire • Altri dettagli: ...\" (nota: nel messaggio allo studente si usa sempre il testo esteso dell'opzione, mai lo slug — lo slug va solo nello structured output/Sheets)\n\nMappatura Sheets: Stato opportunità = \"colloquio_sostenuto\"; Data colloquio = data_colloquio (o vuota); Feedback colloquio = feedback_colloquio (slug dell'opzione scelta); Conversazione integrale = conversazione_integrale; Sintesi bot = sintesi_bot; Note = note (o vuota se non fornito). Colonne vuote: Data inizio contratto, Data fine contratto, Link allegati (Link non è previsto per questo stato).\n\nDisambiguazione assunzione_prevista / assunzione_avvenuta\nI due stati hanno campi identici; l'unica differenza è temporale (il contratto deve ancora iniziare, oppure è già iniziato/firmato). Attivazione generica per entrambi: qualsiasi espressione che indichi un'assunzione, es. \"mi hanno assunto\", \"mi assumeranno\", \"ho firmato il contratto\", \"mi hanno offerto il posto\". Il bot chiede sempre, come frase di attivazione/conferma dello stato: \"L'assunzione è prevista o è già avvenuta?\" — risposta \"è già avvenuta\" → assunzione_avvenuta; risposta \"è prevista\" → assunzione_prevista.\n\nStato: assunzione_prevista\nAttivazione: vedi \"Disambiguazione\" sopra.\n\nCampi comuni usati: azienda, posizione, sede (opzionale), fonte — vedi sezione \"Campi comuni a tutti gli stati\".\n\nCampi specifici, tutti opzionali, chiesti una volta gentilmente (come Sede di lavoro — se lo studente non risponde o declina, si registrano come \"non fornito dallo studente\" e non si richiedono più):\ntipo_contratto — \"Che tipo di contratto ti hanno proposto?\".\n\nATTENZIONE — formato del campo tipo_contratto: sia dentro campi_raccolti sia dentro eventi, il valore scritto in questo campo è SEMPRE uno di questi slug (o \"\" se non fornito), MAI il testo della domanda o dell'opzione, anche se il testo esteso è quello che vedi più spesso in questo documento: contratto_tirocinio_stage, contratto_apprendistato, contratto_p_iva, contratto_determ, contratto_indet, contratto_altro.\n\nIl bot presenta allo studente (e usa SOLO nei messaggi verso di lui, mai nel campo tecnico) queste opzioni fisse per esteso, ciascuna mappata sullo slug corrispondente: \"Tirocinio/stage\" → contratto_tirocinio_stage; \"Apprendistato\" → contratto_apprendistato; \"Partita IVA\" → contratto_p_iva; \"Determinato\" → contratto_determ; \"Indeterminato\" → contratto_indet; \"Altro\" → contratto_altro. Riconosciuto anche da corrispondenza libera nel messaggio; in caso di dubbio non si indovina, si presentano le opzioni per esteso.\ndata_inizio_contratto — data di inizio prevista\ndata_fine_contratto — data di fine prevista (vuota se il contratto è indeterminato)\n\nCampo aggiuntivo: note (opzionale) — \"Vuoi aggiungere altri dettagli?\". Stesso meccanismo già definito per candidatura_inviata e colloquio_programmato: il bot lo chiede sempre, in un messaggio dedicato, dopo aver raccolto tutti gli altri campi e prima della conferma finale. Risposta libera; se lo studente non risponde, si registra come \"non fornito dallo studente\" senza insistere. Il testo va in Note.\n\nSequenza: 1) messaggio iniziale → 2) richiesta campi mancanti, in modo gentile (azienda, posizione, fonte obbligatori; sede, tipo_contratto, data_inizio_contratto, data_fine_contratto chiesti una volta) → 3) richiesta note → 4) conferma finale → 5) registrazione.\n\nConferma finale: \"Ho registrato l'assunzione prevista: • Posizione: Sviluppatore Junior • Azienda: Acme Srl • Sede: Bologna • Fonte: Ricerca online autonoma • Tipo contratto: ... • Inizio contratto: ... • Fine contratto: ... • Altri dettagli: ...\"\n\nMappatura Sheets: Stato opportunità = \"assunzione_prevista\"; Tipo contratto = tipo_contratto (o vuoto); Data inizio contratto = data_inizio_contratto (o vuota); Data fine contratto = data_fine_contratto (o vuota); Conversazione integrale = conversazione_integrale; Sintesi bot = sintesi_bot; Note = note (o vuota se non fornito). Colonne vuote: Data colloquio, Feedback colloquio, Link allegati (nessuno di questi campi è previsto per questo stato).\n\nStato: assunzione_avvenuta\nAttivazione: vedi \"Disambiguazione\" sopra.\n\nCampi comuni usati: azienda, posizione, sede (opzionale), fonte — vedi sezione \"Campi comuni a tutti gli stati\".\n\nCampi specifici, tutti opzionali, chiesti una volta gentilmente (come Sede di lavoro — se lo studente non risponde o declina, si registrano come \"non fornito dallo studente\" e non si richiedono più):\ntipo_contratto — \"Che tipo di contratto hai firmato?\".\n\nATTENZIONE — formato del campo tipo_contratto: sia dentro campi_raccolti sia dentro eventi, il valore scritto in questo campo è SEMPRE uno di questi slug (o \"\" se non fornito), MAI il testo della domanda o dell'opzione, anche se il testo esteso è quello che vedi più spesso in questo documento: contratto_tirocinio_stage, contratto_apprendistato, contratto_p_iva, contratto_determ, contratto_indet, contratto_altro.\n\nIl bot presenta allo studente (e usa SOLO nei messaggi verso di lui, mai nel campo tecnico) queste opzioni fisse per esteso, ciascuna mappata sullo slug corrispondente: \"Tirocinio/stage\" → contratto_tirocinio_stage; \"Apprendistato\" → contratto_apprendistato; \"Partita IVA\" → contratto_p_iva; \"Determinato\" → contratto_determ; \"Indeterminato\" → contratto_indet; \"Altro\" → contratto_altro. Riconosciuto anche da corrispondenza libera nel messaggio; in caso di dubbio non si indovina, si presentano le opzioni per esteso.\ndata_inizio_contratto — data di inizio del contratto\ndata_fine_contratto — data di fine contratto (vuota se il contratto è indeterminato)\n\nCampo aggiuntivo: note (opzionale) — \"Vuoi aggiungere altri dettagli?\". Stesso meccanismo già definito per gli altri stati: il bot lo chiede sempre, in un messaggio dedicato, dopo aver raccolto tutti gli altri campi e prima della conferma finale. Risposta libera; se lo studente non risponde, si registra come \"non fornito dallo studente\" senza insistere. Il testo va in Note.\n\nSequenza: 1) messaggio iniziale → 2) richiesta campi mancanti, in modo gentile (azienda, posizione, fonte obbligatori; sede, tipo_contratto, data_inizio_contratto, data_fine_contratto chiesti una volta) → 3) richiesta note → 4) conferma finale → 5) registrazione.\n\nConferma finale: \"Ho registrato l'assunzione: • Posizione: Sviluppatore Junior • Azienda: Acme Srl • Sede: Bologna • Fonte: Ricerca online autonoma • Tipo contratto: ... • Inizio contratto: ... • Fine contratto: ... • Altri dettagli: ...\"\n\nMappatura Sheets: Stato opportunità = \"assunzione_avvenuta\"; Tipo contratto = tipo_contratto (o vuoto); Data inizio contratto = data_inizio_contratto (o vuota); Data fine contratto = data_fine_contratto (o vuota); Conversazione integrale = conversazione_integrale; Sintesi bot = sintesi_bot; Note = note (o vuota se non fornito). Colonne vuote: Data colloquio, Feedback colloquio, Link allegati (nessuno di questi campi è previsto per questo stato).\n`\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        0,
+        496
+      ],
+      "id": "6067e7f6-99c6-4d24-9420-f3acf7c7bb56",
+      "name": "model_new"
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "={{ $('slack_trigger').item.json.channel }}",
+          "mode": "id"
+        },
+        "text": "Per conversare ho bisogno che tu apra un thread. Per farlo, vai nella Home e seleziona il chatbot.",
+        "otherOptions": {
+          "includeLinkToWorkflow": false,
+          "thread_ts": {
+            "replyValues": {
+              "thread_ts": "={{ $('slack_trigger').item.json.ts }}"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.5,
+      "position": [
+        -304,
+        832
+      ],
+      "id": "225f34f3-57fa-470d-9b23-2c95868cad8f",
+      "name": "send_error_message",
+      "webhookId": "9aa90bcd-5b50-49b2-8be3-aee9f43ddb98",
+      "executeOnce": true,
+      "credentials": {
+        "slackApi": {
+          "id": "nMEW1zuSHsxRx3BN",
+          "name": "Slack - DEV"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "a08db864-2643-4f60-95b0-c642f0594e23",
+              "leftValue": "={{ $json.thread_ts }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -960,
+        528
+      ],
+      "id": "857ab30e-5187-4768-8ff5-a0006701df36",
+      "name": "if_thread"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://slack.com/api/views.open",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "slackApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.openViewBlocks }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        -960,
+        -176
+      ],
+      "id": "d6e2e870-be15-4657-adbe-7cf02ee1d6b4",
+      "name": "open_update_form",
+      "credentials": {
+        "slackApi": {
+          "id": "nMEW1zuSHsxRx3BN",
+          "name": "Slack - DEV"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://slack.com/api/views.update",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "slackApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.uploadViewBlocks }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        -1136,
+        224
+      ],
+      "id": "4a9064ef-d3ac-46b2-ba70-2477b59d0849",
+      "name": "update_update_form",
+      "credentials": {
+        "slackApi": {
+          "id": "nMEW1zuSHsxRx3BN",
+          "name": "Slack - DEV"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1kfZTjFALTAEUg-qtBTo-SwcWhQGyvdqXaf50EcLLL4Y",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1910429051,
+          "mode": "list",
+          "cachedResultName": "Matching",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kfZTjFALTAEUg-qtBTo-SwcWhQGyvdqXaf50EcLLL4Y/edit#gid=1910429051"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "ID matching",
+              "lookupValue": "={{ $json.payload.view.state.values.selezione_matching.choose_matching.selected_option.value }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1376,
+        -176
+      ],
+      "id": "22b25ec5-9071-45ab-9e8b-851687975d0c",
+      "name": "get_selected_matching",
+      "retryOnFail": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "k3WT3aKVhGuuClRa",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const dateFormatter = (date) => {\n\n  if (date === \"\") return \"\";\n\n  const splitDate = date.split(\"/\");\n  const [d, m, y] = splitDate\n  const dataCompleta = `${y}-${m}-${d}`\n  return dataCompleta\n}\n\nconst buildTextBlock = (props) => {\n\n  const styleObj = {}\n  if (props.style) {\n    styleObj[\"style\"] = {\n      [props.style] : true\n    }\n  }\n\n  const blockIDObj = {}\n  if (props.blockID) {\n    blockIDObj[\"block_id\"] = props.blockID\n  }\n\n  return {\n    \"type\": \"rich_text\",\n    ...blockIDObj,\n    \"elements\": [\n      {\n        \"type\": \"rich_text_section\",\n        \"elements\": [\n          {\n            \"type\": \"text\",\n            \"text\": props.text,\n            ...styleObj\n          }\n        ]\n      }\n    ]\n  }\n}\n\nconst buildButton = (text, value, actionID, style) => {\n\n  if (style === \"danger\") {\n    return {\n      \"type\": \"button\",\n      \"text\": {\n        \"type\": \"plain_text\",\n        \"text\": text\n      },\n      \"value\": value,\n      \"action_id\": actionID,\n      \"style\": \"danger\"\n    }\n  } else if (style === \"primary\") {\n    return {\n      \"type\": \"button\",\n      \"text\": {\n        \"type\": \"plain_text\",\n        \"text\": text\n      },\n      \"value\": value,\n      \"action_id\": actionID,\n      \"style\": \"primary\"\n    }\n  } else {\n    return {\n      \"type\": \"button\",\n      \"text\": {\n        \"type\": \"plain_text\",\n        \"text\": text\n      },\n      \"value\": value,\n      \"action_id\": actionID\n    }\n  }\n}\n\nconst buildOption = (text, value) => {\n  return {\n    \"text\": {\n      \"type\": \"plain_text\",\n      \"text\": text\n    },\n    \"value\": value\n  }\n}\nconst buildLabel = (text) => {\n  return {\n    \"label\": {\n      \"type\": \"plain_text\",\n      \"text\": text\n    }\n  }\n}\nconst buildDatePicker = (text, id, isOptional) => {\n  return {\n    \"block_id\": id,\n    \"type\": \"input\",\n    \"element\": {\n      \"type\": \"datepicker\"\n    },\n    \"optional\": isOptional,\n    ...buildLabel(text)\n  }\n}\nconst buildTextBox = (props) => {\n  return {\n    \"type\": \"input\",\n    \"block_id\": props.blockId,\n    \"element\": {\n      \"type\": \"plain_text_input\",\n      \"action_id\": \"text_input\",\n      \"placeholder\": {\n        \"type\": \"plain_text\",\n        \"text\": props.placeholder\n      },\n      \"multiline\": props.multiline\n    },\n    \"optional\": true,\n    ...buildLabel(props.label)\n  }\n}\n\nconst selectedMatching = $('payload_parser').first().json.payload.view.state.values.selezione_matching.choose_matching.selected_option;\nconst selectedMatchingText = selectedMatching.text.text\nconst selectedMatchingID = selectedMatching.value\n\nconst matchingReference = buildTextBlock({text: selectedMatchingText, style: \"italic\", blockID: selectedMatchingID})\n\n//=======================================\nconst aggiornamentoCandidaturaHead = buildTextBlock({text: \"Come vuoi aggiornare la tua candidatura?\", style: \"bold\"})\nconst mainActionAggiornamentoCandidatura = {\n  \"type\": \"actions\",\n  \"block_id\": \"selezione_aggiornamento_candidatura\",\n  \"elements\": [\n    buildButton(\"Colloquio\", \"nuovo_colloquio\", \"candidatura_colloquio\"),\n    buildButton(\"Assunzione (anche potenziale)\", \"nuova_assunzione\", \"candidatura_assunzione\"),\n    buildButton(\"Opportunità chiusa\", \"opportunità_chiusa\", \"candidatura_chiusa\", \"danger\")\n  ]\n}\n\n//=======================================\nconst aggiornamentoCollProgHead = buildTextBlock({text: \"Hai sostenuto il colloquio?\", style: \"bold\"})\nconst colloquioProgSostenuto = {\n  \"type\": \"actions\",\n  \"block_id\": \"main_update\",\n  \"elements\": [\n    {\n      \"type\": \"radio_buttons\",\n      \"action_id\": \"conferma_colloquio_sostenuto\",\n      \"options\": [\n        buildOption(\"Sì\", \"collprog_avvenuto\"),\n        buildOption(\"No\", \"collprog_non_avvenuto\"),\n      ]\n    }\n  ]\n}\nconst collProgDomanda1 = buildTextBlock({text: \"Pensano già di assumerti?\", style: \"italic\"})\nconst redirectAssunzione = {\n  \"type\": \"actions\",\n  \"block_id\": \"coll_prog_redirect_assunzione\",\n  \"elements\": [\n    buildButton(\"Assunzione\", \"assunzione\", \"redirect_assunzione\", \"primary\"),\n  ]\n}\n//=======================================\nconst selezioneStatoColloquio = {\n  \"block_id\": \"main_update\",\n  \"type\": \"input\",\n  \"dispatch_action\": true,\n  \"element\": {\n    \"type\": \"radio_buttons\",\n    \"action_id\": \"selezione_stato_colloquio\",\n    \"options\": [\n      buildOption(\"Programmato\", \"colloquio_programmato\"),\n      buildOption(\"Sostenuto\", \"colloquio_sostenuto\")\n    ]\n  },\n  ...buildLabel(\"Stato\")\n}\n\nconst aggiornamentoCollSostHead = buildTextBlock({text: \"Come vuoi aggiornare questa opportunità?\", style: \"bold\"});\nconst mainActionAggiornamentoCollSost = {\n  \"type\": \"actions\",\n  \"block_id\": \"selezione_aggiornamento_candidatura\",\n  \"elements\": [\n    buildButton(\"Ulteriore colloquio\", \"ulteriore_colloquio\", \"coll_sost_nuovo_colloquio\"),\n    buildButton(\"Assunzione (anche potenziale)\", \"nuova_assunzione\", \"coll_sost_assunzione\"),\n    buildButton(\"Opportunità chiusa\", \"opportunità_chiusa\", \"coll_sost_chiusa\", \"danger\")\n  ]\n}\n\n//=======================================\nconst selezioneStatoAssunzione = {\n  \"block_id\": \"main_update\",\n  \"type\": \"actions\",\n  \"elements\": [\n    {\n      \"type\": \"static_select\",\n      \"placeholder\": {\n        \"type\": \"plain_text\",\n        \"text\": \"Stato assunzione\"\n      },\n      \"action_id\": \"selezione_stato_assunzione\",\n      \"options\": [\n        buildOption(\"Prevista\", \"assunzione_prevista\"),\n        buildOption(\"Avvenuta\", \"assunzione_avvenuta\"),\n        buildOption(\"Annullata (chiudi opportunità)\", \"assunzione_annullata\"),\n      ],\n    }\n  ],\n}\n\nconst assunzText1 = buildTextBlock({text: \"Compila questi campi se hai le relative informazioni\", style: \"bold\"});\nconst selezioneTipoContratto = {\n  \"block_id\": \"tipo_contratto\",\n  \"type\": \"input\",\n  \"element\": {\n    \"type\": \"static_select\",\n    \"action_id\": \"selezione_tipo_contratto\",\n    \"options\": [\n      buildOption(\"Tirocinio/stage\", \"contratto_tirocinio_stage\"),\n      buildOption(\"Apprendistato\", \"contratto_apprendistato\"),\n      buildOption(\"Partita IVA\", \"contratto_p_iva\"),\n      buildOption(\"Determinato\", \"contratto_determ\"),\n      buildOption(\"Indeterminato\", \"contratto_indet\"),\n      buildOption(\"Altro\", \"contratto_altro\"),\n    ],\n  },\n  ...buildLabel(\"Tipo di contratto\")\n}\n\nconst dataInizioContratto = buildDatePicker(\"Inizio contratto\", \"date_picker_inizio_contratto\", true);\nconst dataFineContratto = buildDatePicker(\"Fine contratto\", \"date_picker_fine_contratto\", true);\nconst altreInfoAssunzione = buildTextBox({ placeholder: \"Puoi usare questo spazio per darci altri dettagli sullo stato della tua assunzione\", label: \"Altro\", blockId: \"altre_info\" })\n\nconst divider = {\n  \"type\": \"divider\"\n}\n\nconst blocks = [matchingReference, divider]\nconst ultimaAttività = $input.first().json[\"Ultima attività\"];\nlet privateID;\nlet titoloAggiornamento;\n\nswitch (ultimaAttività) {\n  case \"Candidatura\":\n    blocks.push(aggiornamentoCandidaturaHead, mainActionAggiornamentoCandidatura)\n    titoloAggiornamento = \"Update candidatura\" ;\n    privateID = \"update_candidatura\" ;\n    break;\n  case \"Colloquio rimandato\":\n    blocks.push(selezioneStatoColloquio)\n    titoloAggiornamento = \"Update colloquio\";\n    privateID = \"update_colloquio_rim\" ;\n    break;\n  case \"Colloquio programmato\":\n    blocks.push(aggiornamentoCollProgHead, colloquioProgSostenuto, collProgDomanda1, redirectAssunzione)\n    titoloAggiornamento = \"Update colloquio\";\n    privateID = \"update_colloquio_prog\" ;\n    break\n  case \"Colloquio sostenuto\":\n    blocks.push(aggiornamentoCollSostHead, mainActionAggiornamentoCollSost)\n    titoloAggiornamento = \"Update colloquio\";\n    privateID = \"update_colloquio_sost\" ;\n    break;\n  case \"Assunzione prevista\":\n    blocks.push(selezioneStatoAssunzione, altreInfoAssunzione)\n    titoloAggiornamento = \"Update assunzione\";\n    privateID = \"update_assunzione\";\n    break;\n}\n\n//=======================================\n\nconst submitButton = {\n  \"submit\": {\n    \"type\": \"plain_text\",\n    \"text\": \"Aggiorna\"\n  }\n}\n\nconst openViewBlocks = {\n  \"trigger_id\": $('payload_parser').first().json.payload.trigger_id,\n  \"view\": {\n    \"type\": \"modal\",\n    \"title\": {\n      \"type\": \"plain_text\",\n      \"text\": titoloAggiornamento\n    },\n    \"blocks\": blocks,\n    \"close\": {\n      \"type\": \"plain_text\",\n      \"text\": \"Esci\"\n    },\n    \"private_metadata\": privateID,\n    \"callback_id\": \"update_form\"\n  },\n}\n\nswitch (ultimaAttività) {\n  case \"Candidatura\":\n  case \"Colloquio sostenuto\":\n    return {openViewBlocks}\n  case \"Colloquio programmato\":\n  case \"Colloquio rimandato\":\n  case \"Assunzione prevista\":\n    return {\n      openViewBlocks: {\n        ...openViewBlocks,\n        \"view\": {\n          ...openViewBlocks.view,\n          ...submitButton\n        }\n      }\n    }\n}\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1168,
+        -176
+      ],
+      "id": "0bafb48e-3ead-46f0-ac67-941830a6c375",
+      "name": "build_update_form"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://slack.com/api/views.publish",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "slackApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.home_view }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        -752,
+        816
+      ],
+      "id": "54f83ded-bfb7-460d-b364-98b7b2ab7b54",
+      "name": "set_home_view",
+      "credentials": {
+        "slackApi": {
+          "id": "nMEW1zuSHsxRx3BN",
+          "name": "Slack - DEV"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "b7d3065f-06c0-46a4-a400-9f8127a7f77f",
+                    "leftValue": "={{ $json.type }}",
+                    "rightValue": "message",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.type }}",
+                    "rightValue": "app_home_opened",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "13bb74fd-ae19-4262-9f8c-8f1b88057d00"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "app_home_opened"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -1472,
+        544
+      ],
+      "id": "af18e7e1-0c75-4a73-9c5e-b1a4b7cb393d",
+      "name": "Switch2"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a89a5a6c-ebaf-4e68-9af4-477a4d774071",
+                    "leftValue": "={{ $json.payload.type }}",
+                    "rightValue": "view_submission",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "submission"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.payload.type }}",
+                    "rightValue": "block_actions",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "bcad2a8d-6b05-4738-a4a8-6c5f0371f561"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "action"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -1680,
+        0
+      ],
+      "id": "de35924f-db48-4ca3-ac46-aa550a4a0bab",
+      "name": "action/submission"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1kfZTjFALTAEUg-qtBTo-SwcWhQGyvdqXaf50EcLLL4Y",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1910429051,
+          "mode": "list",
+          "cachedResultName": "Matching",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kfZTjFALTAEUg-qtBTo-SwcWhQGyvdqXaf50EcLLL4Y/edit#gid=1910429051"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "ID studente",
+              "lookupValue": "={{ $('slack_trigger').item.json.user }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1200,
+        816
+      ],
+      "id": "3daa6795-5f88-429e-aa13-e9d1d6eccf71",
+      "name": "get_matchings1",
+      "retryOnFail": true,
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "k3WT3aKVhGuuClRa",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://slack.com/api/views.publish",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "slackApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.home_view }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        -1456,
+        816
+      ],
+      "id": "e743d5fb-1115-4914-85bd-285a5fee2e52",
+      "name": "open_buffering_message1",
+      "credentials": {
+        "slackApi": {
+          "id": "nMEW1zuSHsxRx3BN",
+          "name": "Slack - DEV"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "={{ $('slack_trigger').item.json.channel }}",
+          "mode": "id"
+        },
+        "text": "={{ $json.output.messaggio_studente }}",
+        "otherOptions": {
+          "includeLinkToWorkflow": false,
+          "thread_ts": {
+            "replyValues": {
+              "thread_ts": "={{ $('slack_trigger').item.json.ts }}"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.5,
+      "position": [
+        1072,
+        608
+      ],
+      "id": "04eea852-a1e6-434f-a3c6-41b356ed0e4e",
+      "name": "Send a message",
+      "webhookId": "5667aaa7-af17-4b83-ba6c-22febb7b8ced",
+      "credentials": {
+        "slackApi": {
+          "id": "nMEW1zuSHsxRx3BN",
+          "name": "Slack - DEV"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "trigger": [
+          "message",
+          "app_home_opened"
+        ],
+        "watchWorkspace": true,
+        "options": {
+          "userIds": [
+            "U0BT32U1WMC"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.slackTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1680,
+        528
+      ],
+      "id": "f83f6a79-4abd-4f93-9040-afffda1269fe",
+      "name": "slack_trigger",
+      "webhookId": "77fb8e9e-fd65-4e33-b6d0-a463aa57ff1b",
+      "credentials": {
+        "slackApi": {
+          "id": "nMEW1zuSHsxRx3BN",
+          "name": "Slack - DEV"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.thread }}",
+                    "rightValue": "ok",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "47ed1caa-4a4a-48a6-99db-5a14704873a0"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "new"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "2d8fcc23-bd18-41c7-9595-64f01e89b6a4",
+                    "leftValue": "={{ $json.thread }}",
+                    "rightValue": "not_matching",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "not_matching"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -240,
+        512
+      ],
+      "id": "ada8a611-9bd7-434d-9594-59f3aaa7e998",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://slack.com/api/views.open",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "slackApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.openViewBlocks }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        -1248,
+        -912
+      ],
+      "id": "322e3784-27e2-4a5b-9f38-870c6baee17a",
+      "name": "open_new_matching_form",
+      "credentials": {
+        "slackApi": {
+          "id": "nMEW1zuSHsxRx3BN",
+          "name": "Slack - DEV"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "2b6a9391-0f70-4950-bef8-4e77d83bac48",
+                    "leftValue": "={{ $json.payload.type }}",
+                    "rightValue": "block_actions",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "update"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.payload.type }}",
+                    "rightValue": "view_submission",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "93479a73-4a9b-4d31-a7ff-41ea90ed34cd"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "submit"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -1360,
+        -400
+      ],
+      "id": "321c578d-b841-4831-ac94-64bc334787b4",
+      "name": "action/submission2"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://slack.com/api/views.update",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "slackApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.uploadViewBlocks }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        -896,
+        -512
+      ],
+      "id": "4f4e0b8a-3f1e-49b3-9363-b3e127f6bc8b",
+      "name": "update_update_form1",
+      "credentials": {
+        "slackApi": {
+          "id": "nMEW1zuSHsxRx3BN",
+          "name": "Slack - DEV"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://script.google.com/macros/s/AKfycby3tjsdEYgIjU4RLXxy0rpGMhXhZT6Br7tg-Dh-M8ZV2u8sj25Xy1n_bSFp97n56szhJA/exec",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"action\": \"new_matching\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        -720,
+        -352
+      ],
+      "id": "5e43229f-76dc-45b5-bb31-7135b230f428",
+      "name": "add_matching"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://script.google.com/macros/s/AKfycby3tjsdEYgIjU4RLXxy0rpGMhXhZT6Br7tg-Dh-M8ZV2u8sj25Xy1n_bSFp97n56szhJA/exec",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"action\": \"update\",\n  \"matchingID\": \"{{ $json[\"ID matching\"] }}\" \n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        -1072,
+        0
+      ],
+      "id": "e79effae-8727-44fd-9b46-55b6168801d4",
+      "name": "update_matching"
+    },
+    {
+      "parameters": {
+        "jsCode": "const buildTextBlock = (props) => {\n\n  const styleObj = {}\n  if (props.style) {\n    styleObj[\"style\"] = {\n      [props.style] : true\n    }\n  }\n\n  const blockIDObj = {}\n  if (props.blockID) {\n    blockIDObj[\"block_id\"] = props.blockID\n  }\n\n  return {\n    \"type\": \"rich_text\",\n    ...blockIDObj,\n    \"elements\": [\n      {\n        \"type\": \"rich_text_section\",\n        \"elements\": [\n          {\n            \"type\": \"text\",\n            \"text\": props.text,\n            ...styleObj\n          }\n        ]\n      }\n    ]\n  }\n}\n\nconst buildButton = (text, value, actionID, style) => {\n\n  if (style === \"danger\") {\n    return {\n      \"type\": \"button\",\n      \"text\": {\n        \"type\": \"plain_text\",\n        \"text\": text\n      },\n      \"value\": value,\n      \"action_id\": actionID,\n      \"style\": \"danger\"\n    }\n  } else if (style === \"primary\") {\n    return {\n      \"type\": \"button\",\n      \"text\": {\n        \"type\": \"plain_text\",\n        \"text\": text\n      },\n      \"value\": value,\n      \"action_id\": actionID,\n      \"style\": \"danger\"\n    }\n  } else {\n    return {\n      \"type\": \"button\",\n      \"text\": {\n        \"type\": \"plain_text\",\n        \"text\": text\n      },\n      \"value\": value,\n      \"action_id\": actionID\n    }\n  }\n}\n\nconst buildOption = (props) => {\n  return {\n    \"text\": {\n      \"type\": \"plain_text\",\n      \"text\": props.text\n    },\n    \"value\": props.value\n  }\n}\nconst buildLabel = (text) => {\n  return {\n    \"label\": {\n      \"type\": \"plain_text\",\n      \"text\": text\n    }\n  }\n}\nconst buildDatePicker = (text, id, isOptional) => {\n  return {\n    \"block_id\": id,\n    \"type\": \"input\",\n    \"element\": {\n      \"type\": \"datepicker\"\n    },\n    \"optional\": isOptional,\n    ...buildLabel(text)\n  }\n}\nconst buildTextBox = (props) => {\n  return {\n    \"type\": \"input\",\n    \"block_id\": props.blockID,\n    \"element\": {\n      \"type\": \"plain_text_input\",\n      \"action_id\": \"text_input\",\n      \"placeholder\": {\n        \"type\": \"plain_text\",\n        \"text\": props.placeholder\n      },\n      \"multiline\": props.multiline\n    },\n    \"optional\": props.optional,\n    ...buildLabel(props.label)\n  }\n}\n\nconst infoAziendaHeader = {\n  \"block_id\": \"new_header\",\n  \"type\": \"header\",\n  \"text\": {\n    \"type\": \"plain_text\",\n    \"text\": \"Prima di tutto inserisci alcune informazioni relative all'azienda\"\n  },\n  \"level\": 1\n}\n\nconst azienda = buildTextBox({\n  blockID: \"nome_azienda\",\n  label: \"Nome azienda\",\n  placeholder: \"Ex. Acme\",\n  multiline: false,\n  optional: false\n})\nconst posizione = buildTextBox({\n  blockID: \"posizione\",\n  label: \"Posizione lavorativa\",\n  placeholder: \"Ex. Full stack developer\",\n  multiline: false,\n  optional: false\n})\nconst sede = buildTextBox({\n  blockID: \"sede\",\n  label: \"Sede di lavoro\",\n  placeholder: \"Ex. Bologna\",\n  multiline: false,\n  optional: true\n})\n\nconst fonte = {\n  \"type\": \"input\",\n  \"block_id\": \"fonte_opportunita\",\n  \"element\": {\n    \"type\": \"static_select\",\n    \"action_id\": \"selezione_fonte\",\n    \"options\": [\n      buildOption({ text: \"Ricerca online autonoma\", value: \"online_autonomo\" }),\n      buildOption({ text: \"Foglio google condiviso\", value: \"gsheet\" }),\n      buildOption({ text: \"Speed Interview\", value: \"speed_interview\" }),\n      buildOption({ text: \"L'azienda ha cercato il mio contatto\", value: \"da_azienda\" }),\n      buildOption({ text: \"Altro\", value: \"altro\" }),\n    ]\n  },\n  \"dispatch_action\": true,\n  \"label\": {\n    \"type\": \"plain_text\",\n    \"text\": \"Come hai trovato questa opportunità?\"\n  }\n}\n\nconst selezionaStato = {\n  \"type\": \"actions\",\n  \"block_id\": \"selezione_nuova_opport\",\n  \"elements\": [\n\n  ]\n}\n\nconst blocks = [];\nblocks.push(infoAziendaHeader, azienda, posizione, sede, fonte)\n\nconst openViewBlocks = {\n  \"trigger_id\": $('is_notification').first().json.payload.trigger_id,\n  \"view\": {\n    \"type\": \"modal\",\n    \"title\": {\n      \"type\": \"plain_text\",\n      \"text\": \"Nuova opportunità\"\n    },\n    \"blocks\": blocks,\n    \"submit\": {\n      \"type\": \"plain_text\",\n      \"text\": \"Avanti\",\n    },\n    \"close\": {\n      \"type\": \"plain_text\",\n      \"text\": \"Esci\"\n    },\n    \"private_metadata\": \"new_matching_form_private\",\n    \"callback_id\": \"new_matching_form\"\n  },\n}\n\nreturn {openViewBlocks}\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1536,
+        -912
+      ],
+      "id": "a471b587-4951-45a2-8eb5-a0d6827fec23",
+      "name": "open_info_azienda"
+    },
+    {
+      "parameters": {
+        "jsCode": "const buildButton = (text, value, actionID, style) => {\n\n  if (style === \"danger\") {\n    return {\n      \"type\": \"button\",\n      \"text\": {\n        \"type\": \"plain_text\",\n        \"text\": text\n      },\n      \"value\": value,\n      \"action_id\": actionID,\n      \"style\": \"danger\"\n    }\n  } else if (style === \"primary\") {\n    return {\n      \"type\": \"button\",\n      \"text\": {\n        \"type\": \"plain_text\",\n        \"text\": text\n      },\n      \"value\": value,\n      \"action_id\": actionID,\n      \"style\": \"danger\"\n    }\n  } else {\n    return {\n      \"type\": \"button\",\n      \"text\": {\n        \"type\": \"plain_text\",\n        \"text\": text\n      },\n      \"value\": value,\n      \"action_id\": actionID\n    }\n  }\n}\nconst buildTextBlock = (props) => {\n\n  const style = {}\n  if (props.style) {\n    style[props.style] = true\n  }\n\n  return {\n    \"type\": \"rich_text\",\n    \"elements\": [\n      {\n        \"type\": \"rich_text_section\",\n        \"elements\": [\n          {\n            \"type\": \"text\",\n            \"text\": props.text,\n            style\n          }\n        ]\n      }\n    ]\n  }\n}\nconst buildTextSection = (text, st) => {\n\n  const style = {}\n\n  if (style) {\n    style[st] = true\n  }\n\n  return {\n    \"type\": \"rich_text_section\",\n    \"elements\": [\n      {\n        \"type\": \"text\",\n        \"text\": text,\n        style\n      }\n    ]\n  }\n}\nconst buildTextObject = (text) => {\n  return {\n    \"type\": \"mrkdwn\",\n    \"text\": text\n  }\n}\n\nconst values = $input.first().json.payload.view.state.values\nconst azienda = values.nome_azienda.text_input.value\nconst posizione = values.posizione.text_input.value\nconst sede = values.sede.text_input.value\nconst fonte = values.fonte_opportunita.selezione_fonte.selected_option.text.text\n\nconst fields = () => {\n  const fields = [\n    buildTextObject(\"*Azienda*\"),\n    buildTextObject(`_${azienda}_`),\n    buildTextObject(\"*Posizione*\"),\n    buildTextObject(`_${posizione}_`),\n  ];\n  if (sede) {\n    fields.push(\n      buildTextObject(\"*Sede*\"),\n      buildTextObject(`_${sede}_`)\n    )\n  }\n  fields.push(\n    buildTextObject(\"*Fonte*\"),\n    buildTextObject(`_${fonte}_`)\n  )\n\n  return fields\n}\n\nconst riepilogoAzienda2 = {\n  \"type\": \"section\",\n  \"block_id\": \"info_matching\",\n  \"fields\": [\n    ...fields()\n  ]\n\n}\n\nconst divider = {\n  \"type\": \"divider\"\n}\n\nconst textSection = {\n  \"type\": \"header\",\n  \"text\": {\n    \"type\": \"plain_text\",\n    \"text\": \"Seleziona lo stato di questa nuova opportunità\"\n  },\n  level: 1\n}\n\nconst selezioneStato = {\n  \"type\": \"actions\",\n  \"block_id\": \"selezione_aggiornamento_candidatura\",\n  \"elements\": [\n    buildButton(\"Candidatura\", \"nuova_candidatura\", \"new_candidatura\", \"primary\"),\n    buildButton(\"Colloquio\", \"nuovo_colloquio\", \"new_colloquio\", \"primary\"),\n    buildButton(\"Assunzione (anche potenziale)\", \"nuova_assunzione\", \"new_assunzione\", \"primary\"),\n  ]\n}\n\nconst blocks = [riepilogoAzienda2, divider, textSection, selezioneStato]\n\nconst openViewBlocks = {\n  \"trigger_id\": $input.first().json.payload.trigger_id,\n  \"view\": {\n    \"type\": \"modal\",\n    \"title\": {\n      \"type\": \"plain_text\",\n      \"text\": \"Nuova opportunità\"\n    },\n    \"blocks\": blocks,\n    \"close\": {\n      \"type\": \"plain_text\",\n      \"text\": \"Esci\"\n    },\n    \"private_metadata\": \"new_matching_details_private\",\n    \"callback_id\": \"new_matching_details\"\n  },\n}\n\nreturn {openViewBlocks}\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1184,
+        -704
+      ],
+      "id": "a28a5773-c7ea-4b57-a3ee-8da3afae966c",
+      "name": "open_info_matching"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "0eee57b0-053b-4751-85ac-1d2407257f6c",
+              "leftValue": "={{ $json.payload.type }}",
+              "rightValue": "view_submission",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        -1456,
+        -704
+      ],
+      "id": "4fc26f3e-1462-4f95-bc71-1450fe5e2fc4",
+      "name": "Filter1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://slack.com/api/views.open",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "slackApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.openViewBlocks }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        -1008,
+        -704
+      ],
+      "id": "84552113-8306-481f-8829-de8fc6f4ed7f",
+      "name": "open_new_macthing_details_form",
+      "credentials": {
+        "slackApi": {
+          "id": "nMEW1zuSHsxRx3BN",
+          "name": "Slack - DEV"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const buildTextBlock = (props) => {\n\n  const styleObj = {}\n  if (props.style) {\n    styleObj[\"style\"] = {\n      [props.style] : true\n    }\n  }\n\n  const blockIDObj = {}\n  if (props.blockID) {\n    blockIDObj[\"block_id\"] = props.blockID\n  }\n\n  return {\n    \"type\": \"rich_text\",\n    ...blockIDObj,\n    \"elements\": [\n      {\n        \"type\": \"rich_text_section\",\n        \"elements\": [\n          {\n            \"type\": \"text\",\n            \"text\": props.text,\n            ...styleObj\n          }\n        ]\n      }\n    ]\n  }\n}\nconst buildLabel = (text) => {\n  return {\n    \"label\": {\n      \"type\": \"plain_text\",\n      \"text\": text\n    }\n  }\n}\nconst buildOption = (text, value) => {\n  return {\n    \"text\": {\n      \"type\": \"plain_text\",\n      \"text\": text\n    },\n    \"value\": value\n  }\n}\nconst buildTextBox = (props) => {\n  return {\n    \"type\": \"input\",\n    \"block_id\": props.blockID,\n    \"element\": {\n      \"type\": \"plain_text_input\",\n      \"action_id\": \"text_input\",\n      \"placeholder\": {\n        \"type\": \"plain_text\",\n        \"text\": props.placeholder\n      },\n      \"multiline\": props.multiline\n    },\n    \"optional\": props.optional,\n    ...buildLabel(props.label)\n  }\n}\nconst buildDatePicker = (text, id, isOptional) => {\n  return {\n    \"block_id\": id,\n    \"type\": \"input\",\n    \"element\": {\n      \"action_id\": \"pick_a_date\",\n      \"type\": \"datepicker\"\n    },\n    \"optional\": isOptional,\n    ...buildLabel(text)\n  }\n}\nconst assunzText1 = buildTextBlock({\n  text: \"Compila questi campi se hai le relative informazioni\",\n  style: \"bold\",\n});\nconst link = buildTextBox({\n  blockID: \"link_allegato\",\n  placeholder: \"www.linkedin.it, www.acme.it...\",\n  multiline: false,\n  optional: true,\n  label: \"Incolla qui il link dell'annuncio o altri link che ritieni rilevanti\"\n})\nconst selezioneStatoColloquio = {\n  \"block_id\": \"stato\",\n  \"type\": \"input\",\n  \"dispatch_action\": true,\n  \"element\": {\n    \"type\": \"radio_buttons\",\n    \"action_id\": \"selezione_stato_colloquio\",\n    \"options\": [\n      buildOption(\"Programmato\", \"colloquio_programmato\"),\n      buildOption(\"Sostenuto\", \"colloquio_sostenuto\")\n    ]\n  },\n  ...buildLabel(\"Stato\")\n}\nconst datePickerColloquio = buildDatePicker(\"Data\", \"data_colloquio\", false);\nconst selezioneEsitoColloquio = {\n  \"block_id\": \"esito_colloquio\",\n  \"type\": \"input\",\n  ...buildLabel(\"L'azienda ti ha dato feedback diretti?\"),\n  \"element\": {\n    \"type\": \"radio_buttons\",\n    \"action_id\": \"seleziona_feedback_colloquio\",\n    \"options\": [\n      buildOption(\"Hanno solo detto che mi faranno sapere\", \"feedback_colloquio_si_neutro\"),\n      buildOption(\"Sì, sono intenzionati a proseguire\", \"feedback_colloquio_si_pos\"),\n      buildOption(\"Sì, hanno detto di non voler procedere oltre (chiudi opportunità)\", \"feedback_colloquio_si_neg\"),\n      buildOption(\"No, non hanno dato nessun feedback\", \"feedback_colloquio_no\")\n    ]\n  }\n}\nconst altreInfoColloquio = buildTextBox({\n  placeholder: \"Qui puoi scrivere altre informazioni che ritieni significative\",\n  label: \"Altro\",\n  blockID: \"altre_info\",\n  multiline: true,\n  optional: true\n});\nconst altreInfoColloquioSostenuto = buildTextBox({\n  placeholder: \"Qui puoi scrivere altro in merito al colloquio\",\n  label: \"Impressioni/note aggiuntive\",\n  blockID: \"altre_info\",\n  multiline: true,\n  optional: true\n});\nconst selezioneStatoAssunzione = {\n  \"block_id\": \"stato\",\n  \"type\": \"input\",\n  \"element\": {\n    \"type\": \"static_select\",\n    \"action_id\": \"selezione_stato_assunzione\",\n    \"options\": [\n      buildOption(\"Prevista\", \"assunzione_prevista\"),\n      buildOption(\"Avvenuta\", \"assunzione_avvenuta\"),\n    ],\n  },\n  ...buildLabel(\"Stato assunzione\"),\n};\nconst selezioneTipoContratto = {\n  \"block_id\": \"tipo_contratto\",\n  \"type\": \"input\",\n  \"element\": {\n    \"type\": \"static_select\",\n    \"action_id\": \"selezione_tipo_contratto\",\n    \"options\": [\n      buildOption(\"Tirocinio/stage\", \"contratto_tirocinio_stage\"),\n      buildOption(\"Apprendistato\", \"contratto_apprendistato\"),\n      buildOption(\"Partita IVA\", \"contratto_p_iva\"),\n      buildOption(\"Determinato\", \"contratto_determ\"),\n      buildOption(\"Indeterminato\", \"contratto_indet\"),\n      buildOption(\"Altro\", \"contratto_altro\"),\n    ],\n  },\n  optional: true,\n  ...buildLabel(\"Tipo di contratto\"),\n};\nconst dataInizioContratto = buildDatePicker(\n  \"Inizio contratto\",\n  \"date_picker_inizio_contratto\",\n  true,\n);\nconst dataFineContratto = buildDatePicker(\n  \"Fine contratto\",\n  \"date_picker_fine_contratto\",\n  true,\n);\nconst altreInfoAssunzione = buildTextBox({\n  placeholder:\n    \"Puoi usare questo spazio per darci altri dettagli sullo stato della tua assunzione\",\n  label: \"Altro\",\n  blockID: \"altre_info\",\n  multiline: true,\n  optional: true\n});\nconst action = $input.first().json.payload.actions[0].action_id\nconst infoAzienda = $input.first().json.payload.view.blocks.find(b => b.block_id === \"info_matching\")\nconst nomeAzienda = infoAzienda.fields[1].text.replaceAll(\"_\", \"\").replaceAll(\"*\", \"\");\nconst divider = {\n  \"type\": \"divider\"\n}\n\nconst riepilogoCandidatura = {\n  \"type\": \"section\",\n  \"block_id\": \"stato\",\n  \"text\": {\n    \"type\": \"mrkdwn\",\n    \"text\": \"*Candidatura in oggetto*\"\n  },\n  \"accessory\": {\n    \"type\": \"radio_buttons\",\n    \"options\": [\n      buildOption(`Candidatura con ${nomeAzienda}`, \"candidatura_inviata\")\n    ],\n    \"initial_option\": buildOption(`Candidatura con ${nomeAzienda}`, \"candidatura_inviata\")\n  }\n}\n\nconst noteNuovaCadidatura = buildTextBox({\n  blockID: \"altre_info\",\n  placeholder: \"Scrivi qui se hai ulteriori info che vuoi fornire\",\n  multiline: true,\n  optional: true,\n  label: \"Aggiungi altri dettagli\"\n})\nconst blocks = [infoAzienda, divider];\nswitch (action) {\n  case \"new_candidatura\":\n    blocks.push(riepilogoCandidatura, link, divider, noteNuovaCadidatura)\n    break;\n  case \"new_colloquio\":\n    blocks.push(selezioneStatoColloquio)\n    break;\n  case \"selezione_stato_colloquio\":\n    const selectedOption = $input.first().json.payload.actions[0].selected_option.value;\n    switch (selectedOption) {\n      case \"colloquio_sostenuto\":\n        blocks.push(\n          selezioneStatoColloquio,\n          datePickerColloquio,\n          divider,\n          selezioneEsitoColloquio,\n          divider,\n          link,\n          divider,\n          altreInfoColloquioSostenuto,\n        );\n        break;\n      case \"colloquio_programmato\":\n        blocks.push(\n          selezioneStatoColloquio,\n          datePickerColloquio,\n          link,\n          divider,\n          altreInfoColloquio,\n        );\n        break;\n      }\n      break;\n  case \"new_assunzione\":\n    blocks.push(\n      selezioneStatoAssunzione,\n      divider,\n      assunzText1,\n      selezioneTipoContratto,\n      dataInizioContratto,\n      dataFineContratto,\n      divider,\n      link,\n      divider,\n      altreInfoAssunzione,\n    )\n    break;\n}\n\nconst uploadViewBlocks = {\n  view_id: $(\"payload_parser\").first().json.payload.view.id,\n  view: {\n    type: \"modal\",\n    title: {\n      type: \"plain_text\",\n      text: \"Aggiornamento\",\n    },\n    blocks: blocks,\n    submit: {\n      type: \"plain_text\",\n      text: \"Registra\",\n    },\n    close: {\n      type: \"plain_text\",\n      text: \"Exit\",\n    },\n    private_metadata: \"new_matching_details_private\",\n    callback_id: \"new_matching_details\"\n  },\n}\n\nreturn { uploadViewBlocks };\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1104,
+        -512
+      ],
+      "id": "65aa3205-0de9-45e1-9889-cea409754291",
+      "name": "update_new_matching_form"
+    },
+    {
+      "parameters": {
+        "jsCode": " return {\n  \"home_view\": {\n    \"user_id\": $input.first().json.user,\n    \"view\": {\n      \"type\": \"home\",\n      \"title\": {\n        \"type\": \"plain_text\",\n        \"text\": \"Ciao!\"\n      },\n      \"blocks\": [\n        {\n          \"type\": \"header\",\n          \"text\": {\n            \"type\": \"plain_text\",\n            \"text\": \"Vuoi inserire una nuova opportunità?\"\n          },\n          \"level\": 1\n        },\n        {\n          \"type\": \"actions\",\n          \"block_id\": \"register\",\n          \"elements\": [\n            {\n              \"type\": \"button\",\n              \"text\": {\n                \"type\": \"plain_text\",\n                \"text\": \"Compila il form\"\n              },\n              \"value\": \"new_opp_form\",\n              \"style\": \"primary\"\n            },\n            {\n              \"type\": \"button\",\n              \"text\": {\n                \"type\": \"plain_text\",\n                \"text\": \"Utilizza il chatbot\"\n              },\n              \"value\": \"new_opp_bot\",\n              \"style\": \"primary\"\n            }\n          ]\n        },\n        {\n          \"type\": \"header\",\n          \"text\": {\n            \"type\": \"plain_text\",\n            \"text\": \"I tuoi matching attivi\"\n          },\n          \"level\": 1\n        },\n        {\n          \"type\": \"header\",\n          \"text\": {\n            \"type\": \"plain_text\",\n            \"text\": \"Attendi, sto caricando lo storico...\"\n          },\n          \"level\": 3\n        }\n      ],\n      \"callback_id\": \"home\"\n    }\n  }\n}\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1632,
+        816
+      ],
+      "id": "14d2960a-76ba-413d-9f51-4dea74b0c9ee",
+      "name": "build_home_buffering"
+    },
+    {
+      "parameters": {
+        "jsCode": "const matchings = $input.all();\n\nconst buildMatchingOption = (matching) => {\n  const id = matching[\"ID matching\"]\n  const text = `${matching[\"Ultima attività\"]} con ${matching[\"Azienda\"]}`\n  return {\n    \"text\": {\n      \"type\": \"plain_text\",\n      \"text\": text\n    },\n    \"value\": id\n  }\n}\n\nconst buildLabel = (text) => {\n  return {\n    \"label\": {\n      \"type\": \"plain_text\",\n      \"text\": text\n    }\n  }\n}\n\n const buildRow = (matching) => {\n  const azienda = matching[\"Azienda\"]\n  const ultimaAttività = matching[\"Ultima attività\"]\n  return [\n    {\n      \"type\": \"raw_text\",\n      \"text\": azienda\n    },\n    {\n      \"type\": \"raw_text\",\n      \"text\": ultimaAttività\n    }\n  ]\n }\n\nconst rows = matchings\n  .sort((a, b) => {\n    if (a.json[\"Stato\"] > b.json[\"Stato\"]) return 1\n    if (a.json[\"Stato\"] < b.json[\"Stato\"]) return -1\n    return 0\n  })\n  .sort((a, b) => {\n    if (a.json[\"Stato\"] === \"chiuso\") return 1\n    if (a.json[\"Ultima attività\"] > b.json[\"Ultima attività\"]) return 1\n    if (a.json[\"Ultima attività\"] < b.json[\"Ultima attività\"]) return -1\n    return 0\n  })\n  .map(m => buildRow(m.json))\n\nconst candidature = matchings\n  .filter(m => m.json[\"Ultima attività\"] === \"Candidatura\")\n  .map(m => buildMatchingOption(m.json))\n\n\nconst optionGroupCandidature =\n  candidature.length > 0 ?\n    {\n      ...buildLabel(\"Candidature\"),\n      \"options\": candidature\n    }\n    : {options: null}\n\n\nconst colloqui = matchings\n  .filter(m => m.json[\"Ultima attività\"]?.startsWith(\"Colloquio\"))\n  .map(m => buildMatchingOption(m.json))\n\n\nconst optionGroupColloqui =\n  colloqui.length > 0 ?\n    {\n      ...buildLabel(\"Colloqui\"),\n      \"options\": colloqui\n    }\n  : {options: null}\n\nconst assunzioni = matchings\n  .filter(m => m.json[\"Ultima attività\"] === (\"Assunzione prevista\"))\n  .map(m => buildMatchingOption(m.json))\n\nconst optionGroupAssunzioni =\n  assunzioni.length > 0 ?\n    {\n      ...buildLabel(\"Assunzioni\"),\n      \"options\": assunzioni\n    }\n  : {options: null}\n\n\nconst optionGroups = [optionGroupCandidature, optionGroupColloqui, optionGroupAssunzioni].filter(x => x.options)\n\nconst matchingPresenti = Object.entries(matchings[0].json).length > 0\nconst matchingsBlocks = matchingPresenti ? [\n  {\n    \"type\": \"header\",\n    \"text\": {\n      \"type\": \"plain_text\",\n      \"text\": \"Seleziona il matching che vuoi aggiornare\"\n    },\n    \"level\": 1\n  },\n  {\n    \"type\": \"actions\",\n    \"block_id\": \"selezione_matching\",\n    \"elements\": [\n      {\n        \"type\": \"static_select\",\n        \"action_id\": \"choose_matching\",\n        \"option_groups\": optionGroups\n      }\n    ]\n  },\n  {\n    \"type\": \"header\",\n    \"text\": {\n      \"type\": \"plain_text\",\n      \"text\": \"Riepilogo matching attivi\"\n    },\n    \"level\": 1\n  },\n  {\n    \"type\": \"table\",\n    \"column_settings\": [\n      {\n          \"is_wrapped\": true\n      },\n      {\n          \"align\": \"right\"\n      }\n    ],\n    \"rows\": [\n      [\n        {\n          \"type\": \"raw_text\",\n          \"text\": \"Azienda\"\n        },\n        {\n          \"type\": \"raw_text\",\n          \"text\": \"Ultimo aggiornamento\"\n        }\n      ],\n      ...rows\n    ]\n  }\n] : [\n  {\n    \"type\": \"header\",\n    \"text\": {\n      \"type\": \"plain_text\",\n      \"text\": \"Non ci sono matching registrati\"\n    },\n    \"level\": 2\n  }\n]\n\n\n return {\n  \"home_view\": {\n    \"user_id\": $('slack_trigger').first().json.user,\n    \"view\": {\n      \"type\": \"home\",\n      \"title\": {\n        \"type\": \"plain_text\",\n        \"text\": \"Ciao!\"\n      },\n      \"blocks\": [\n        {\n          \"type\": \"header\",\n          \"text\": {\n            \"type\": \"plain_text\",\n            \"text\": \"Vuoi inserire una nuova opportunità?\"\n          },\n          \"level\": 1\n        },\n        {\n          \"type\": \"actions\",\n          \"block_id\": \"register\",\n          \"elements\": [\n            {\n              \"type\": \"button\",\n              \"text\": {\n                \"type\": \"plain_text\",\n                \"text\": \"Compila il form\"\n              },\n              \"value\": \"new_opp_form\",\n              \"style\": \"primary\"\n            },\n            {\n              \"type\": \"button\",\n              \"text\": {\n                \"type\": \"plain_text\",\n                \"text\": \"Utilizza il chatbot\"\n              },\n              \"value\": \"new_opp_bot\",\n              \"style\": \"primary\"\n            }\n          ]\n        },\n        ...matchingsBlocks\n      ]\n    }\n  }\n }\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -960,
+        816
+      ],
+      "id": "ec9915ab-fb9c-4d74-bb90-2a2651114c4c",
+      "name": "build_home_matchings"
+    },
+    {
+      "parameters": {
+        "jsCode": "const infoMatching = $input.first().json.payload.view.blocks.find(b => b.block_id === \"info_matching\");\n\nconst azienda = infoMatching.fields[1].text\nconst posizione = infoMatching.fields[3].text\nconst sede = infoMatching.fields[5].text\nconst fonte = infoMatching.fields[7].text\n\nconst removeMrkdwn = (text) => {\n  const first = text[0];\n  const last = text[text.length -1];\n\n  if (first !== last) {\n    if (first !== \"_\" || first !== \"*\") {\n       return {error: \"the string doesn't appear to be in markdown\"}\n    }\n  }\n  return text.slice(1, -1);\n}\n\nconst userID = $input.first().json.payload.user.id\nif (!userID) {\n  return {error: \"User ID non presente\"}\n}\n\nconst values = $input.first().json.payload.view.state.values\nif (!values) {\n  return {error: \"Nessun valore trovato\"}\n}\n\nconst valuesKeys = Object.keys(values)\n\nconst submission = {\n  context: {\n    user_id: userID,\n    azienda: removeMrkdwn(azienda),\n    posizione: removeMrkdwn(posizione),\n    sede: removeMrkdwn(sede),\n    fonte: removeMrkdwn(fonte)\n  },\n  submittedValues: {}\n};\n\nvaluesKeys.forEach(key => {\n\n  const subField = Object.keys(values[key])[0]\n  const childBlock = values[key][subField]\n\n  const childBlockType = childBlock.type\n\n  switch (childBlockType) {\n    case (\"checkboxes\"):\n      if (childBlock.selected_options.length === 0) {\n        submission.submittedValues[key] = null\n      } else {\n        submission.submittedValues[key] = childBlock.selected_options[0].value;\n      }\n      break;\n    case (\"radio_buttons\"):\n    case (\"static_select\"):\n      submission.submittedValues[key] = childBlock.selected_option?.value;\n      break;\n    case (\"datepicker\"):\n      submission.submittedValues[key] = childBlock.selected_date;\n      break;\n    case (\"plain_text_input\"):\n      submission.submittedValues[key] = childBlock.value;\n      break;\n  }\n})\n\nreturn {submission}\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1136,
+        -352
+      ],
+      "id": "519bf145-afd6-499d-b5d6-8884fd164b79",
+      "name": "get_submission_info_new"
+    },
+    {
+      "parameters": {
+        "jsCode": "const matchingID = $input.first().json.payload.view.blocks[0].block_id\nif (!matchingID) {\n  return {error: \"ID Matching non fornito\"}\n}\n\nconst userID = $input.first().json.payload.user.id\nif (!userID) {\n  return {error: \"User ID non presente\"}\n}\n\nconst values = $input.first().json.payload.view.state.values\nif (!values) {\n  return {error: \"Nessun valore trovato\"}\n}\n\nconst valuesKeys = Object.keys(values)\n\nconst submission = {\n  context: {\n    matching_id: matchingID,\n    user_id: userID\n  },\n  submittedValues: {}\n};\n\nvaluesKeys.forEach(key => {\n\n  const subField = Object.keys(values[key])[0]\n  const childBlock = values[key][subField]\n\n  const childBlockType = childBlock.type\n\n  switch (childBlockType) {\n    case (\"checkboxes\"):\n      if (childBlock.selected_options.length === 0) {\n        submission.submittedValues[key] = null\n      } else {\n        submission.submittedValues[key] = childBlock.selected_options[0].value;\n      }\n      break;\n    case (\"radio_buttons\"):\n    case (\"static_select\"):\n      submission.submittedValues[key] = childBlock.selected_option?.value;\n      break;\n    case (\"datepicker\"):\n      submission.submittedValues[key] = childBlock.selected_date;\n      break;\n    case (\"plain_text_input\"):\n      submission.submittedValues[key] = childBlock.value;\n      break;\n  }\n})\n\nreturn {submission}\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1488,
+        0
+      ],
+      "id": "2c0d4bf4-0bc2-466b-ab8a-c843522d49ef",
+      "name": "get_submission_info_update"
+    },
+    {
+      "parameters": {
+        "jsCode": "const buildHeader = (text, level, id) => {\n  return {\n    \"block_id\": id,\n    \"type\": \"header\",\n    \"text\": {\n      \"type\": \"plain_text\",\n      \"text\": text\n    },\n    \"level\": level\n  }\n}\nconst buildTextBlock = (props) => {\n\n  const style = {}\n  if (props.style) {\n    style[props.style] = true\n  }\n\n  const blockID = {}\n  if (props.blockID) {\n    blockIDObj[\"block_id\"] = props.blockID\n  }\n\n  return {\n    \"type\": \"rich_text\",\n    \"elements\": [\n      {\n        \"type\": \"rich_text_section\",\n        \"elements\": [\n          {\n            \"type\": \"text\",\n            \"text\": props.text,\n            style\n          }\n        ]\n      }\n    ]\n  }\n}\nconst buildButton = (text, value, actionID, style) => {\n\n  if (style === \"danger\") {\n    return {\n      \"type\": \"button\",\n      \"text\": {\n        \"type\": \"plain_text\",\n        \"text\": text\n      },\n      \"value\": value,\n      \"action_id\": actionID,\n      \"style\": \"danger\"\n    }\n  } else if (style === \"primary\") {\n    return {\n      \"type\": \"button\",\n      \"text\": {\n        \"type\": \"plain_text\",\n        \"text\": text\n      },\n      \"value\": value,\n      \"action_id\": actionID,\n      \"style\": \"primary\"\n    }\n  } else {\n    return {\n      \"type\": \"button\",\n      \"text\": {\n        \"type\": \"plain_text\",\n        \"text\": text\n      },\n      \"value\": value,\n      \"action_id\": actionID\n    }\n  }\n};\nconst buildOption = (text, value) => {\n  return {\n    \"text\": {\n      \"type\": \"plain_text\",\n      \"text\": text\n    },\n    \"value\": value\n  }\n}\nconst buildLabel = (text) => {\n  return {\n    \"label\": {\n      \"type\": \"plain_text\",\n      \"text\": text\n    }\n  }\n}\nconst buildDatePicker = (text, id, isOptional) => {\n  return {\n    \"block_id\": id,\n    \"type\": \"input\",\n    \"element\": {\n      \"action_id\": \"pick_a_date\",\n      \"type\": \"datepicker\"\n    },\n    \"optional\": isOptional,\n    ...buildLabel(text)\n  }\n}\nconst buildTextBox = (props) => {\n  return {\n    \"type\": \"input\",\n    \"block_id\": props.blockID,\n    \"element\": {\n      \"type\": \"plain_text_input\",\n      \"action_id\": \"text_input\",\n      \"placeholder\": {\n        \"type\": \"plain_text\",\n        \"text\": props.placeholder\n      },\n      \"multiline\": props.multiline\n    },\n    \"optional\": true,\n    ...buildLabel(props.label)\n  }\n}\n\n//blocks\nconst matchingReferenceBlock = $input.first().json.payload.view.blocks[0];\nconst divider = {\n  \"type\": \"divider\",\n};\nconst aggiornamentoCollProgHead = buildTextBlock({\n  text: \"Hai sostenuto il colloquio?\",\n  style: \"bold\",\n});\nconst colloquioNonSostenutoHead = buildTextBlock({\n  text: \"Perché il colloquio non è stato sostenuto?\",\n  style: \"bold\",\n});\nconst colloquioProgSostenuto = {\n  \"type\": \"actions\",\n  \"block_id\": \"main_update\",\n  \"elements\": [\n    {\n      \"type\": \"radio_buttons\",\n      \"action_id\": \"conferma_colloquio_sostenuto\",\n      \"options\": [\n        buildOption(\"Sì\", \"collprog_avvenuto\"),\n        buildOption(\"No\", \"collprog_non_avvenuto\"),\n      ],\n    },\n  ],\n};\n\nconst selezioneStatoColloquio = {\n  \"block_id\": \"main_update\",\n  \"type\": \"input\",\n  \"dispatch_action\": true,\n  \"element\": {\n    \"type\": \"radio_buttons\",\n    \"action_id\": \"selezione_stato_colloquio\",\n    \"options\": [\n      buildOption(\"Programmato\", \"colloquio_programmato\"),\n      buildOption(\"Sostenuto\", \"colloquio_sostenuto\")\n    ]\n  },\n  ...buildLabel(\"Stato\")\n}\nconst datePickerColloquio = buildDatePicker(\"Data\", \"data_colloquio\", false)\nconst selezioneEsitoColloquio = {\n  \"block_id\": \"esito_colloquio\",\n  \"type\": \"section\",\n  \"text\": {\n    \"type\": \"mrkdwn\",\n    \"text\": \"*L'azienda ti ha dato feedback diretti?*\",\n  },\n  \"accessory\": {\n    \"type\": \"radio_buttons\",\n    \"action_id\": \"seleziona_feedback_colloquio\",\n    \"options\": [\n      buildOption(\"Hanno solo detto che mi faranno sapere\", \"feedback_colloquio_si_neutro\"),\n      buildOption(\"Sì, sono intenzionati a proseguire\", \"feedback_colloquio_si_pos\"),\n      buildOption(\"Sì, hanno detto di non voler procedere oltre (chiudi opportunità)\", \"feedback_colloquio_si_neg\"),\n      buildOption(\"No, non hanno dato nessun feedback\", \"feedback_colloquio_no\")\n    ]\n  }\n}\n\nconst altreInfoColloquio = buildTextBox({ placeholder: \"Qui puoi scrivere altre informazioni che ritieni significative\", label: \"Altro\", blockID: \"altre_info\" });\nconst altreInfoColloquioSostenuto = buildTextBox({ placeholder: \"Qui puoi scrivere altro in merito al colloquio\", label: \"Impressioni/note aggiuntive\", blockID: \"altre_info\" });\n\nconst motivoColloquioNonSostenuto = {\n  \"block_id\": \"motivo_colloquio_non_sostenuto\",\n  \"type\": \"section\",\n  \"text\": {\n    \"type\": \"mrkdwn\",\n    \"text\": \"*Seleziona una motivazione tra le seguenti*\"\n  },\n  \"accessory\":{\n    \"type\": \"radio_buttons\",\n    \"action_id\": \"selezione_motivazione\",\n    \"options\": [\n      buildOption(\"Rimandato\", \"colloquio_rimandato\"),\n      buildOption(\"Annullato (chiudi opportunità)\", \"colloquio_annullato\"),\n      buildOption(\"Mia assenza (chiudi opportunità)\", \"colloquio_non_presentato\"),\n    ]\n  }\n}\nconst dataColloquioRimandato = buildDatePicker(\"Nuova data\", \"data_colloquio\", true);\nconst altreInfoColloquioNonSostenuto = buildTextBox({\n  placeholder: \"Aggiungi qui eventuali dettagli\",\n  label: \"Altre info\",\n  blockID: \"altre_info\"\n});\n\nconst selezioneStatoAssunzione = {\n  \"block_id\": \"main_update\",\n  \"type\": \"input\",\n  \"dispatch_action\": true,\n  \"element\": {\n    \"type\": \"static_select\",\n    \"action_id\": \"selezione_stato_assunzione\",\n    \"options\": [\n      buildOption(\"Prevista\", \"assunzione_prevista\"),\n      buildOption(\"Avvenuta\", \"assunzione_avvenuta\"),\n      buildOption(\"Annullata (chiudi opportunità)\", \"assunzione_annullata\"),\n    ],\n  },\n  ...buildLabel(\"Stato assunzione\"),\n};\nconst assunzText1 = buildTextBlock({\n  text: \"Compila questi campi se hai le relative informazioni\",\n  style: \"bold\",\n});\nconst selezioneTipoContratto = {\n  \"block_id\": \"tipo_contratto\",\n  \"type\": \"input\",\n  \"element\": {\n    \"type\": \"static_select\",\n    \"action_id\": \"selezione_tipo_contratto\",\n    \"options\": [\n      buildOption(\"Tirocinio/stage\", \"contratto_tirocinio_stage\"),\n      buildOption(\"Apprendistato\", \"contratto_apprendistato\"),\n      buildOption(\"Partita IVA\", \"contratto_p_iva\"),\n      buildOption(\"Determinato\", \"contratto_determ\"),\n      buildOption(\"Indeterminato\", \"contratto_indet\"),\n      buildOption(\"Altro\", \"contratto_altro\"),\n    ],\n  },\n  optional: true,\n  ...buildLabel(\"Tipo di contratto\"),\n};\nconst dataInizioContratto = buildDatePicker(\n  \"Inizio contratto\",\n  \"date_picker_inizio_contratto\",\n  true,\n);\nconst dataFineContratto = buildDatePicker(\n  \"Fine contratto\",\n  \"date_picker_fine_contratto\",\n  true,\n);\nconst altreInfoAssunzione = buildTextBox({\n  placeholder:\n    \"Puoi usare questo spazio per darci altri dettagli sullo stato della tua assunzione\",\n  label: \"Altro\",\n  blockID: \"altre_info\"\n});\n\nconfermaChiusuraOpportunità = {\n  \"block_id\": \"main_update\",\n  \"type\": \"actions\",\n  \"elements\": [\n    {\n      \"type\": \"checkboxes\",\n      \"action_id\": \"conferma_chiusura\",\n      \"options\": [\n        {\n          \"value\": \"chiusura\",\n          \"text\": {\n            \"type\": \"plain_text\",\n            \"text\": \"Conferma chiusura opportunità\",\n          }\n        }\n      ]\n    }\n  ]\n};\nconst motivoChiusuraOpportunità = {\n  \"block_id\": \"motivo_chiusura\",\n  \"type\": \"input\",\n  \"element\": {\n    \"type\": \"static_select\",\n    \"action_id\": \"selezione_motivo_chiusura\",\n    \"options\": [\n      buildOption(\"Candidatura respinta\", \"cand_respinta\"),\n      buildOption(\"Colloquio negativo\", \"coll_negativo\"),\n      buildOption(\"Idoneità senza selezione\", \"non_idoneo\"),\n      buildOption(\"Decisione personale\", \"decisione_personale\"),\n      buildOption(\"Altro\", \"altro\"),\n    ],\n  },\n  ...buildLabel(\"Motivo\"),\n};\n\nconst altreInfoChiusura = buildTextBox({\n  placeholder:\n    \"Se vuoi, aggiungi qui informazioni sulla chiusura dell'opportunità\",\n  label: \"Altro\",\n  blockID: \"altre_info\"\n});\n\n//blocks build\n\nconst viewID = $input.first().json.payload.view.private_metadata;\nconst blocks = [];\n\nconst action = $input.first().json.payload.actions[0];\nconst actionID = action.action_id;\n\n//assunzione\nif (actionID === \"candidatura_chiusa\" || actionID === \"coll_sost_chiusa\") {\n  blocks.push(confermaChiusuraOpportunità);\n}\n\nif (actionID === \"conferma_chiusura\") {\n  const selectedOption = action.selected_options ? action.selected_options[0].value : null\n  if (selectedOption === \"chiusura\") {\n    blocks.push(confermaChiusuraOpportunità, motivoChiusuraOpportunità, altreInfoChiusura)\n  } else {\n    blocks.push(confermaChiusuraOpportunità)\n  }\n}\n\nif (\n  actionID === \"candidatura_assunzione\" ||\n  actionID === \"coll_sost_assunzione\" ||\n  actionID === \"redirect_assunzione\"\n) {\n  blocks.push(selezioneStatoAssunzione, altreInfoAssunzione);\n}\n\nif (actionID === \"conferma_colloquio_sostenuto\") {\n  blocks.push(\n    aggiornamentoCollProgHead,\n    colloquioProgSostenuto\n  )\n  const selectedOption = action.selected_option.value;\n  switch (selectedOption) {\n    case \"collprog_avvenuto\":\n      blocks.push(\n        selezioneEsitoColloquio,\n        altreInfoColloquioSostenuto,\n      );\n      break;\n    case \"collprog_non_avvenuto\":\n      blocks.push(\n        motivoColloquioNonSostenuto,\n        altreInfoColloquioNonSostenuto,\n      );\n      break;\n  }\n}\n\nif (actionID === \"selezione_stato_assunzione\") {\n  const selectedOption = action.value;\n  switch (selectedOption) {\n    case \"assunzione_prevista\":\n    case \"assunzione_avvenuta\":\n      blocks.push(\n        selezioneStatoAssunzione,\n        assunzText1,\n        selezioneTipoContratto,\n        dataInizioContratto,\n        dataFineContratto,\n        altreInfoAssunzione,\n      );\n      break;\n    case \"assunzione_sospesa\":\n    case \"assunzione_annullata\":\n      blocks.push(selezioneStatoAssunzione, altreInfoAssunzione);\n  }\n}\n\nif (\n  actionID === \"candidatura_colloquio\" ||\n  actionID === \"coll_sost_nuovo_colloquio\"\n) {\n  blocks.push(selezioneStatoColloquio, datePickerColloquio, altreInfoColloquio);\n}\nif (actionID === \"selezione_motivazione\") {\n  const selectedOption = $input.first().json.payload.actions[0].selected_option.value;\n  blocks.push(\n    aggiornamentoCollProgHead,\n    colloquioProgSostenuto,\n    motivoColloquioNonSostenuto\n  )\n  if (selectedOption === \"colloquio_rimandato\") {\n    blocks.push(\n      dataColloquioRimandato,\n    );\n  }\n  blocks.push(altreInfoColloquioNonSostenuto);\n}\n\nif (actionID === \"selezione_stato_colloquio\") {\n  const selectedOption = $input.first().json.payload.actions[0].selected_option.value;\n  switch (selectedOption) {\n    case \"colloquio_sostenuto\":\n      blocks.push(\n        selezioneStatoColloquio,\n        datePickerColloquio,\n        divider,\n        selezioneEsitoColloquio,\n        divider,\n        altreInfoColloquioSostenuto,\n      );\n      break;\n    case \"colloquio_programmato\":\n      blocks.push(\n        selezioneStatoColloquio,\n        datePickerColloquio,\n        altreInfoColloquio,\n      );\n      break;\n  }\n}\n\nif (actionID === \"selezione_stato_assunzione\") {\n  const selectedOption = $input.first().json.payload.actions[0].selected_option.value;\n\n  if (\n    selectedOption === \"assunzione_prevista\" ||\n    selectedOption === \"assunzione_avvenuta\"\n  ) {\n    blocks.push(\n      selezioneStatoAssunzione,\n      divider,\n      assunzText1,\n      selezioneTipoContratto,\n      dataInizioContratto,\n      dataFineContratto,\n      divider,\n      altreInfoAssunzione,\n    );\n  } else {\n    blocks.push(selezioneStatoAssunzione, altreInfoAssunzione);\n  }\n}\n\nif (blocks.length === 0) {\n  const previousBlocks = $input.first().json.payload.view.blocks;\n  blocks.push(...previousBlocks);\n} else {\n  if (blocks[0].block_id !== matchingReferenceBlock.block_id) {\n    blocks.unshift(matchingReferenceBlock, divider);\n  }\n}\n\nconst uploadViewBlocks = {\n  view_id: $(\"payload_parser\").first().json.payload.view.id,\n  view: {\n    type: \"modal\",\n    title: {\n      type: \"plain_text\",\n      text: \"Aggiornamento\",\n    },\n    blocks: blocks,\n    submit: {\n      type: \"plain_text\",\n      text: \"Aggiorna\",\n    },\n    close: {\n      type: \"plain_text\",\n      text: \"Exit\",\n    },\n    private_metadata: viewID,\n    callback_id: \"update_form\",\n  },\n};\n\nreturn { uploadViewBlocks };\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1488,
+        224
+      ],
+      "id": "5dd172d6-948e-4e4b-bba9-ae299d525ea8",
+      "name": "update_update_form3"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "819c51ac-4d6a-4c59-aece-512687525556",
+              "leftValue": "={{ $json.output.pronto_per_registrazione }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        800,
+        384
+      ],
+      "id": "0da6ee8f-6d2c-4a74-8f13-a323e7e74ef1",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://script.google.com/macros/s/AKfycby3tjsdEYgIjU4RLXxy0rpGMhXhZT6Br7tg-Dh-M8ZV2u8sj25Xy1n_bSFp97n56szhJA/exec",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"action\": \"new_matching\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        1584,
+        384
+      ],
+      "id": "44527305-d95b-4670-a2f8-a7138d9d14cc",
+      "name": "add_matching1"
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"messaggio_studente\": {\n      \"type\": \"string\",\n      \"description\": \"Testo da inviare allo studente in questo turno.\"\n    },\n    \"pronto_per_registrazione\": {\n      \"type\": \"boolean\",\n      \"description\": \"true solo quando, per TUTTI gli eventi del messaggio, i campi obbligatori (e gli opzionali chiesti-una-volta) sono stati raccolti o dichiarati non forniti.\"\n    },\n    \"eventi\": {\n      \"type\": \"array\",\n      \"description\": \"Un oggetto per ogni evento distinto individuato nel messaggio. Vuoto se pronto_per_registrazione è false.\",\n      \"items\": {\n        \"oneOf\": [\n          {\n            \"type\": \"object\",\n            \"properties\": {\n              \"stato_opportunita\": { \"const\": \"candidatura_inviata\" },\n              \"posizione\": { \"type\": \"string\", \"description\": \"Posizione lavorativa per cui lo studente si è candidato.\" },\n              \"azienda\": { \"type\": \"string\", \"description\": \"Nome dell'azienda.\" },\n              \"sede\": { \"type\": \"string\", \"description\": \"Sede di lavoro, opzionale. Stringa vuota se non fornita.\" },\n              \"fonte\": {\n                \"type\": \"string\",\n                \"enum\": [\"Ricerca online autonoma\", \"Foglio Google condiviso\", \"Speed Interview\", \"L'azienda ha cercato il mio contatto\", \"Altro\"],\n                \"description\": \"Come lo studente ha trovato l'opportunità.\"\n              },\n              \"link\": { \"type\": \"string\", \"description\": \"Link generico (annuncio, sito aziendale, ecc.), opzionale. Stringa vuota se non fornito.\" },\n              \"note\": { \"type\": \"string\", \"description\": \"Risposta libera a 'Vuoi aggiungere altri dettagli?', opzionale. Stringa vuota se non fornita.\" },\n              \"conversazione_integrale\": { \"type\": \"string\", \"description\": \"Trascrizione dell'intero scambio con lo studente, formato 'Studente: ...' / 'Bot: ...' riga per riga.\" },\n              \"sintesi_bot\": { \"type\": \"string\", \"description\": \"Riepilogo di quali domande/campi il bot ha chiesto allo studente, non dei valori di risposta.\" }\n            },\n            \"required\": [\"stato_opportunita\", \"posizione\", \"azienda\", \"fonte\", \"sede\", \"link\", \"note\", \"conversazione_integrale\", \"sintesi_bot\"],\n            \"additionalProperties\": false\n          },\n          {\n            \"type\": \"object\",\n            \"properties\": {\n              \"stato_opportunita\": { \"const\": \"colloquio_programmato\" },\n              \"posizione\": { \"type\": \"string\", \"description\": \"Posizione lavorativa per cui è previsto il colloquio.\" },\n              \"azienda\": { \"type\": \"string\", \"description\": \"Nome dell'azienda.\" },\n              \"sede\": { \"type\": \"string\", \"description\": \"Sede di lavoro, opzionale. Stringa vuota se non fornita.\" },\n              \"fonte\": {\n                \"type\": \"string\",\n                \"enum\": [\"Ricerca online autonoma\", \"Foglio Google condiviso\", \"Speed Interview\", \"L'azienda ha cercato il mio contatto\", \"Altro\"],\n                \"description\": \"Come lo studente ha trovato l'opportunità.\"\n              },\n              \"data_colloquio\": { \"type\": \"string\", \"description\": \"Data prevista del colloquio, formato ISO 8601 (aaaa-mm-gg). Sempre valorizzata.\" },\n              \"note\": { \"type\": \"string\", \"description\": \"Risposta libera a 'Vuoi aggiungere altri dettagli?', opzionale. Stringa vuota se non fornita.\" },\n              \"conversazione_integrale\": { \"type\": \"string\", \"description\": \"Trascrizione dell'intero scambio con lo studente, formato 'Studente: ...' / 'Bot: ...' riga per riga.\" },\n              \"sintesi_bot\": { \"type\": \"string\", \"description\": \"Riepilogo di quali domande/campi il bot ha chiesto allo studente, non dei valori di risposta.\" }\n            },\n            \"required\": [\"stato_opportunita\", \"posizione\", \"azienda\", \"fonte\", \"sede\", \"data_colloquio\", \"note\", \"conversazione_integrale\", \"sintesi_bot\"],\n            \"additionalProperties\": false\n          },\n          {\n            \"type\": \"object\",\n            \"properties\": {\n              \"stato_opportunita\": { \"const\": \"colloquio_sostenuto\" },\n              \"posizione\": { \"type\": \"string\", \"description\": \"Posizione lavorativa per cui si è svolto il colloquio.\" },\n              \"azienda\": { \"type\": \"string\", \"description\": \"Nome dell'azienda.\" },\n              \"sede\": { \"type\": \"string\", \"description\": \"Sede di lavoro, opzionale. Stringa vuota se non fornita.\" },\n              \"fonte\": {\n                \"type\": \"string\",\n                \"enum\": [\"Ricerca online autonoma\", \"Foglio Google condiviso\", \"Speed Interview\", \"L'azienda ha cercato il mio contatto\", \"Altro\"],\n                \"description\": \"Come lo studente ha trovato l'opportunità.\"\n              },\n              \"data_colloquio\": { \"type\": \"string\", \"description\": \"Data in cui si è svolto il colloquio, formato ISO 8601 (aaaa-mm-gg). Sempre valorizzata.\" },\n              \"feedback_colloquio\": {\n                \"type\": \"string\",\n                \"enum\": [\"feedback_colloquio_si_neutro\", \"feedback_colloquio_si_pos\", \"feedback_colloquio_si_neg\", \"feedback_colloquio_no\"],\n                \"description\": \"Slug corrispondente alla risposta a 'L'azienda ti ha dato feedback diretti?'. Sempre valorizzato.\"\n              },\n              \"note\": { \"type\": \"string\", \"description\": \"Risposta libera a 'Vuoi aggiungere altri dettagli?', opzionale. Stringa vuota se non fornita.\" },\n              \"conversazione_integrale\": { \"type\": \"string\", \"description\": \"Trascrizione dell'intero scambio con lo studente, formato 'Studente: ...' / 'Bot: ...' riga per riga.\" },\n              \"sintesi_bot\": { \"type\": \"string\", \"description\": \"Riepilogo di quali domande/campi il bot ha chiesto allo studente, non dei valori di risposta.\" }\n            },\n            \"required\": [\"stato_opportunita\", \"posizione\", \"azienda\", \"fonte\", \"sede\", \"data_colloquio\", \"feedback_colloquio\", \"note\", \"conversazione_integrale\", \"sintesi_bot\"],\n            \"additionalProperties\": false\n          },\n          {\n            \"type\": \"object\",\n            \"properties\": {\n              \"stato_opportunita\": { \"const\": \"assunzione_prevista\" },\n              \"posizione\": { \"type\": \"string\", \"description\": \"Posizione lavorativa oggetto dell'assunzione.\" },\n              \"azienda\": { \"type\": \"string\", \"description\": \"Nome dell'azienda.\" },\n              \"sede\": { \"type\": \"string\", \"description\": \"Sede di lavoro, opzionale. Stringa vuota se non fornita.\" },\n              \"fonte\": {\n                \"type\": \"string\",\n                \"enum\": [\"Ricerca online autonoma\", \"Foglio Google condiviso\", \"Speed Interview\", \"L'azienda ha cercato il mio contatto\", \"Altro\"],\n                \"description\": \"Come lo studente ha trovato l'opportunità.\"\n              },\n              \"tipo_contratto\": {\n                \"type\": \"string\",\n                \"enum\": [\"contratto_tirocinio_stage\", \"contratto_apprendistato\", \"contratto_p_iva\", \"contratto_determ\", \"contratto_indet\", \"contratto_altro\", \"\"],\n                \"description\": \"Slug del tipo di contratto proposto, opzionale. Stringa vuota se non fornito.\"\n              },\n              \"data_inizio_contratto\": { \"type\": \"string\", \"description\": \"Data di inizio prevista, formato ISO 8601 (aaaa-mm-gg), opzionale. Stringa vuota se non fornita.\" },\n              \"data_fine_contratto\": { \"type\": \"string\", \"description\": \"Data di fine prevista, formato ISO 8601 (aaaa-mm-gg), opzionale o se contratto indeterminato. Stringa vuota se non fornita.\" },\n              \"note\": { \"type\": \"string\", \"description\": \"Risposta libera a 'Vuoi aggiungere altri dettagli?', opzionale. Stringa vuota se non fornita.\" },\n              \"conversazione_integrale\": { \"type\": \"string\", \"description\": \"Trascrizione dell'intero scambio con lo studente, formato 'Studente: ...' / 'Bot: ...' riga per riga.\" },\n              \"sintesi_bot\": { \"type\": \"string\", \"description\": \"Riepilogo di quali domande/campi il bot ha chiesto allo studente, non dei valori di risposta.\" }\n            },\n            \"required\": [\"stato_opportunita\", \"posizione\", \"azienda\", \"fonte\", \"sede\", \"tipo_contratto\", \"data_inizio_contratto\", \"data_fine_contratto\", \"note\", \"conversazione_integrale\", \"sintesi_bot\"],\n            \"additionalProperties\": false\n          },\n          {\n            \"type\": \"object\",\n            \"properties\": {\n              \"stato_opportunita\": { \"const\": \"assunzione_avvenuta\" },\n              \"posizione\": { \"type\": \"string\", \"description\": \"Posizione lavorativa oggetto dell'assunzione.\" },\n              \"azienda\": { \"type\": \"string\", \"description\": \"Nome dell'azienda.\" },\n              \"sede\": { \"type\": \"string\", \"description\": \"Sede di lavoro, opzionale. Stringa vuota se non fornita.\" },\n              \"fonte\": {\n                \"type\": \"string\",\n                \"enum\": [\"Ricerca online autonoma\", \"Foglio Google condiviso\", \"Speed Interview\", \"L'azienda ha cercato il mio contatto\", \"Altro\"],\n                \"description\": \"Come lo studente ha trovato l'opportunità.\"\n              },\n              \"tipo_contratto\": {\n                \"type\": \"string\",\n                \"enum\": [\"contratto_tirocinio_stage\", \"contratto_apprendistato\", \"contratto_p_iva\", \"contratto_determ\", \"contratto_indet\", \"contratto_altro\", \"\"],\n                \"description\": \"Slug del tipo di contratto firmato, opzionale. Stringa vuota se non fornito.\"\n              },\n              \"data_inizio_contratto\": { \"type\": \"string\", \"description\": \"Data di inizio contratto, formato ISO 8601 (aaaa-mm-gg), opzionale. Stringa vuota se non fornita.\" },\n              \"data_fine_contratto\": { \"type\": \"string\", \"description\": \"Data di fine contratto, formato ISO 8601 (aaaa-mm-gg), opzionale o se contratto indeterminato. Stringa vuota se non fornita.\" },\n              \"note\": { \"type\": \"string\", \"description\": \"Risposta libera a 'Vuoi aggiungere altri dettagli?', opzionale. Stringa vuota se non fornita.\" },\n              \"conversazione_integrale\": { \"type\": \"string\", \"description\": \"Trascrizione dell'intero scambio con lo studente, formato 'Studente: ...' / 'Bot: ...' riga per riga.\" },\n              \"sintesi_bot\": { \"type\": \"string\", \"description\": \"Riepilogo di quali domande/campi il bot ha chiesto allo studente, non dei valori di risposta.\" }\n            },\n            \"required\": [\"stato_opportunita\", \"posizione\", \"azienda\", \"fonte\", \"sede\", \"tipo_contratto\", \"data_inizio_contratto\", \"data_fine_contratto\", \"note\", \"conversazione_integrale\", \"sintesi_bot\"],\n            \"additionalProperties\": false\n          }\n        ]\n      }\n    },\n    \"campi_raccolti\": {\n      \"type\": \"array\",\n      \"description\": \"Stato aggiornato dei campi raccolti finora per ciascun evento ancora in corso di raccolta (non ancora pronto per la registrazione). Il bot lo aggiorna ad ogni turno partendo dal proprio campi_raccolti del turno precedente (visibile nella memoria della conversazione), non lo ricostruisce da zero rileggendo tutta la cronologia. Vuoto ([]) se non c'è nessun evento in corso di raccolta in questo momento (es. evento già confermato, o messaggio che non attiva nessuno stato).\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"stato_opportunita\": {\n            \"type\": \"string\",\n            \"enum\": [\"candidatura_inviata\", \"colloquio_programmato\", \"colloquio_sostenuto\", \"assunzione_prevista\", \"assunzione_avvenuta\"],\n            \"description\": \"Stato riconosciuto per questo evento, anche se non ancora tutti i campi sono stati raccolti.\"\n          },\n          \"posizione\": { \"type\": \"string\", \"description\": \"Stringa vuota se non ancora raccolto.\" },\n          \"azienda\": { \"type\": \"string\", \"description\": \"Stringa vuota se non ancora raccolto.\" },\n          \"sede\": { \"type\": \"string\", \"description\": \"Stringa vuota se non ancora raccolto o dichiarato non fornito dallo studente.\" },\n          \"fonte\": {\n            \"type\": \"string\",\n            \"enum\": [\"Ricerca online autonoma\", \"Foglio Google condiviso\", \"Speed Interview\", \"L'azienda ha cercato il mio contatto\", \"Altro\", \"\"],\n            \"description\": \"Stringa vuota se non ancora raccolto.\"\n          },\n          \"data_colloquio\": { \"type\": \"string\", \"description\": \"Stringa vuota se non ancora raccolto. Formato ISO 8601 (aaaa-mm-gg) quando presente.\" },\n          \"feedback_colloquio\": {\n            \"type\": \"string\",\n            \"enum\": [\"feedback_colloquio_si_neutro\", \"feedback_colloquio_si_pos\", \"feedback_colloquio_si_neg\", \"feedback_colloquio_no\", \"\"],\n            \"description\": \"Stringa vuota se non ancora raccolto.\"\n          },\n          \"tipo_contratto\": {\n            \"type\": \"string\",\n            \"enum\": [\"contratto_tirocinio_stage\", \"contratto_apprendistato\", \"contratto_p_iva\", \"contratto_determ\", \"contratto_indet\", \"contratto_altro\", \"\"],\n            \"description\": \"Stringa vuota se non ancora raccolto o dichiarato non fornito dallo studente.\"\n          },\n          \"data_inizio_contratto\": { \"type\": \"string\", \"description\": \"Stringa vuota se non ancora raccolto o dichiarato non fornito dallo studente.\" },\n          \"data_fine_contratto\": { \"type\": \"string\", \"description\": \"Stringa vuota se non ancora raccolto o dichiarato non fornito dallo studente.\" },\n          \"link\": { \"type\": \"string\", \"description\": \"Stringa vuota se non ancora raccolto o dichiarato non fornito dallo studente.\" },\n          \"note\": { \"type\": \"string\", \"description\": \"Stringa vuota se non ancora raccolto o dichiarato non fornito dallo studente.\" },\n          \"conversazione_integrale\": { \"type\": \"string\", \"description\": \"Trascrizione accumulata fino a questo turno, formato 'Studente: ...' / 'Bot: ...' riga per riga. Il bot vi appende solo lo scambio appena avvenuto, partendo dal valore del proprio turno precedente — non lo ricostruisce da zero.\" },\n          \"sintesi_bot\": { \"type\": \"string\", \"description\": \"Riepilogo accumulato fino a questo turno di quali domande/campi il bot ha chiesto allo studente. Il bot lo aggiorna aggiungendo la domanda appena posta, partendo dal valore del proprio turno precedente — non lo ricostruisce da zero.\" }\n        },\n        \"required\": [\"stato_opportunita\", \"conversazione_integrale\", \"sintesi_bot\"],\n        \"additionalProperties\": false\n      }\n    }\n  },\n  \"required\": [\"messaggio_studente\", \"pronto_per_registrazione\", \"eventi\", \"campi_raccolti\"]\n}\n",
+        "autoFix": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        624,
+        720
+      ],
+      "id": "5564985d-840a-4d21-9ab3-7ec488871c35",
+      "name": "Structured Output Parser",
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 500,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "=output.eventi",
+        "include": "=allOtherFields",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1072,
+        384
+      ],
+      "id": "e2ae0f1f-ac79-4b1e-b2fd-2e11280c4cb6",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('slack_trigger').item.json.text }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "={{ $('model_new').item.json.model }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        400,
+        496
+      ],
+      "id": "15899869-a3ea-4be8-a844-f1ee78a946bb",
+      "name": "ai_handle_new",
+      "alwaysOutputData": false,
+      "retryOnFail": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "={{ $('slack_trigger').item.json.channel }}",
+          "mode": "id"
+        },
+        "text": "Sto elaborando...",
+        "otherOptions": {
+          "includeLinkToWorkflow": false,
+          "thread_ts": {
+            "replyValues": {
+              "thread_ts": "={{ $('slack_trigger').item.json.ts }}"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.5,
+      "position": [
+        208,
+        496
+      ],
+      "id": "1ec5de50-b650-48b6-9483-3d4a53fd4242",
+      "name": "buffering_message",
+      "webhookId": "63de325f-1da0-4a64-8e98-85a3b956d1c9",
+      "notesInFlow": true,
+      "credentials": {
+        "slackApi": {
+          "id": "nMEW1zuSHsxRx3BN",
+          "name": "Slack - DEV"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1kfZTjFALTAEUg-qtBTo-SwcWhQGyvdqXaf50EcLLL4Y",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 935935300,
+          "mode": "list",
+          "cachedResultName": "Registrazioni",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kfZTjFALTAEUg-qtBTo-SwcWhQGyvdqXaf50EcLLL4Y/edit#gid=935935300"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ID studente": "={{ $('slack_trigger').item.json.user }}",
+            "Stato opportunità": "={{ $json['output.eventi'].stato_opportunita }}",
+            "Azienda": "={{ $json['output.eventi'].azienda }}",
+            "Sede": "={{ $json['output.eventi'].sede }}",
+            "Posizione": "={{ $json['output.eventi'].posizione }}",
+            "Fonte": "={{ $json['output.eventi'].fonte }}",
+            "Data colloquio": "={{ $json['output.eventi'].data_colloquio }}",
+            "Feedback colloquio": "={{ $json['output.eventi'].feedback_colloquio }}",
+            "Matching creato": "no",
+            "Tipo contratto": "={{ $json['output.eventi'].tipo_contratto }}",
+            "Data inizio contratto": "={{ $json['output.eventi'].data_inizio_contratto }}",
+            "Data fine contratto": "={{ $json['output.eventi'].data_fine_contratto }}",
+            "Data registrazione": "=",
+            "Timestamp": "={{ $('slack_trigger').item.json.event_ts }}",
+            "Note": "={{ $json['output.eventi'].note }}",
+            "Link allegati": "={{ $json['output.eventi'].link }}",
+            "Sorgente": "Chatbot",
+            "Conversazione integrale": "={{ $json['output.eventi'].conversazione_integrale }}",
+            "Sintesi bot": "={{ $json['output.eventi'].sintesi_bot }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "ID registrazione",
+              "displayName": "ID registrazione",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ID studente",
+              "displayName": "ID studente",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Stato opportunità",
+              "displayName": "Stato opportunità",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Data registrazione",
+              "displayName": "Data registrazione",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Posizione",
+              "displayName": "Posizione",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Azienda",
+              "displayName": "Azienda",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Sede",
+              "displayName": "Sede",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Fonte",
+              "displayName": "Fonte",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Data colloquio",
+              "displayName": "Data colloquio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Feedback colloquio",
+              "displayName": "Feedback colloquio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Tipo contratto",
+              "displayName": "Tipo contratto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Data inizio contratto",
+              "displayName": "Data inizio contratto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Data fine contratto",
+              "displayName": "Data fine contratto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Link allegati",
+              "displayName": "Link allegati",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Conversazione integrale",
+              "displayName": "Conversazione integrale",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Sintesi bot",
+              "displayName": "Sintesi bot",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Sintesi altre informazioni",
+              "displayName": "Sintesi altre informazioni",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Note",
+              "displayName": "Note",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Sorgente",
+              "displayName": "Sorgente",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Matching creato",
+              "displayName": "Matching creato",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Note staff",
+              "displayName": "Note staff",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1344,
+        384
+      ],
+      "id": "be9162d5-f9ea-4594-bd19-c47bc027c4f2",
+      "name": "add_matching_to_sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "k3WT3aKVhGuuClRa",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1kfZTjFALTAEUg-qtBTo-SwcWhQGyvdqXaf50EcLLL4Y",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 935935300,
+          "mode": "list",
+          "cachedResultName": "Registrazioni",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kfZTjFALTAEUg-qtBTo-SwcWhQGyvdqXaf50EcLLL4Y/edit#gid=935935300"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ID studente": "={{ $json.submission.context.user_id }}",
+            "Stato opportunità": "={{ $json.submission.submittedValues.stato }}",
+            "Azienda": "={{ $json.submission.context.azienda }}",
+            "Sede": "={{ $json.submission.context.sede }}",
+            "Posizione": "={{ $json.submission.context.posizione }}",
+            "Fonte": "={{ $json.submission.context.fonte }}",
+            "Data colloquio": "={{ $json.submission.submittedValues.data_colloquio }}",
+            "Feedback colloquio": "={{ $json.submission.submittedValues.esito_colloquio }}",
+            "Sorgente": "Form",
+            "Matching creato": "no",
+            "Tipo contratto": "={{ $json.submission.submittedValues.tipo_contratto }}",
+            "Data inizio contratto": "={{ $json.submission.submittedValues.date_picker_inizio_contratto }}",
+            "Data fine contratto": "={{ $json.submission.submittedValues.date_picker_fine_contratto }}",
+            "Data registrazione": "=",
+            "Timestamp": "={{ $('Webhook1').item.json.headers[\"x-slack-request-timestamp\"] }}",
+            "Note": "={{ $json.submission.submittedValues.altre_info }}",
+            "Link allegati": "={{ $json.submission.submittedValues.link_allegato }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "ID registrazione",
+              "displayName": "ID registrazione",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ID studente",
+              "displayName": "ID studente",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Stato opportunità",
+              "displayName": "Stato opportunità",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Data registrazione",
+              "displayName": "Data registrazione",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Posizione",
+              "displayName": "Posizione",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Azienda",
+              "displayName": "Azienda",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Sede",
+              "displayName": "Sede",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Fonte",
+              "displayName": "Fonte",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Data colloquio",
+              "displayName": "Data colloquio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Feedback colloquio",
+              "displayName": "Feedback colloquio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Tipo contratto",
+              "displayName": "Tipo contratto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Data inizio contratto",
+              "displayName": "Data inizio contratto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Data fine contratto",
+              "displayName": "Data fine contratto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Link allegati",
+              "displayName": "Link allegati",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Conversazione integrale",
+              "displayName": "Conversazione integrale",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Sintesi bot",
+              "displayName": "Sintesi bot",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Sintesi altre informazioni",
+              "displayName": "Sintesi altre informazioni",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Note",
+              "displayName": "Note",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Sorgente",
+              "displayName": "Sorgente",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Matching creato",
+              "displayName": "Matching creato",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Note staff",
+              "displayName": "Note staff",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -912,
+        -352
+      ],
+      "id": "61dca180-8434-4d04-be91-61d97cf61167",
+      "name": "append_new_matching_form",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "k3WT3aKVhGuuClRa",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1kfZTjFALTAEUg-qtBTo-SwcWhQGyvdqXaf50EcLLL4Y",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 594811163,
+          "mode": "list",
+          "cachedResultName": "Aggiornamenti_matching",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kfZTjFALTAEUg-qtBTo-SwcWhQGyvdqXaf50EcLLL4Y/edit#gid=594811163"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ID matching": "={{ $json.submission.context.matching_id }}",
+            "Matching aggiornato": "no",
+            "Nuovo stato": "={{ $json.submission.submittedValues.main_update }}",
+            "Note": "={{ $json.submission.submittedValues.altre_info }}",
+            "Data colloquio": "={{ $json.submission.submittedValues.data_colloquio }}",
+            "Feedback colloquio": "={{ $json.submission.submittedValues.esito_colloquio }}",
+            "Motivo chiusura": "={{ $json.submission.submittedValues.motivo_chiusura }}",
+            "ID studente": "={{ $json.submission.context.user_id }}",
+            "Tipo contratto": "={{ $json.submission.submittedValues.tipo_contratto }}",
+            "Data aggiornamento": "==EPOCHTODATE({{ $('Webhook1').item.json.headers[\"x-slack-request-timestamp\"] }})",
+            "Data inizio contratto": "={{ $json.submission.submittedValues.date_picker_inizio_contratto }}",
+            "Data fine contratto": "={{ $json.submission.submittedValues.date_picker_fine_contratto }}",
+            "Motivazione colloquio non sostenuto": "={{ $json.submission.submittedValues.motivo_colloquio_non_sostenuto }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "ID aggiornamento",
+              "displayName": "ID aggiornamento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ID matching",
+              "displayName": "ID matching",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Studente",
+              "displayName": "Studente",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ID studente",
+              "displayName": "ID studente",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Nuovo stato",
+              "displayName": "Nuovo stato",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Data colloquio",
+              "displayName": "Data colloquio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Feedback colloquio",
+              "displayName": "Feedback colloquio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Motivazione colloquio non sostenuto",
+              "displayName": "Motivazione colloquio non sostenuto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Tipo contratto",
+              "displayName": "Tipo contratto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Data inizio contratto",
+              "displayName": "Data inizio contratto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Data fine contratto",
+              "displayName": "Data fine contratto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Motivo chiusura",
+              "displayName": "Motivo chiusura",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Note",
+              "displayName": "Note",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Matching aggiornato",
+              "displayName": "Matching aggiornato",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Data aggiornamento",
+              "displayName": "Data aggiornamento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1264,
+        0
+      ],
+      "id": "c23e4c2c-baa6-4399-a134-ec054b46cea8",
+      "name": "append_matching_update",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "k3WT3aKVhGuuClRa",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "claude-haiku-4-5-20251001",
+          "mode": "list",
+          "cachedResultName": "Claude Haiku 4.5"
+        },
+        "options": {
+          "thinkingMode": "disabled"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.5,
+      "position": [
+        272,
+        704
+      ],
+      "id": "13326740-97b5-4c1f-854a-c0e34d7d75a1",
+      "name": "Anthropic Chat Model",
+      "credentials": {
+        "anthropicApi": {
+          "id": "JPPeS59SV5HYa5qu",
+          "name": "Anthropic account_Ale"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.8-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        128,
+        944
+      ],
+      "id": "47663154-a71b-4584-acc5-e4e2052e0868",
+      "name": "gemini",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "rwayaERT7YXrnVRE",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "e9ec4259-c969-4985-98dc-9ab2b26b1dc1",
+              "leftValue": "={{ $json.type }}",
+              "rightValue": "notification",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -2080,
+        -368
+      ],
+      "id": "a03e6c1c-3c22-4cf0-92e6-eddf5f781e8c",
+      "name": "is_notification"
+    },
+    {
+      "parameters": {
+        "select": "user",
+        "user": {
+          "__rl": true,
+          "value": "={{ $json.user }}",
+          "mode": "id"
+        },
+        "text": "={{ $json.text }}",
+        "otherOptions": {
+          "includeLinkToWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.5,
+      "position": [
+        -2096,
+        -672
+      ],
+      "id": "1d6e3835-0bdf-4f17-ad84-a98e395003d0",
+      "name": "notify_user",
+      "webhookId": "4f5db02d-897b-47d5-88de-3aeeebd8ac62",
+      "credentials": {
+        "slackApi": {
+          "id": "nMEW1zuSHsxRx3BN",
+          "name": "Slack - DEV"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "send_welcome_message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "open_info_azienda",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Filter1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "action/submission2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "get_selected_matching",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "action/submission",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "payload_parser": {
+      "main": [
+        [
+          {
+            "node": "is_notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "payload_parser",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get_current_thread": {
+      "main": [
+        [
+          {
+            "node": "check_thread",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "check_thread": {
+      "main": [
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "send_welcome_message": {
+      "main": [
+        [
+          {
+            "node": "create_thread_new",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "create_thread_new": {
+      "main": [
+        []
+      ]
+    },
+    "Simple Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "ai_handle_new",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "model_new": {
+      "main": [
+        [
+          {
+            "node": "buffering_message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "if_thread": {
+      "main": [
+        [
+          {
+            "node": "get_current_thread",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "send_error_message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get_selected_matching": {
+      "main": [
+        [
+          {
+            "node": "build_update_form",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "build_update_form": {
+      "main": [
+        [
+          {
+            "node": "open_update_form",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch2": {
+      "main": [
+        [
+          {
+            "node": "if_thread",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "build_home_buffering",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "update_update_form": {
+      "main": [
+        []
+      ]
+    },
+    "action/submission": {
+      "main": [
+        [
+          {
+            "node": "get_submission_info_update",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "update_update_form3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get_matchings1": {
+      "main": [
+        [
+          {
+            "node": "build_home_matchings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "open_buffering_message1": {
+      "main": [
+        [
+          {
+            "node": "get_matchings1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "slack_trigger": {
+      "main": [
+        [
+          {
+            "node": "Switch2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "model_new",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "send_error_message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "action/submission2": {
+      "main": [
+        [
+          {
+            "node": "update_new_matching_form",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "get_submission_info_new",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "open_info_azienda": {
+      "main": [
+        [
+          {
+            "node": "open_new_matching_form",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "open_new_matching_form": {
+      "main": [
+        []
+      ]
+    },
+    "Filter1": {
+      "main": [
+        [
+          {
+            "node": "open_info_matching",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "open_info_matching": {
+      "main": [
+        [
+          {
+            "node": "open_new_macthing_details_form",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "update_new_matching_form": {
+      "main": [
+        [
+          {
+            "node": "update_update_form1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "build_home_buffering": {
+      "main": [
+        [
+          {
+            "node": "open_buffering_message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "build_home_matchings": {
+      "main": [
+        [
+          {
+            "node": "set_home_view",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get_submission_info_new": {
+      "main": [
+        [
+          {
+            "node": "append_new_matching_form",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get_submission_info_update": {
+      "main": [
+        [
+          {
+            "node": "append_matching_update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "update_update_form3": {
+      "main": [
+        [
+          {
+            "node": "update_update_form",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "ai_handle_new",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "add_matching_to_sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_handle_new": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "buffering_message": {
+      "main": [
+        [
+          {
+            "node": "ai_handle_new",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "add_matching_to_sheet": {
+      "main": [
+        [
+          {
+            "node": "add_matching1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "append_new_matching_form": {
+      "main": [
+        [
+          {
+            "node": "add_matching",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "append_matching_update": {
+      "main": [
+        [
+          {
+            "node": "update_matching",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "ai_handle_new",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Structured Output Parser",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "is_notification": {
+      "main": [
+        [
+          {
+            "node": "notify_user",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "d174727a-87c2-41f3-833f-aa20d3a7eeb2",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "4276416439a89acc7625282da988af921ac3cd102e438582b4ebe65e7361062f"
+  },
+  "nodeGroups": [],
+  "id": "XzOYC9y4GUut3z8F",
+  "tags": []
+}
