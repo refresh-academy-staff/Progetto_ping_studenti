@@ -13,7 +13,6 @@ const doPost = (e) => {
 
   return HtmlService.createHtmlOutput('<b>Matching aggiornati</b>');
 }
-
 const aggiungiNuoviMatching = () => {
 
   const ss = SpreadsheetApp.openById(DATA_SPREADSHEET_DEV);
@@ -119,7 +118,6 @@ const aggiungiNuoviMatching = () => {
 
   Logger.log(`Aggiunte ${counter} righe su ${newMatchings.length - 1} con successo.`)
 }
-
 const aggiornaTuttiMatchings = () => {
 
   const ss = SpreadsheetApp.openById(DATA_SPREADSHEET_DEV);

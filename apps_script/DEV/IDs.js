@@ -6,4 +6,5 @@ const SH_PERSONE = 731872889
 const SH_AGGIORNAMENTI_MATCHING = 594811163
 const SH_REGISTRAZIONI = 935935300
 const SH_TEST = 646915623
+const WEBHOOK = "https://n8nrefresh.duckdns.org/webhook/d70a2fb0-6dff-4894-8d35-d06738a4520b-dev"
 

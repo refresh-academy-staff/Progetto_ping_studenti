@@ -41,13 +41,3 @@ const formatter = (text) => {
 
   return formatted
 }
-
-const test = () => {
-  const ss = SpreadsheetApp.openById(DATA_SPREADSHEET_DEV);
-  const shSource = ss.getSheetById(SH_REGISTRAZIONI);
-
-  const header = shSource.getRange(1, 1, 1, shSource.getLastColumn()).getValues()[0];
-  const indexes = getIndexes(header)
-  Logger.log(indexes)
-}
-
