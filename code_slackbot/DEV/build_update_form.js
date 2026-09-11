@@ -166,6 +166,20 @@ const redirectAssunzione = {
   ]
 }
 //=======================================
+const selezioneStatoColloquio = {
+  "block_id": "main_update",
+  "type": "input",
+  "dispatch_action": true,
+  "element": {
+    "type": "radio_buttons",
+    "action_id": "selezione_stato_colloquio",
+    "options": [
+      buildOption("Programmato", "colloquio_programmato"),
+      buildOption("Sostenuto", "colloquio_sostenuto")
+    ]
+  },
+  ...buildLabel("Stato")
+}
 
 const aggiornamentoCollSostHead = buildTextBlock({text: "Come vuoi aggiornare questa opportunità?", style: "bold"});
 const mainActionAggiornamentoCollSost = {
@@ -237,6 +251,11 @@ switch (ultimaAttività) {
     titoloAggiornamento = "Update candidatura" ;
     privateID = "update_candidatura" ;
     break;
+  case "Colloquio rimandato":
+    blocks.push(selezioneStatoColloquio)
+    titoloAggiornamento = "Update colloquio";
+    privateID = "update_colloquio_rim" ;
+    break;
   case "Colloquio programmato":
     blocks.push(aggiornamentoCollProgHead, colloquioProgSostenuto, collProgDomanda1, redirectAssunzione)
     titoloAggiornamento = "Update colloquio";
@@ -286,6 +305,7 @@ switch (ultimaAttività) {
   case "Colloquio sostenuto":
     return {openViewBlocks}
   case "Colloquio programmato":
+  case "Colloquio rimandato":
   case "Assunzione prevista":
     return {
       openViewBlocks: {

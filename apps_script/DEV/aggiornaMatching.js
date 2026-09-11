@@ -186,18 +186,31 @@ const aggiornaTuttiMatchings = () => {
         }
         updatedRow[destIndexes.ultimaAttivita] = "Colloquio sostenuto"
         break;
-      case ("colloquio_rimandato"):
-        updatedRow[destIndexes.colloquio] = "rimandato"
-        updatedRow[destIndexes.dataColloquio] = row[sourceIndexes.dataColloquio]
-        updatedRow[destIndexes.ultimaAttivita] = "Colloquio rimandato"
-        break;
-      case ("colloquio_non_presentato"):
-        updatedRow[destIndexes.colloquio] = "non presente"
-        updatedRow[destIndexes.ultimaAttivita] = "Non presente al colloquio"
-        break;
-      case ("colloquio_annullato"):
-        updatedRow[destIndexes.colloquio] = "annullato"
-        updatedRow[destIndexes.ultimaAttivita] = "Colloquio annullato"
+      case ("collprog_non_avvenuto"):
+        const motivo = row[sourceIndexes.motivazioneColloquioNonSostenuto]
+        switch(motivo) {
+          case "colloquio_rimandato":
+            if (row[sourceIndexes.dataColloquio]) {
+              updatedRow[destIndexes.colloquio] = "programmato"
+              updatedRow[destIndexes.dataColloquio] = row[sourceIndexes.dataColloquio]
+              updatedRow[destIndexes.ultimaAttivita] = "Colloquio programmato"
+            } else {
+              updatedRow[destIndexes.colloquio] = "rimandato"
+              updatedRow[destIndexes.ultimaAttivita] = "Colloquio rimandato"
+              updatedRow[destIndexes.dataColloquio] = ""
+            }
+            break;
+          case "colloquio_annullato":
+            updatedRow[destIndexes.colloquio] = "annullato"
+            updatedRow[destIndexes.ultimaAttivita] = "Chiusura"
+            updatedRow[destIndexes.motivoChiusura] = "Colloquio annullato"
+            break;
+          case "colloquio_non_presentato":
+            updatedRow[destIndexes.colloquio] = "non presente"
+            updatedRow[destIndexes.motivoChiusura] = "Non presente al colloquio"
+            updatedRow[destIndexes.ultimaAttivita] = "Chiusura"
+            break;
+        }
         break;
       case ("assunzione_prevista"):
         updatedRow[destIndexes.assunzione] = "prevista"

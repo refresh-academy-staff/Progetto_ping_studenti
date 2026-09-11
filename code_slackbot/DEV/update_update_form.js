@@ -186,23 +186,21 @@ const altreInfoColloquio = buildTextBox({ placeholder: "Qui puoi scrivere altre 
 const altreInfoColloquioSostenuto = buildTextBox({ placeholder: "Qui puoi scrivere altro in merito al colloquio", label: "Impressioni/note aggiuntive", blockID: "altre_info" });
 
 const motivoColloquioNonSostenuto = {
-  "block_id": "main_update",
-  "type": "actions",
-  "elements": [
-    {
-      "type": "static_select",
-      "action_id": "selezione_motivazione_colloquio_non_sostenuto",
-      "options": [
-        buildOption("Rimandato", "colloquio_rimandato"),
-        buildOption("Annullato", "colloquio_annullato"),
-        buildOption("Mia assenza", "colloquio_non_presentato"),
-      ],
-      "placeholder": {
-        "type": "plain_text",
-        "text": "Seleziona una motivazione"
-      }
-    }
-  ]
+  "block_id": "motivo_colloquio_non_sostenuto",
+  "type": "section",
+  "text": {
+    "type": "mrkdwn",
+    "text": "*Seleziona una motivazione tra le seguenti*"
+  },
+  "accessory":{
+    "type": "radio_buttons",
+    "action_id": "selezione_motivazione",
+    "options": [
+      buildOption("Rimandato", "colloquio_rimandato"),
+      buildOption("Annullato (chiudi opportunità)", "colloquio_annullato"),
+      buildOption("Mia assenza (chiudi opportunità)", "colloquio_non_presentato"),
+    ]
+  }
 }
 const dataColloquioRimandato = buildDatePicker("Nuova data", "data_colloquio", true);
 const altreInfoColloquioNonSostenuto = buildTextBox({
@@ -339,19 +337,20 @@ if (
 }
 
 if (actionID === "conferma_colloquio_sostenuto") {
+  blocks.push(
+    aggiornamentoCollProgHead,
+    colloquioProgSostenuto
+  )
   const selectedOption = action.selected_option.value;
   switch (selectedOption) {
     case "collprog_avvenuto":
       blocks.push(
-        aggiornamentoCollProgHead,
-        colloquioProgSostenuto,
         selezioneEsitoColloquio,
         altreInfoColloquioSostenuto,
       );
       break;
     case "collprog_non_avvenuto":
       blocks.push(
-        colloquioNonSostenutoHead,
         motivoColloquioNonSostenuto,
         altreInfoColloquioNonSostenuto,
       );
@@ -385,28 +384,21 @@ if (
 ) {
   blocks.push(selezioneStatoColloquio, datePickerColloquio, altreInfoColloquio);
 }
-if (actionID === "selezione_motivazione_colloquio_non_sostenuto") {
+if (actionID === "selezione_motivazione") {
   const selectedOption = $input.first().json.payload.actions[0].selected_option.value;
-  switch (selectedOption) {
-    case "colloquio_rimandato":
-      blocks.push(
-        motivoColloquioNonSostenuto,
-        dataColloquioRimandato,
-        altreInfoColloquioNonSostenuto,
-      );
-      break;
-    default:
-      blocks.push(motivoColloquioNonSostenuto, altreInfoColloquioNonSostenuto);
+  blocks.push(
+    aggiornamentoCollProgHead,
+    colloquioProgSostenuto,
+    motivoColloquioNonSostenuto
+  )
+  if (selectedOption === "colloquio_rimandato") {
+    blocks.push(
+      dataColloquioRimandato,
+    );
   }
+  blocks.push(altreInfoColloquioNonSostenuto);
 }
 
-if (actionID === "colloquio_rimandato") {
-  blocks.push(
-    motivoColloquioNonSostenuto,
-    dataColloquioRimandato,
-    altreInfoColloquioNonSostenuto,
-  );
-}
 if (actionID === "selezione_stato_colloquio") {
   const selectedOption = $input.first().json.payload.actions[0].selected_option.value;
   switch (selectedOption) {
