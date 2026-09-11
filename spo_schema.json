@@ -171,7 +171,7 @@
           "conversazione_integrale": { "type": "string", "description": "Trascrizione accumulata fino a questo turno, formato 'Studente: ...' / 'Bot: ...' riga per riga. Il bot vi appende solo lo scambio appena avvenuto, partendo dal valore del proprio turno precedente — non lo ricostruisce da zero." },
           "sintesi_bot": { "type": "string", "description": "Riepilogo accumulato fino a questo turno di quali domande/campi il bot ha chiesto allo studente. Il bot lo aggiorna aggiungendo la domanda appena posta, partendo dal valore del proprio turno precedente — non lo ricostruisce da zero." }
         },
-        "required": ["stato_opportunita", "posizione", "azienda", "sede", "fonte", "data_colloquio", "feedback_colloquio", "tipo_contratto", "data_inizio_contratto", "data_fine_contratto", "link", "note", "conversazione_integrale", "sintesi_bot"],
+        "required": ["stato_opportunita", "conversazione_integrale", "sintesi_bot"],
         "additionalProperties": false
       }
     }
