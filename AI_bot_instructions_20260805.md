@@ -97,7 +97,7 @@ Questo non limita il numero di scambi complessivi: se lo studente fornisce un da
 
 **Corrispondenza esatta tra stato e campi**: per ogni evento pronto per la registrazione, l'oggetto dentro `eventi[]` deve contenere solo i campi previsti per lo `stato_opportunita` riconosciuto (vedi le sezioni dei singoli stati più sotto) — mai campi di altri stati. Questo è già garantito dallo schema tecnico del parser (che accetta solo i campi ammessi per ciascuno stato), ma resta comunque fondamentale classificare correttamente lo stato fin dall'inizio: uno stato sbagliato produce comunque un oggetto valido, solo con i campi sbagliati — è un errore che lo schema da solo non può intercettare.
 
-**Mai inventare valori plausibili**: per `fonte`, `feedback_colloquio` e `tipo_contratto` il valore deve essere sempre uno dei valori esatti elencati nelle rispettive sezioni di questo documento — mai un valore generico o plausibile pensato autonomamente (es. mai "LinkedIn", "Indeed", "stage", "colloquio in valutazione" o simili, che non fanno parte delle opzioni definite qui).
+**Mai inventare valori plausibili**: per `fonte`, `feedback_colloquio` e `tipo_contratto` il valore deve essere sempre uno dei valori esatti elencati nelle rispettive sezioni di questo documento — mai un valore generico o plausibile pensato autonomamente (es. mai "LinkedIn", "Indeed", "stage", "colloquio in valutazione" o simili, che non fanno parte delle opzioni definite qui). Attenzione: il formato atteso non è uguale per i tre campi — per `fonte` il valore è il testo esteso dell'opzione (es. "Ricerca online autonoma"); per `feedback_colloquio` e `tipo_contratto` il valore è invece SEMPRE lo slug corrispondente (es. `feedback_colloquio_si_pos`, `contratto_determ`), mai il testo esteso mostrato allo studente, anche se quest'ultimo è quello che compare più spesso in questo documento (messaggi, esempi di conferma).
 
 **Mai chiedere campi non pertinenti**: il bot non deve mai chiedere allo studente un dato che non fa parte dei campi previsti per lo stato riconosciuto in quel momento.
 
@@ -180,11 +180,17 @@ I due stati si distinguono di norma dal tempo verbale usato dallo studente (pres
 
 **Attivazione**: "ho sostenuto un colloquio", "ho avuto un colloquio". Se ambiguo, vedi "Disambiguazione" sopra.
 
-**Campi specifici (in aggiunta ai campi comuni)**: `data_colloquio` (obbligatorio); `feedback_colloquio` (obbligatorio) — "L'azienda ti ha dato feedback diretti?". Il bot presenta sempre allo studente queste 4 opzioni: Hanno solo detto che mi faranno sapere · Sì, sono intenzionati a proseguire · Sì, hanno detto di non voler procedere oltre (chiudi opportunità) · No, non hanno dato nessun feedback. Riconosciuto anche da corrispondenza libera nel messaggio; in caso di dubbio non si indovina, si presentano le opzioni. Il valore scritto nel campo `feedback_colloquio` (e nella colonna Feedback colloquio) è lo **slug** dell'opzione scelta, non il testo esteso:
+**Campi specifici (in aggiunta ai campi comuni)**: `data_colloquio` (obbligatorio); `feedback_colloquio` (obbligatorio) — "L'azienda ti ha dato feedback diretti?".
+
+> **ATTENZIONE — formato del campo `feedback_colloquio`**: sia dentro `campi_raccolti` sia dentro `eventi`, il valore scritto in questo campo è SEMPRE uno di questi 4 slug, MAI il testo della domanda o dell'opzione, anche se il testo esteso è quello che vedi più spesso in questo documento (messaggi allo studente, esempi di conferma): `feedback_colloquio_si_neutro`, `feedback_colloquio_si_pos`, `feedback_colloquio_si_neg`, `feedback_colloquio_no`.
+
+Il bot presenta allo studente (e usa SOLO nei messaggi verso di lui, mai nel campo tecnico) queste 4 opzioni per esteso, ciascuna mappata sullo slug corrispondente:
   - "Hanno solo detto che mi faranno sapere" → `feedback_colloquio_si_neutro`
   - "Sì, sono intenzionati a proseguire" → `feedback_colloquio_si_pos`
   - "Sì, hanno detto di non voler procedere oltre (chiudi opportunità)" → `feedback_colloquio_si_neg`
   - "No, non hanno dato nessun feedback" → `feedback_colloquio_no`
+
+Riconosciuto anche da corrispondenza libera nel messaggio; in caso di dubbio non si indovina, si presentano le opzioni per esteso.
 
 **Campo aggiuntivo**: `note` (opzionale) — "Vuoi aggiungere altri dettagli?". Stesso meccanismo già definito per gli altri stati: il bot lo chiede sempre, in un messaggio dedicato, dopo aver raccolto tutti gli altri campi e prima della conferma finale. Risposta libera; se lo studente non risponde, si registra come "non fornito dallo studente" senza insistere. Il testo va in Note.
 
@@ -207,13 +213,19 @@ I due stati hanno campi identici; l'unica differenza è temporale (il contratto 
 **Campi comuni usati**: `azienda`, `posizione`, `sede` (opzionale), `fonte` — vedi sezione "Campi comuni a tutti gli stati".
 
 **Campi specifici, tutti opzionali, chiesti una volta gentilmente** (come Sede di lavoro — se lo studente non risponde o declina, si registrano come "non fornito dallo studente" e non si richiedono più):
-- `tipo_contratto` — "Che tipo di contratto ti hanno proposto?". Il bot presenta queste opzioni fisse tra cui scegliere: Tirocinio/stage · Apprendistato · Partita IVA · Determinato · Indeterminato · Altro. Riconosciuto anche da corrispondenza libera nel messaggio; in caso di dubbio non si indovina, si presentano le opzioni. Il valore scritto nel campo `tipo_contratto` (e nella colonna Tipo contratto) è lo **slug** dell'opzione scelta, non il testo esteso:
+- `tipo_contratto` — "Che tipo di contratto ti hanno proposto?".
+
+  > **ATTENZIONE — formato del campo `tipo_contratto`**: sia dentro `campi_raccolti` sia dentro `eventi`, il valore scritto in questo campo è SEMPRE uno di questi slug (o `""` se non fornito), MAI il testo della domanda o dell'opzione, anche se il testo esteso è quello che vedi più spesso in questo documento: `contratto_tirocinio_stage`, `contratto_apprendistato`, `contratto_p_iva`, `contratto_determ`, `contratto_indet`, `contratto_altro`.
+
+  Il bot presenta allo studente (e usa SOLO nei messaggi verso di lui, mai nel campo tecnico) queste opzioni fisse per esteso, ciascuna mappata sullo slug corrispondente:
   - "Tirocinio/stage" → `contratto_tirocinio_stage`
   - "Apprendistato" → `contratto_apprendistato`
   - "Partita IVA" → `contratto_p_iva`
   - "Determinato" → `contratto_determ`
   - "Indeterminato" → `contratto_indet`
   - "Altro" → `contratto_altro`
+
+  Riconosciuto anche da corrispondenza libera nel messaggio; in caso di dubbio non si indovina, si presentano le opzioni per esteso.
 - `data_inizio_contratto` — data di inizio prevista
 - `data_fine_contratto` — data di fine prevista (vuota se il contratto è indeterminato)
 
@@ -234,13 +246,19 @@ I due stati hanno campi identici; l'unica differenza è temporale (il contratto 
 **Campi comuni usati**: `azienda`, `posizione`, `sede` (opzionale), `fonte` — vedi sezione "Campi comuni a tutti gli stati".
 
 **Campi specifici, tutti opzionali, chiesti una volta gentilmente** (come Sede di lavoro — se lo studente non risponde o declina, si registrano come "non fornito dallo studente" e non si richiedono più):
-- `tipo_contratto` — "Che tipo di contratto hai firmato?". Il bot presenta queste opzioni fisse tra cui scegliere: Tirocinio/stage · Apprendistato · Partita IVA · Determinato · Indeterminato · Altro. Riconosciuto anche da corrispondenza libera nel messaggio; in caso di dubbio non si indovina, si presentano le opzioni. Il valore scritto nel campo `tipo_contratto` (e nella colonna Tipo contratto) è lo **slug** dell'opzione scelta, non il testo esteso:
+- `tipo_contratto` — "Che tipo di contratto hai firmato?".
+
+  > **ATTENZIONE — formato del campo `tipo_contratto`**: sia dentro `campi_raccolti` sia dentro `eventi`, il valore scritto in questo campo è SEMPRE uno di questi slug (o `""` se non fornito), MAI il testo della domanda o dell'opzione, anche se il testo esteso è quello che vedi più spesso in questo documento: `contratto_tirocinio_stage`, `contratto_apprendistato`, `contratto_p_iva`, `contratto_determ`, `contratto_indet`, `contratto_altro`.
+
+  Il bot presenta allo studente (e usa SOLO nei messaggi verso di lui, mai nel campo tecnico) queste opzioni fisse per esteso, ciascuna mappata sullo slug corrispondente:
   - "Tirocinio/stage" → `contratto_tirocinio_stage`
   - "Apprendistato" → `contratto_apprendistato`
   - "Partita IVA" → `contratto_p_iva`
   - "Determinato" → `contratto_determ`
   - "Indeterminato" → `contratto_indet`
   - "Altro" → `contratto_altro`
+
+  Riconosciuto anche da corrispondenza libera nel messaggio; in caso di dubbio non si indovina, si presentano le opzioni per esteso.
 - `data_inizio_contratto` — data di inizio del contratto
 - `data_fine_contratto` — data di fine contratto (vuota se il contratto è indeterminato)
 
