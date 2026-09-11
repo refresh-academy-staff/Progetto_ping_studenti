@@ -1,14 +1,14 @@
-const matchingID = $input.first().json.view.blocks[0].block_id
+const matchingID = $input.first().json.payload.view.blocks[0].block_id
 if (!matchingID) {
   return {error: "ID Matching non fornito"}
 }
 
-const userID = $input.first().json.user.id
+const userID = $input.first().json.payload.user.id
 if (!userID) {
   return {error: "User ID non presente"}
 }
 
-const values = $input.first().json.view.state.values
+const values = $input.first().json.payload.view.state.values
 if (!values) {
   return {error: "Nessun valore trovato"}
 }

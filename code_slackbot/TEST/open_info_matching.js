@@ -83,7 +83,7 @@ const buildTextObject = (text) => {
   }
 }
 
-const values = $input.first().json.view.state.values
+const values = $input.first().json.payload.view.state.values
 const azienda = values.nome_azienda.text_input.value
 const posizione = values.posizione.text_input.value
 const sede = values.sede.text_input.value
@@ -119,25 +119,6 @@ const riepilogoAzienda2 = {
 
 }
 
-const riepilogoAzienda = {
-  "type": "rich_text",
-  "block_id": "info_matching",
-  "elements": [
-    {
-      "type": "rich_text_list",
-      "elements": [
-        ...[azienda, posizione, sede]
-          .filter(x => x)
-          .map(o => buildTextSection(o, "italic")),
-        buildTextSection(fonte, "italic"),
-      ],
-      "style": "bullet",
-      "indent": 0,
-      "border": 0
-    }
-  ]
-}
-
 const divider = {
   "type": "divider"
 }
@@ -164,7 +145,7 @@ const selezioneStato = {
 const blocks = [riepilogoAzienda2, divider, textSection, selezioneStato]
 
 const openViewBlocks = {
-  "trigger_id": $('payload_parser').first().json.trigger_id,
+  "trigger_id": $input.first().json.payload.trigger_id,
   "view": {
     "type": "modal",
     "title": {
@@ -172,10 +153,6 @@ const openViewBlocks = {
       "text": "Nuova opportunità"
     },
     "blocks": blocks,
-    "submit": {
-      "type": "plain_text",
-      "text": "Registra",
-    },
     "close": {
       "type": "plain_text",
       "text": "Esci"

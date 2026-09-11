@@ -121,7 +121,7 @@ const buildTextBox = (props) => {
 }
 
 //blocks
-const matchingReferenceBlock = $input.first().json.view.blocks[0];
+const matchingReferenceBlock = $input.first().json.payload.view.blocks[0];
 const divider = {
   "type": "divider",
 };
@@ -181,41 +181,26 @@ const selezioneEsitoColloquio = {
     ]
   }
 }
-const ulterioreColloquio = {
-  "type": "actions",
-  "block_id": "selezione_ulteriore_colloquio",
-  "elements": [
-    {
-      "type": "checkboxes",
-      "action_id": "check_ulteriore_colloquio",
-      "options": [
-        buildOption("Ho la data del prossimo colloquio", "ulteriore_colloquio_selezionato")
-      ]
-    }
-  ]
-}
 
 const altreInfoColloquio = buildTextBox({ placeholder: "Qui puoi scrivere altre informazioni che ritieni significative", label: "Altro", blockID: "altre_info" });
 const altreInfoColloquioSostenuto = buildTextBox({ placeholder: "Qui puoi scrivere altro in merito al colloquio", label: "Impressioni/note aggiuntive", blockID: "altre_info" });
 
 const motivoColloquioNonSostenuto = {
-  "block_id": "main_update",
-  "type": "actions",
-  "elements": [
-    {
-      "type": "static_select",
-      "action_id": "selezione_motivazione_colloquio_non_sostenuto",
-      "options": [
-        buildOption("Rimandato", "colloquio_rimandato"),
-        buildOption("Annullato", "colloquio_annullato"),
-        buildOption("Mia assenza", "colloquio_non_presentato"),
-      ],
-      "placeholder": {
-        "type": "plain_text",
-        "text": "Seleziona una motivazione"
-      }
-    }
-  ]
+  "block_id": "motivo_colloquio_non_sostenuto",
+  "type": "section",
+  "text": {
+    "type": "mrkdwn",
+    "text": "*Seleziona una motivazione tra le seguenti*"
+  },
+  "accessory":{
+    "type": "radio_buttons",
+    "action_id": "selezione_motivazione",
+    "options": [
+      buildOption("Rimandato", "colloquio_rimandato"),
+      buildOption("Annullato (chiudi opportunità)", "colloquio_annullato"),
+      buildOption("Mia assenza (chiudi opportunità)", "colloquio_non_presentato"),
+    ]
+  }
 }
 const dataColloquioRimandato = buildDatePicker("Nuova data", "data_colloquio", true);
 const altreInfoColloquioNonSostenuto = buildTextBox({
@@ -323,10 +308,10 @@ const altreInfoChiusura = buildTextBox({
 
 //blocks build
 
-const viewID = $input.first().json.view.private_metadata;
+const viewID = $input.first().json.payload.view.private_metadata;
 const blocks = [];
 
-const action = $input.first().json.actions[0];
+const action = $input.first().json.payload.actions[0];
 const actionID = action.action_id;
 
 //assunzione
@@ -352,19 +337,20 @@ if (
 }
 
 if (actionID === "conferma_colloquio_sostenuto") {
+  blocks.push(
+    aggiornamentoCollProgHead,
+    colloquioProgSostenuto
+  )
   const selectedOption = action.selected_option.value;
   switch (selectedOption) {
     case "collprog_avvenuto":
       blocks.push(
-        aggiornamentoCollProgHead,
-        colloquioProgSostenuto,
         selezioneEsitoColloquio,
         altreInfoColloquioSostenuto,
       );
       break;
     case "collprog_non_avvenuto":
       blocks.push(
-        colloquioNonSostenutoHead,
         motivoColloquioNonSostenuto,
         altreInfoColloquioNonSostenuto,
       );
@@ -398,30 +384,23 @@ if (
 ) {
   blocks.push(selezioneStatoColloquio, datePickerColloquio, altreInfoColloquio);
 }
-if (actionID === "selezione_motivazione_colloquio_non_sostenuto") {
-  const selectedOption = $input.first().json.actions[0].selected_option.value;
-  switch (selectedOption) {
-    case "colloquio_rimandato":
-      blocks.push(
-        motivoColloquioNonSostenuto,
-        dataColloquioRimandato,
-        altreInfoColloquioNonSostenuto,
-      );
-      break;
-    default:
-      blocks.push(motivoColloquioNonSostenuto, altreInfoColloquioNonSostenuto);
+if (actionID === "selezione_motivazione") {
+  const selectedOption = $input.first().json.payload.actions[0].selected_option.value;
+  blocks.push(
+    aggiornamentoCollProgHead,
+    colloquioProgSostenuto,
+    motivoColloquioNonSostenuto
+  )
+  if (selectedOption === "colloquio_rimandato") {
+    blocks.push(
+      dataColloquioRimandato,
+    );
   }
+  blocks.push(altreInfoColloquioNonSostenuto);
 }
 
-if (actionID === "colloquio_rimandato") {
-  blocks.push(
-    motivoColloquioNonSostenuto,
-    dataColloquioRimandato,
-    altreInfoColloquioNonSostenuto,
-  );
-}
 if (actionID === "selezione_stato_colloquio") {
-  const selectedOption = $input.first().json.actions[0].selected_option.value;
+  const selectedOption = $input.first().json.payload.actions[0].selected_option.value;
   switch (selectedOption) {
     case "colloquio_sostenuto":
       blocks.push(
@@ -444,7 +423,7 @@ if (actionID === "selezione_stato_colloquio") {
 }
 
 if (actionID === "selezione_stato_assunzione") {
-  const selectedOption = $input.first().json.actions[0].selected_option.value;
+  const selectedOption = $input.first().json.payload.actions[0].selected_option.value;
 
   if (
     selectedOption === "assunzione_prevista" ||
@@ -466,7 +445,7 @@ if (actionID === "selezione_stato_assunzione") {
 }
 
 if (blocks.length === 0) {
-  const previousBlocks = $input.first().json.view.blocks;
+  const previousBlocks = $input.first().json.payload.view.blocks;
   blocks.push(...previousBlocks);
 } else {
   if (blocks[0].block_id !== matchingReferenceBlock.block_id) {
@@ -475,7 +454,7 @@ if (blocks.length === 0) {
 }
 
 const uploadViewBlocks = {
-  view_id: $("payload_parser").first().json.view.id,
+  view_id: $("payload_parser").first().json.payload.view.id,
   view: {
     type: "modal",
     title: {
