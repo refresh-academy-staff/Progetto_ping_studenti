@@ -23,8 +23,8 @@
               "sede": { "type": "string", "description": "Sede di lavoro, opzionale. Stringa vuota se non fornita." },
               "fonte": {
                 "type": "string",
-                "enum": ["Ricerca online autonoma", "Foglio Google condiviso", "Speed Interview", "L'azienda ha cercato il mio contatto", "Altro"],
-                "description": "Come lo studente ha trovato l'opportunità."
+                "enum": ["online_autonomo", "gsheet", "speed_interview", "da_azienda", "altro"],
+                "description": "Slug corrispondente a come lo studente ha trovato l'opportunità."
               },
               "link": { "type": "string", "description": "Link generico (annuncio, sito aziendale, ecc.), opzionale. Stringa vuota se non fornito." },
               "note": { "type": "string", "description": "Risposta libera a 'Vuoi aggiungere altri dettagli?', opzionale. Stringa vuota se non fornita." },
@@ -43,8 +43,8 @@
               "sede": { "type": "string", "description": "Sede di lavoro, opzionale. Stringa vuota se non fornita." },
               "fonte": {
                 "type": "string",
-                "enum": ["Ricerca online autonoma", "Foglio Google condiviso", "Speed Interview", "L'azienda ha cercato il mio contatto", "Altro"],
-                "description": "Come lo studente ha trovato l'opportunità."
+                "enum": ["online_autonomo", "gsheet", "speed_interview", "da_azienda", "altro"],
+                "description": "Slug corrispondente a come lo studente ha trovato l'opportunità."
               },
               "data_colloquio": { "type": "string", "description": "Data prevista del colloquio, formato ISO 8601 (aaaa-mm-gg). Sempre valorizzata." },
               "note": { "type": "string", "description": "Risposta libera a 'Vuoi aggiungere altri dettagli?', opzionale. Stringa vuota se non fornita." },
@@ -63,8 +63,8 @@
               "sede": { "type": "string", "description": "Sede di lavoro, opzionale. Stringa vuota se non fornita." },
               "fonte": {
                 "type": "string",
-                "enum": ["Ricerca online autonoma", "Foglio Google condiviso", "Speed Interview", "L'azienda ha cercato il mio contatto", "Altro"],
-                "description": "Come lo studente ha trovato l'opportunità."
+                "enum": ["online_autonomo", "gsheet", "speed_interview", "da_azienda", "altro"],
+                "description": "Slug corrispondente a come lo studente ha trovato l'opportunità."
               },
               "data_colloquio": { "type": "string", "description": "Data in cui si è svolto il colloquio, formato ISO 8601 (aaaa-mm-gg). Sempre valorizzata." },
               "feedback_colloquio": {
@@ -88,8 +88,8 @@
               "sede": { "type": "string", "description": "Sede di lavoro, opzionale. Stringa vuota se non fornita." },
               "fonte": {
                 "type": "string",
-                "enum": ["Ricerca online autonoma", "Foglio Google condiviso", "Speed Interview", "L'azienda ha cercato il mio contatto", "Altro"],
-                "description": "Come lo studente ha trovato l'opportunità."
+                "enum": ["online_autonomo", "gsheet", "speed_interview", "da_azienda", "altro"],
+                "description": "Slug corrispondente a come lo studente ha trovato l'opportunità."
               },
               "tipo_contratto": {
                 "type": "string",
@@ -114,8 +114,8 @@
               "sede": { "type": "string", "description": "Sede di lavoro, opzionale. Stringa vuota se non fornita." },
               "fonte": {
                 "type": "string",
-                "enum": ["Ricerca online autonoma", "Foglio Google condiviso", "Speed Interview", "L'azienda ha cercato il mio contatto", "Altro"],
-                "description": "Come lo studente ha trovato l'opportunità."
+                "enum": ["online_autonomo", "gsheet", "speed_interview", "da_azienda", "altro"],
+                "description": "Slug corrispondente a come lo studente ha trovato l'opportunità."
               },
               "tipo_contratto": {
                 "type": "string",
@@ -150,7 +150,7 @@
           "sede": { "type": "string", "description": "Stringa vuota se non ancora raccolto o dichiarato non fornito dallo studente." },
           "fonte": {
             "type": "string",
-            "enum": ["Ricerca online autonoma", "Foglio Google condiviso", "Speed Interview", "L'azienda ha cercato il mio contatto", "Altro", ""],
+            "enum": ["online_autonomo", "gsheet", "speed_interview", "da_azienda", "altro", ""],
             "description": "Stringa vuota se non ancora raccolto."
           },
           "data_colloquio": { "type": "string", "description": "Stringa vuota se non ancora raccolto. Formato ISO 8601 (aaaa-mm-gg) quando presente." },
