@@ -79,6 +79,13 @@ const assunzText1 = buildTextBlock({
   text: "Compila questi campi se hai le relative informazioni",
   style: "bold",
 });
+const link = buildTextBox({
+  blockID: "link_allegato",
+  placeholder: "www.linkedin.it, www.acme.it...",
+  multiline: false,
+  optional: true,
+  label: "Incolla qui il link dell'annuncio o altri link che ritieni rilevanti"
+})
 const selezioneStatoColloquio = {
   "block_id": "stato",
   "type": "input",
@@ -172,25 +179,27 @@ const altreInfoAssunzione = buildTextBox({
   multiline: true,
   optional: true
 });
-const action = $input.first().json.actions[0].action_id
-const infoAzienda = $input.first().json.view.blocks.find(b => b.block_id === "info_matching")
+const action = $input.first().json.payload.actions[0].action_id
+const infoAzienda = $input.first().json.payload.view.blocks.find(b => b.block_id === "info_matching")
 const nomeAzienda = infoAzienda.fields[1].text.replaceAll("_", "").replaceAll("*", "");
 const divider = {
   "type": "divider"
 }
 
 const riepilogoCandidatura = {
-  "type": "actions",
+  "type": "section",
   "block_id": "stato",
-  "elements": [
-    {
-      "type": "radio_buttons",
-      "options": [
-        buildOption(`Candidatura con ${nomeAzienda}`, "candidatura_inviata")
-      ],
-      "initial_option": buildOption(`Candidatura con ${nomeAzienda}`, "candidatura_inviata")
-    }
-  ]
+  "text": {
+    "type": "mrkdwn",
+    "text": "*Candidatura in oggetto*"
+  },
+  "accessory": {
+    "type": "radio_buttons",
+    "options": [
+      buildOption(`Candidatura con ${nomeAzienda}`, "candidatura_inviata")
+    ],
+    "initial_option": buildOption(`Candidatura con ${nomeAzienda}`, "candidatura_inviata")
+  }
 }
 
 const noteNuovaCadidatura = buildTextBox({
@@ -200,35 +209,35 @@ const noteNuovaCadidatura = buildTextBox({
   optional: true,
   label: "Aggiungi altri dettagli"
 })
-const blocks = [];
+const blocks = [infoAzienda, divider];
 switch (action) {
   case "new_candidatura":
-    blocks.push(infoAzienda, divider, riepilogoCandidatura, noteNuovaCadidatura)
+    blocks.push(riepilogoCandidatura, link, divider, noteNuovaCadidatura)
     break;
   case "new_colloquio":
-    blocks.push(infoAzienda, divider, selezioneStatoColloquio)
+    blocks.push(selezioneStatoColloquio)
     break;
   case "selezione_stato_colloquio":
-    const selectedOption = $input.first().json.actions[0].selected_option.value;
+    const selectedOption = $input.first().json.payload.actions[0].selected_option.value;
     switch (selectedOption) {
       case "colloquio_sostenuto":
         blocks.push(
-          infoAzienda,
-          divider,
           selezioneStatoColloquio,
           datePickerColloquio,
           divider,
           selezioneEsitoColloquio,
+          divider,
+          link,
           divider,
           altreInfoColloquioSostenuto,
         );
         break;
       case "colloquio_programmato":
         blocks.push(
-          infoAzienda,
-          divider,
           selezioneStatoColloquio,
           datePickerColloquio,
+          link,
+          divider,
           altreInfoColloquio,
         );
         break;
@@ -236,8 +245,6 @@ switch (action) {
       break;
   case "new_assunzione":
     blocks.push(
-      infoAzienda,
-      divider,
       selezioneStatoAssunzione,
       divider,
       assunzText1,
@@ -245,13 +252,15 @@ switch (action) {
       dataInizioContratto,
       dataFineContratto,
       divider,
+      link,
+      divider,
       altreInfoAssunzione,
     )
     break;
 }
 
 const uploadViewBlocks = {
-  view_id: $("payload_parser").first().json.view.id,
+  view_id: $("payload_parser").first().json.payload.view.id,
   view: {
     type: "modal",
     title: {

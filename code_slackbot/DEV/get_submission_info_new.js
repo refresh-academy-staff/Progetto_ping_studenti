@@ -1,16 +1,28 @@
-const infoMatching = $input.first().json.view.blocks.find(b => b.block_id === "info_matching");
+const infoMatching = $input.first().json.payload.view.blocks.find(b => b.block_id === "info_matching");
 
 const azienda = infoMatching.fields[1].text
 const posizione = infoMatching.fields[3].text
 const sede = infoMatching.fields[5].text
 const fonte = infoMatching.fields[7].text
 
-const userID = $input.first().json.user.id
+const removeMrkdwn = (text) => {
+  const first = text[0];
+  const last = text[text.length -1];
+
+  if (first !== last) {
+    if (first !== "_" || first !== "*") {
+       return {error: "the string doesn't appear to be in markdown"}
+    }
+  }
+  return text.slice(1, -1);
+}
+
+const userID = $input.first().json.payload.user.id
 if (!userID) {
   return {error: "User ID non presente"}
 }
 
-const values = $input.first().json.view.state.values
+const values = $input.first().json.payload.view.state.values
 if (!values) {
   return {error: "Nessun valore trovato"}
 }
@@ -20,10 +32,10 @@ const valuesKeys = Object.keys(values)
 const submission = {
   context: {
     user_id: userID,
-    azienda: azienda,
-    posizione: posizione,
-    sede: sede,
-    fonte: fonte
+    azienda: removeMrkdwn(azienda),
+    posizione: removeMrkdwn(posizione),
+    sede: removeMrkdwn(sede),
+    fonte: removeMrkdwn(fonte)
   },
   submittedValues: {}
 };

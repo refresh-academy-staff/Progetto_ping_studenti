@@ -62,7 +62,7 @@ const buildButton = (text, value, actionID, style) => {
       },
       "value": value,
       "action_id": actionID,
-      "style": "danger"
+      "style": "primary"
     }
   } else {
     return {
@@ -123,7 +123,7 @@ const buildTextBox = (props) => {
   }
 }
 
-const selectedMatching = $('payload_parser').first().json.view.state.values.matching_list.choose_matching.selected_option;
+const selectedMatching = $('payload_parser').first().json.payload.view.state.values.selezione_matching.choose_matching.selected_option;
 const selectedMatchingText = selectedMatching.text.text
 const selectedMatchingID = selectedMatching.value
 
@@ -166,6 +166,20 @@ const redirectAssunzione = {
   ]
 }
 //=======================================
+const selezioneStatoColloquio = {
+  "block_id": "main_update",
+  "type": "input",
+  "dispatch_action": true,
+  "element": {
+    "type": "radio_buttons",
+    "action_id": "selezione_stato_colloquio",
+    "options": [
+      buildOption("Programmato", "colloquio_programmato"),
+      buildOption("Sostenuto", "colloquio_sostenuto")
+    ]
+  },
+  ...buildLabel("Stato")
+}
 
 const aggiornamentoCollSostHead = buildTextBlock({text: "Come vuoi aggiornare questa opportunità?", style: "bold"});
 const mainActionAggiornamentoCollSost = {
@@ -237,6 +251,11 @@ switch (ultimaAttività) {
     titoloAggiornamento = "Update candidatura" ;
     privateID = "update_candidatura" ;
     break;
+  case "Colloquio rimandato":
+    blocks.push(selezioneStatoColloquio)
+    titoloAggiornamento = "Update colloquio";
+    privateID = "update_colloquio_rim" ;
+    break;
   case "Colloquio programmato":
     blocks.push(aggiornamentoCollProgHead, colloquioProgSostenuto, collProgDomanda1, redirectAssunzione)
     titoloAggiornamento = "Update colloquio";
@@ -247,7 +266,7 @@ switch (ultimaAttività) {
     titoloAggiornamento = "Update colloquio";
     privateID = "update_colloquio_sost" ;
     break;
-  case "Assunzione":
+  case "Assunzione prevista":
     blocks.push(selezioneStatoAssunzione, altreInfoAssunzione)
     titoloAggiornamento = "Update assunzione";
     privateID = "update_assunzione";
@@ -264,7 +283,7 @@ const submitButton = {
 }
 
 const openViewBlocks = {
-  "trigger_id": $('payload_parser').first().json.trigger_id,
+  "trigger_id": $('payload_parser').first().json.payload.trigger_id,
   "view": {
     "type": "modal",
     "title": {
@@ -286,7 +305,8 @@ switch (ultimaAttività) {
   case "Colloquio sostenuto":
     return {openViewBlocks}
   case "Colloquio programmato":
-  case "Assunzione":
+  case "Colloquio rimandato":
+  case "Assunzione prevista":
     return {
       openViewBlocks: {
         ...openViewBlocks,

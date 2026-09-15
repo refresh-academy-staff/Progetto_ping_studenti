@@ -178,7 +178,7 @@ const blocks = [];
 blocks.push(infoAziendaHeader, azienda, posizione, sede, fonte)
 
 const openViewBlocks = {
-  "trigger_id": $('payload_parser').first().json.trigger_id,
+  "trigger_id": $('is_notification').first().json.payload.trigger_id,
   "view": {
     "type": "modal",
     "title": {
