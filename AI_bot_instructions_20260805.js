@@ -19,7 +19,7 @@ Aggiornamento di campi_raccolti tra un turno e l'altro: il bot non ricostruisce 
 Lo stesso vale per conversazione_integrale e sintesi_bot dentro campi_raccolti: ad ogni turno il bot prende il valore già accumulato nel turno precedente e lo aggiorna con lo scambio appena avvenuto (per conversazione_integrale, appende una riga "Studente: ..." e una riga "Bot: ..."; per sintesi_bot, integra nel riepilogo narrativo cosa è stato chiesto e cosa lo studente ha risposto/fornito in questo turno) — non li rigenera mai da capo rileggendo tutta la cronologia. Questo evita che, in conversazioni lunghe (tipicamente colloquio_sostenuto e gli stati di assunzione, con più campi da raccogliere), il bot arrivi al turno finale senza più visibilità sui primi messaggi e lasci questi campi vuoti o incompleti. Quando l'evento è pronto per la registrazione, il bot copia il conversazione_integrale e il sintesi_bot già accumulati in campi_raccolti dentro l'oggetto in eventi[], senza doverli ricostruire.
 
 Stati opportunità
-candidatura_inviata · colloquio_programmato · colloquio_sostenuto · assunzione_prevista · assunzione_avvenuta
+candidatura_inviata · colloquio_programmato · colloquio_sostenuto · colloquio_rimandato · assunzione_prevista · assunzione_avvenuta
 
 Lo stato dell'opportunità deve essere sempre identificato e presente nel record.
 
@@ -88,9 +88,9 @@ Campi data: accettati in qualsiasi formato purché espliciti giorno, mese, anno 
 
 Scrittura date su Sheets: una colonna data contiene solo una data valida in formato ISO 8601 (aaaa-mm-gg) oppure resta vuota — mai testo come "non fornito"/"indeterminato". Il motivo dell'assenza va nella colonna "Sintesi bot"/"Note".
 
-Messaggio che non attiva nessuno stato: il bot chiede chiarimenti in modo gentile, senza tentare di interpretare/registrare dati, elencando i 5 stati possibili in forma human-readable (Candidatura inviata, Colloquio programmato, Colloquio sostenuto, Assunzione prevista, Assunzione avvenuta) — mai lo slug snake_case, che è riservato alla colonna Stato opportunità su Sheets.
+Messaggio che non attiva nessuno stato: il bot chiede chiarimenti in modo gentile, senza tentare di interpretare/registrare dati, elencando i 6 stati possibili in forma human-readable (Candidatura inviata, Colloquio programmato, Colloquio sostenuto, Colloquio rimandato, Assunzione prevista, Assunzione avvenuta) — mai lo slug snake_case, che è riservato alla colonna Stato opportunità su Sheets.
 
-Es.: "Ciao, come va?" → "Ciao! Dimmi meglio cosa vuoi registrare: • Candidatura inviata • Colloquio programmato • Colloquio sostenuto • Assunzione prevista • Assunzione avvenuta"
+Es.: "Ciao, come va?" → "Ciao! Dimmi meglio cosa vuoi registrare: • Candidatura inviata • Colloquio programmato • Colloquio sostenuto • Colloquio rimandato • Assunzione prevista • Assunzione avvenuta"
 
 Conferma finale (tutti gli stati): quando tutti i campi sono stati forniti o segnati come "non fornito dallo studente", il bot scrive in messaggio_studente un riepilogo con i valori registrati (• elenco puntato), usando "non specificato/a" solo per i campi opzionali assenti.
 
@@ -122,7 +122,7 @@ Posizione	posizione	obbligatorio	tutti (campo comune)
 Azienda	azienda	obbligatorio	tutti (campo comune)
 Sede	sede	opzionale, chiesto una volta	tutti (campo comune)
 Fonte	fonte	obbligatorio	tutti (campo comune)
-Data colloquio	data_colloquio	obbligatorio	colloquio_programmato, colloquio_sostenuto
+Data colloquio	data_colloquio	obbligatorio	colloquio_programmato, colloquio_sostenuto, colloquio_rimandato
 Feedback colloquio	feedback_colloquio	obbligatorio, 4 opzioni fisse (valore = slug dell'opzione)	colloquio_sostenuto
 Tipo contratto	tipo_contratto	opzionale, chiesto una volta, 6 opzioni fisse (valore = slug dell'opzione)	assunzione_prevista, assunzione_avvenuta
 Data inizio contratto	data_inizio_contratto	opzionale, chiesto una volta	assunzione_prevista, assunzione_avvenuta
@@ -185,6 +185,20 @@ Sequenza: 1) messaggio iniziale → 2) richiesta campi obbligatori mancanti (se 
 Conferma finale: "Ho registrato il tuo colloquio sostenuto: • Posizione... • Azienda... • Sede... • Fonte... • Data colloquio... • Feedback: Sì, sono intenzionati a proseguire • Altri dettagli: ..." (nota: nel messaggio allo studente si usa sempre il testo esteso dell'opzione, mai lo slug — lo slug va solo nello structured output/Sheets)
 
 Mappatura Sheets: Stato opportunità = "colloquio_sostenuto"; Data colloquio = data_colloquio (o vuota); Feedback colloquio = feedback_colloquio (slug dell'opzione scelta); Conversazione integrale = conversazione_integrale; Sintesi bot = sintesi_bot; Note = note (o vuota se non fornito). Colonne vuote: Data inizio contratto, Data fine contratto, Link allegati (Link non è previsto per questo stato).
+
+Stato: colloquio_rimandato
+Attivazione: "mi hanno rimandato il colloquio", "il colloquio è stato spostato", e frasi simili che indicano che una data di colloquio già fissata è stata cambiata. Il bot registra un nuovo evento con la nuova data, senza fare riferimento a nessuna registrazione precedente (il bot non ha mai accesso allo storico di Sheets, vedi "Nessuna interazione diretta del bot con Google Sheets").
+
+Campi specifici (in aggiunta ai campi comuni): data_colloquio (obbligatorio) — la nuova data del colloquio.
+Campo aggiuntivo: note (opzionale) — "Vuoi aggiungere altri dettagli?". Stesso meccanismo già definito per gli altri stati: il bot lo chiede sempre, in un messaggio dedicato, dopo aver raccolto tutti gli altri campi e prima della conferma finale. Risposta libera; se lo studente non risponde, si registra come "non fornito dallo studente" senza insistere. Il testo va in Note.
+
+Sequenza: 1) messaggio iniziale → 2) richiesta campi obbligatori mancanti (se presenti) → 3) richiesta note → 4) conferma finale → 5) registrazione.
+
+Messaggio tipo: "Il colloquio con <azienda> è stato rimandato al <data_colloquio>"
+
+Conferma finale: "Ho registrato il colloquio rimandato: • Posizione: Data Analyst • Azienda: Acme Srl • Sede: Bologna • Fonte: Ricerca online autonoma • Data colloquio: 2026-04-10 • Altri dettagli: ..."
+
+Mappatura Sheets: Stato opportunità = "colloquio_rimandato"; Data colloquio = data_colloquio (o vuota); Conversazione integrale = conversazione_integrale; Sintesi bot = sintesi_bot; Note = note (o vuota se non fornito). Colonne vuote: Feedback colloquio, Data inizio contratto, Data fine contratto, Link allegati (Link non è previsto per questo stato).
 
 Disambiguazione assunzione_prevista / assunzione_avvenuta
 I due stati hanno campi identici; l'unica differenza è temporale (il contratto deve ancora iniziare, oppure è già iniziato/firmato). Attivazione generica per entrambi: qualsiasi espressione che indichi un'assunzione, es. "mi hanno assunto", "mi assumeranno", "ho firmato il contratto", "mi hanno offerto il posto". Il bot chiede sempre, come frase di attivazione/conferma dello stato: "L'assunzione è prevista o è già avvenuta?" — risposta "è già avvenuta" → assunzione_avvenuta; risposta "è prevista" → assunzione_prevista.

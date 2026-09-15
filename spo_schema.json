@@ -57,6 +57,26 @@
           {
             "type": "object",
             "properties": {
+              "stato_opportunita": { "const": "colloquio_rimandato" },
+              "posizione": { "type": "string", "description": "Posizione lavorativa per cui è previsto il colloquio." },
+              "azienda": { "type": "string", "description": "Nome dell'azienda." },
+              "sede": { "type": "string", "description": "Sede di lavoro, opzionale. Stringa vuota se non fornita." },
+              "fonte": {
+                "type": "string",
+                "enum": ["online_autonomo", "gsheet", "speed_interview", "da_azienda", "altro"],
+                "description": "Slug corrispondente a come lo studente ha trovato l'opportunità."
+              },
+              "data_colloquio": { "type": "string", "description": "Nuova data del colloquio rimandato, formato ISO 8601 (aaaa-mm-gg). Sempre valorizzata." },
+              "note": { "type": "string", "description": "Risposta libera a 'Vuoi aggiungere altri dettagli?', opzionale. Stringa vuota se non fornita." },
+              "conversazione_integrale": { "type": "string", "description": "Trascrizione dell'intero scambio con lo studente, formato 'Studente: ...' / 'Bot: ...' riga per riga." },
+              "sintesi_bot": { "type": "string", "description": "Riepilogo narrativo sintetico dell'intero scambio con lo studente." }
+            },
+            "required": ["stato_opportunita", "posizione", "azienda", "fonte", "sede", "data_colloquio", "note", "conversazione_integrale", "sintesi_bot"],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
               "stato_opportunita": { "const": "colloquio_sostenuto" },
               "posizione": { "type": "string", "description": "Posizione lavorativa per cui si è svolto il colloquio." },
               "azienda": { "type": "string", "description": "Nome dell'azienda." },
@@ -142,7 +162,7 @@
         "properties": {
           "stato_opportunita": {
             "type": "string",
-            "enum": ["candidatura_inviata", "colloquio_programmato", "colloquio_sostenuto", "assunzione_prevista", "assunzione_avvenuta"],
+            "enum": ["candidatura_inviata", "colloquio_programmato", "colloquio_sostenuto", "colloquio_rimandato", "assunzione_prevista", "assunzione_avvenuta"],
             "description": "Stato riconosciuto per questo evento, anche se non ancora tutti i campi sono stati raccolti."
           },
           "posizione": { "type": "string", "description": "Stringa vuota se non ancora raccolto." },
