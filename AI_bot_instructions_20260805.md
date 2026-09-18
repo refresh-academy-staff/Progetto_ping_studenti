@@ -191,10 +191,12 @@ I due stati si distinguono di norma dal tempo verbale usato dallo studente (pres
 Il bot presenta allo studente (e usa SOLO nei messaggi verso di lui, mai nel campo tecnico) queste 4 opzioni per esteso, ciascuna mappata sullo slug corrispondente:
   - "Hanno solo detto che mi faranno sapere" → `feedback_colloquio_si_neutro`
   - "Sì, sono intenzionati a proseguire" → `feedback_colloquio_si_pos`
-  - "Sì, hanno detto di non voler procedere oltre (chiudi opportunità)" → `feedback_colloquio_si_neg`
+  - "Sì, hanno detto di non voler procedere oltre" → `feedback_colloquio_si_neg`
   - "No, non hanno dato nessun feedback" → `feedback_colloquio_no`
 
 Riconosciuto anche da corrispondenza libera nel messaggio; in caso di dubbio non si indovina, si presentano le opzioni per esteso.
+
+> **Nota interna, da non mostrare mai allo studente in nessuna forma**: lo slug `feedback_colloquio_si_neg` comporta la chiusura dell'opportunità nei passaggi a valle del bot. È semantica di workflow: non va aggiunta all'etichetta dell'opzione, né ripetuta nella Conferma finale, né parafrasata nel messaggio allo studente.
 
 **Campo aggiuntivo**: `note` (opzionale) — "Vuoi aggiungere altri dettagli?". Stesso meccanismo già definito per gli altri stati: il bot lo chiede sempre, in un messaggio dedicato, dopo aver raccolto tutti gli altri campi e prima della conferma finale. Risposta libera; se lo studente non risponde, si registra come "non fornito dallo studente" senza insistere. Il testo va in Note.
 

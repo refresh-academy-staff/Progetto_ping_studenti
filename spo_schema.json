@@ -28,7 +28,7 @@
               },
               "link": { "type": "string", "description": "Link generico (annuncio, sito aziendale, ecc.), opzionale. Registrato esattamente come scritto dallo studente, con o senza schema (es. \"www.acme.it\", \"acme.it/lavora-con-noi\", \"https://acme.it\"): non va normalizzato né completato. Stringa vuota se non fornito." },
               "note": { "type": "string", "description": "Risposta libera a 'Vuoi aggiungere altri dettagli?', opzionale. Stringa vuota se non fornita." },
-              "conversazione_integrale": { "type": "string", "description": "Trascrizione dell'intero scambio con lo studente, formato 'Studente: ...' / 'Bot: ...' riga per riga." },
+              "conversazione_integrale": { "type": "string", "description": "Trascrizione dell'intero scambio con lo studente, formato 'Studente: ...' / 'Bot: ...' riga per riga. Si genera SOLO qui e SOLO in questo turno finale, rileggendo la conversazione visibile in memoria: non viene accumulata nei turni intermedi." },
               "sintesi_bot": { "type": "string", "description": "Riepilogo narrativo sintetico dell'intero scambio con lo studente: cosa il bot ha chiesto e cosa lo studente ha risposto/fornito, in poche frasi. Non è una trascrizione verbatim: quella è conversazione_integrale." }
             },
             "required": ["stato_opportunita", "posizione", "azienda", "fonte", "sede", "link", "note", "conversazione_integrale", "sintesi_bot"],
@@ -49,7 +49,7 @@
               "data_colloquio": { "type": "string", "description": "Data prevista del colloquio, formato ISO 8601 (aaaa-mm-gg). Sempre valorizzata." },
               "link": { "type": "string", "description": "Link generico (annuncio, sito aziendale, ecc.), opzionale. Registrato esattamente come scritto dallo studente, con o senza schema (es. \"www.acme.it\", \"acme.it/lavora-con-noi\", \"https://acme.it\"): non va normalizzato né completato. Stringa vuota se non fornito." },
               "note": { "type": "string", "description": "Risposta libera a 'Vuoi aggiungere altri dettagli?', opzionale. Stringa vuota se non fornita." },
-              "conversazione_integrale": { "type": "string", "description": "Trascrizione dell'intero scambio con lo studente, formato 'Studente: ...' / 'Bot: ...' riga per riga." },
+              "conversazione_integrale": { "type": "string", "description": "Trascrizione dell'intero scambio con lo studente, formato 'Studente: ...' / 'Bot: ...' riga per riga. Si genera SOLO qui e SOLO in questo turno finale, rileggendo la conversazione visibile in memoria: non viene accumulata nei turni intermedi." },
               "sintesi_bot": { "type": "string", "description": "Riepilogo narrativo sintetico dell'intero scambio con lo studente: cosa il bot ha chiesto e cosa lo studente ha risposto/fornito, in poche frasi. Non è una trascrizione verbatim: quella è conversazione_integrale." }
             },
             "required": ["stato_opportunita", "posizione", "azienda", "fonte", "sede", "data_colloquio", "link", "note", "conversazione_integrale", "sintesi_bot"],
@@ -70,7 +70,7 @@
               "data_colloquio": { "type": "string", "description": "Nuova data del colloquio rimandato, formato ISO 8601 (aaaa-mm-gg). Sempre valorizzata." },
               "link": { "type": "string", "description": "Link generico (annuncio, sito aziendale, ecc.), opzionale. Registrato esattamente come scritto dallo studente, con o senza schema (es. \"www.acme.it\", \"acme.it/lavora-con-noi\", \"https://acme.it\"): non va normalizzato né completato. Stringa vuota se non fornito." },
               "note": { "type": "string", "description": "Risposta libera a 'Vuoi aggiungere altri dettagli?', opzionale. Stringa vuota se non fornita." },
-              "conversazione_integrale": { "type": "string", "description": "Trascrizione dell'intero scambio con lo studente, formato 'Studente: ...' / 'Bot: ...' riga per riga." },
+              "conversazione_integrale": { "type": "string", "description": "Trascrizione dell'intero scambio con lo studente, formato 'Studente: ...' / 'Bot: ...' riga per riga. Si genera SOLO qui e SOLO in questo turno finale, rileggendo la conversazione visibile in memoria: non viene accumulata nei turni intermedi." },
               "sintesi_bot": { "type": "string", "description": "Riepilogo narrativo sintetico dell'intero scambio con lo studente: cosa il bot ha chiesto e cosa lo studente ha risposto/fornito, in poche frasi. Non è una trascrizione verbatim: quella è conversazione_integrale." }
             },
             "required": ["stato_opportunita", "posizione", "azienda", "fonte", "sede", "data_colloquio", "link", "note", "conversazione_integrale", "sintesi_bot"],
@@ -96,7 +96,7 @@
               },
               "link": { "type": "string", "description": "Link generico (annuncio, sito aziendale, ecc.), opzionale. Registrato esattamente come scritto dallo studente, con o senza schema (es. \"www.acme.it\", \"acme.it/lavora-con-noi\", \"https://acme.it\"): non va normalizzato né completato. Stringa vuota se non fornito." },
               "note": { "type": "string", "description": "Risposta libera a 'Vuoi aggiungere altri dettagli?', opzionale. Stringa vuota se non fornita." },
-              "conversazione_integrale": { "type": "string", "description": "Trascrizione dell'intero scambio con lo studente, formato 'Studente: ...' / 'Bot: ...' riga per riga." },
+              "conversazione_integrale": { "type": "string", "description": "Trascrizione dell'intero scambio con lo studente, formato 'Studente: ...' / 'Bot: ...' riga per riga. Si genera SOLO qui e SOLO in questo turno finale, rileggendo la conversazione visibile in memoria: non viene accumulata nei turni intermedi." },
               "sintesi_bot": { "type": "string", "description": "Riepilogo narrativo sintetico dell'intero scambio con lo studente: cosa il bot ha chiesto e cosa lo studente ha risposto/fornito, in poche frasi. Non è una trascrizione verbatim: quella è conversazione_integrale." }
             },
             "required": ["stato_opportunita", "posizione", "azienda", "fonte", "sede", "data_colloquio", "feedback_colloquio", "link", "note", "conversazione_integrale", "sintesi_bot"],
@@ -123,7 +123,7 @@
               "data_fine_contratto": { "type": "string", "description": "Data di fine prevista, formato ISO 8601 (aaaa-mm-gg), opzionale o se contratto indeterminato. Stringa vuota se non fornita." },
               "link": { "type": "string", "description": "Link generico (annuncio, sito aziendale, ecc.), opzionale. Registrato esattamente come scritto dallo studente, con o senza schema (es. \"www.acme.it\", \"acme.it/lavora-con-noi\", \"https://acme.it\"): non va normalizzato né completato. Stringa vuota se non fornito." },
               "note": { "type": "string", "description": "Risposta libera a 'Vuoi aggiungere altri dettagli?', opzionale. Stringa vuota se non fornita." },
-              "conversazione_integrale": { "type": "string", "description": "Trascrizione dell'intero scambio con lo studente, formato 'Studente: ...' / 'Bot: ...' riga per riga." },
+              "conversazione_integrale": { "type": "string", "description": "Trascrizione dell'intero scambio con lo studente, formato 'Studente: ...' / 'Bot: ...' riga per riga. Si genera SOLO qui e SOLO in questo turno finale, rileggendo la conversazione visibile in memoria: non viene accumulata nei turni intermedi." },
               "sintesi_bot": { "type": "string", "description": "Riepilogo narrativo sintetico dell'intero scambio con lo studente: cosa il bot ha chiesto e cosa lo studente ha risposto/fornito, in poche frasi. Non è una trascrizione verbatim: quella è conversazione_integrale." }
             },
             "required": ["stato_opportunita", "posizione", "azienda", "fonte", "sede", "tipo_contratto", "data_inizio_contratto", "data_fine_contratto", "link", "note", "conversazione_integrale", "sintesi_bot"],
@@ -150,7 +150,7 @@
               "data_fine_contratto": { "type": "string", "description": "Data di fine contratto, formato ISO 8601 (aaaa-mm-gg), opzionale o se contratto indeterminato. Stringa vuota se non fornita." },
               "link": { "type": "string", "description": "Link generico (annuncio, sito aziendale, ecc.), opzionale. Registrato esattamente come scritto dallo studente, con o senza schema (es. \"www.acme.it\", \"acme.it/lavora-con-noi\", \"https://acme.it\"): non va normalizzato né completato. Stringa vuota se non fornito." },
               "note": { "type": "string", "description": "Risposta libera a 'Vuoi aggiungere altri dettagli?', opzionale. Stringa vuota se non fornita." },
-              "conversazione_integrale": { "type": "string", "description": "Trascrizione dell'intero scambio con lo studente, formato 'Studente: ...' / 'Bot: ...' riga per riga." },
+              "conversazione_integrale": { "type": "string", "description": "Trascrizione dell'intero scambio con lo studente, formato 'Studente: ...' / 'Bot: ...' riga per riga. Si genera SOLO qui e SOLO in questo turno finale, rileggendo la conversazione visibile in memoria: non viene accumulata nei turni intermedi." },
               "sintesi_bot": { "type": "string", "description": "Riepilogo narrativo sintetico dell'intero scambio con lo studente: cosa il bot ha chiesto e cosa lo studente ha risposto/fornito, in poche frasi. Non è una trascrizione verbatim: quella è conversazione_integrale." }
             },
             "required": ["stato_opportunita", "posizione", "azienda", "fonte", "sede", "tipo_contratto", "data_inizio_contratto", "data_fine_contratto", "link", "note", "conversazione_integrale", "sintesi_bot"],
@@ -161,7 +161,7 @@
     },
     "campi_raccolti": {
       "type": "array",
-      "description": "Stato aggiornato dei campi raccolti finora per ciascun evento ancora in corso di raccolta (non ancora pronto per la registrazione). Il bot lo aggiorna ad ogni turno partendo dal proprio campi_raccolti del turno precedente (visibile nella memoria della conversazione), non lo ricostruisce da zero rileggendo tutta la cronologia. Vuoto ([]) se non c'è nessun evento in corso di raccolta in questo momento (es. evento già confermato, o messaggio che non attiva nessuno stato).",
+      "description": "Stato aggiornato dei campi raccolti finora per ciascun evento ancora in corso di raccolta (non ancora pronto per la registrazione). Il bot lo aggiorna ad ogni turno partendo dal proprio campi_raccolti del turno precedente (visibile nella memoria della conversazione), non lo ricostruisce da zero rileggendo tutta la cronologia. È l'unica memoria di lavoro del bot e va tenuto piccolo: non contiene conversazione_integrale né sintesi_bot, che si generano una sola volta in eventi[] al turno finale. Vuoto ([]) se non c'è nessun evento in corso di raccolta in questo momento (es. evento già confermato, o messaggio che non attiva nessuno stato).",
       "items": {
         "type": "object",
         "properties": {
@@ -192,11 +192,9 @@
           "data_inizio_contratto": { "type": "string", "description": "Stringa vuota se non ancora chiesto né raccolto. Il valore letterale \"non fornito dallo studente\" se il bot lo ha già chiesto e lo studente ha declinato: promemoria interno per non richiederlo più. In eventi[] diventa stringa vuota." },
           "data_fine_contratto": { "type": "string", "description": "Stringa vuota se non ancora chiesto né raccolto. Il valore letterale \"non fornito dallo studente\" se il bot lo ha già chiesto e lo studente ha declinato: promemoria interno per non richiederlo più. In eventi[] diventa stringa vuota." },
           "link": { "type": "string", "description": "Stringa vuota se non ancora chiesto né raccolto. Il valore letterale \"non fornito dallo studente\" se il bot lo ha già chiesto e lo studente ha declinato: promemoria interno per non richiederlo più. In eventi[] diventa stringa vuota." },
-          "note": { "type": "string", "description": "Stringa vuota se non ancora chiesto né raccolto. Il valore letterale \"non fornito dallo studente\" se il bot lo ha già chiesto e lo studente ha declinato: promemoria interno per non richiederlo più. In eventi[] diventa stringa vuota." },
-          "conversazione_integrale": { "type": "string", "description": "Trascrizione accumulata fino a questo turno, formato 'Studente: ...' / 'Bot: ...' riga per riga. Il bot vi appende solo lo scambio appena avvenuto, partendo dal valore del proprio turno precedente — non lo ricostruisce da zero." },
-          "sintesi_bot": { "type": "string", "description": "Riepilogo narrativo accumulato fino a questo turno dello scambio con lo studente: cosa il bot ha chiesto e cosa lo studente ha risposto/fornito. Il bot lo aggiorna integrando lo scambio appena avvenuto, partendo dal valore del proprio turno precedente — non lo ricostruisce da zero." }
+          "note": { "type": "string", "description": "Stringa vuota se non ancora chiesto né raccolto. Il valore letterale \"non fornito dallo studente\" se il bot lo ha già chiesto e lo studente ha declinato: promemoria interno per non richiederlo più. In eventi[] diventa stringa vuota." }
         },
-        "required": ["stato_opportunita", "conversazione_integrale", "sintesi_bot"],
+        "required": ["stato_opportunita"],
         "additionalProperties": false
       }
     }
