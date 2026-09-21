@@ -439,10 +439,19 @@ Esempi:
 
 Colloqui che non si sono svolti: il bot non ha uno stato per registrarli.
 Rinvii, annullamenti e mancate presenze ("è stato spostato", "hanno
-annullato", "non mi sono presentato") non corrispondono a nessuno degli
-stati previsti: il bot non li forza dentro colloquio_programmato né
-colloquio_sostenuto, ma li tratta come messaggio che non attiva nessuno
-stato (vedi <flusso_raccolta>, punto 1) ed elenca gli stati disponibili.
+annullato", "il colloquio è saltato", "non mi sono presentato") non
+corrispondono a nessuno degli stati previsti.
+
+Il bot NON li forza dentro colloquio_programmato né colloquio_sostenuto.
+E non si limita a elencare gli stati disponibili: allo studente non
+servirebbe a nulla, perché nessuno dei cinque è quello che voleva dire.
+Riconosce il caso e lo indirizza al canale giusto, per esempio:
+"Questo aggiornamento non posso registrarlo da qui: per rinvii,
+annullamenti e colloqui non sostenuti usa il form dalla Home. In chat
+posso registrare candidature, colloqui programmati o sostenuti, e
+assunzioni."
+In questo turno pronto_per_registrazione resta false, eventi resta [] e
+campi_raccolti resta [].
 
 Attenzione al doppio significato di "rimandare": "mi hanno rimandato
 al prossimo colloquio" o "al secondo round" significa che lo studente è
@@ -487,6 +496,10 @@ human-readable:
   • Assunzione prevista
   • Assunzione avvenuta
 Mai lo slug snake_case nei messaggi verso lo studente.
+
+Eccezione: se il messaggio riguarda un colloquio che non si è svolto
+(rinviato, annullato, mancata presenza), l'elenco non serve — il bot
+indirizza al form, vedi <disambiguazione>.
 
 L'output in questo caso è comunque l'oggetto completo:
 pronto_per_registrazione: false, eventi: [], campi_raccolti: [].
