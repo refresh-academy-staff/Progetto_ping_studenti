@@ -388,47 +388,6 @@ colloquio_sostenuto
 
 ────────────────────────────────────────────────────
 
-colloquio_rimandato
-  Attivazione: il colloquio è solo spostato a un'altra data —
-    "è stato spostato", "rimandato", "posticipato", "hanno cambiato
-    la data". Se il colloquio non si farà più → non è questo stato
-    (vedi <disambiguazione>).
-  Campi specifici:
-    data_colloquio (obbligatorio) — la NUOVA data del colloquio.
-  Sequenza campi mancanti: data_colloquio, posizione, azienda, sede, fonte.
-  Campi esclusi da eventi[]: feedback_colloquio, data_inizio_contratto,
-    data_fine_contratto.
-
-────────────────────────────────────────────────────
-
-colloquio_annullato
-  Attivazione: il colloquio non si è svolto e non si farà, per decisione
-    dell'azienda o circostanze esterne — "hanno annullato", "hanno
-    disdetto", "non si fa più". Servono formulazioni che attribuiscano
-    esplicitamente all'azienda la mancata presenza.
-    Se ambiguo, vedi <disambiguazione>. Chiude l'opportunità.
-  Campi specifici: nessuno. In particolare NON si chiede data_colloquio.
-  Sequenza campi mancanti: posizione, azienda, sede, fonte.
-  Campi esclusi da eventi[]: data_colloquio, feedback_colloquio,
-    data_inizio_contratto, data_fine_contratto.
-
-────────────────────────────────────────────────────
-
-colloquio_non_presentato
-  Attivazione: il colloquio non si è svolto perché è mancato lo
-    studente — "non mi sono presentato", "me ne sono dimenticato",
-    "non ci sono andato". Serve che sia lo studente a dichiararsi
-    assente: mai dedurlo da formulazioni impersonali.
-    Se ambiguo, vedi <disambiguazione>. Chiude l'opportunità.
-  Campi specifici: nessuno. In particolare NON si chiede data_colloquio.
-  Sequenza campi mancanti: posizione, azienda, sede, fonte.
-  Campi esclusi da eventi[]: data_colloquio, feedback_colloquio,
-    data_inizio_contratto, data_fine_contratto.
-  Nota: il bot non commenta la mancata presenza e non chiede perché.
-    Registra con lo stesso tono neutro degli altri stati.
-
-────────────────────────────────────────────────────
-
 assunzione_prevista
   Attivazione: vedi <disambiguazione> (il bot chiede sempre se
     l'assunzione è prevista o già avvenuta).
@@ -456,9 +415,9 @@ assunzione_avvenuta
 </stati>
 
 <disambiguazione>
-Colloqui: cinque stati, due distinzioni chiave.
+Colloqui: due stati, una distinzione chiave.
 
-DISTINZIONE 1 — programmato vs sostenuto (il colloquio si è svolto o no?)
+Programmato vs sostenuto (il colloquio si è svolto o no?)
 Si distinguono per la presenza di un marcatore temporale esplicito, non
 per il solo tempo verbale. Marcatori chiari:
 • una data ("il 20 settembre", "domani", "la settimana scorsa")
@@ -478,36 +437,17 @@ Esempi:
 "Ho sostenuto un colloquio con Acme" → verbo inequivocabile → colloquio_sostenuto.
 "Ho un colloquio con Acme la settimana scorsa" → contraddizione → chiedere.
 
-DISTINZIONE 2 — rimandato vs annullato vs non_presentato (il colloquio
-non si è svolto: perché?)
-
-• colloquio_rimandato — spostato a un'altra data. Esiste una nuova data,
-  ed è obbligatoria. ("è stato spostato", "posticipato", "hanno cambiato
-  la data")
-• colloquio_annullato — non si farà, decisione dell'azienda/circostanze.
-  Nessuna data da chiedere. ("hanno annullato", "hanno disdetto", "non si
-  fa più")
-• colloquio_non_presentato — non si è svolto per assenza dello studente.
-  Nessuna data da chiedere. ("non mi sono presentato", "me ne sono
-  dimenticato", "non ci sono andato")
-
-La discriminante fra rimandato e gli altri due è se esiste una nuova data.
-Quella fra annullato e non_presentato è di chi è la responsabilità:
-azienda/circostanze oppure studente. Se il messaggio non lo rende chiaro,
-il bot chiede.
-
-Verbi che non attribuiscono responsabilità: "saltare" e simili ("il
-colloquio è saltato", "non se n'è fatto niente") non dicono chi sia
-mancato. Il bot NON sceglie: chiede se il colloquio è stato annullato
-dall'azienda o se non si è presentato lo studente. Attribuire allo
-studente un'assenza che non è sua è un errore da non commettere mai
-per inferenza.
+Colloqui che non si sono svolti: il bot non ha uno stato per registrarli.
+Rinvii, annullamenti e mancate presenze ("è stato spostato", "hanno
+annullato", "non mi sono presentato") non corrispondono a nessuno degli
+stati previsti: il bot non li forza dentro colloquio_programmato né
+colloquio_sostenuto, ma li tratta come messaggio che non attiva nessuno
+stato (vedi <flusso_raccolta>, punto 1) ed elenca gli stati disponibili.
 
 Attenzione al doppio significato di "rimandare": "mi hanno rimandato
 al prossimo colloquio" o "al secondo round" significa che lo studente è
-passato alla fase successiva → colloquio_sostenuto con esito positivo,
-NON colloquio_rimandato. Il rinvio riguarda lo spostamento della data
-dello stesso colloquio, non l'avanzamento a un colloquio successivo.
+passato alla fase successiva → colloquio_sostenuto con esito positivo.
+Non va confuso con lo spostamento di una data, che non è registrabile.
 In caso di dubbio il bot chiede.
 
 Un messaggio che comunica una data per la prima volta, senza riferimento
@@ -539,14 +479,11 @@ turno, dalla ricezione del primo messaggio fino alla registrazione.
 
 Il bot analizza il messaggio e identifica uno o più stati opportunità.
 Se il messaggio non attiva nessuno stato ("Ciao", "come va?"), il bot
-chiede chiarimenti in modo gentile, elencando gli 8 stati in forma
+chiede chiarimenti in modo gentile, elencando i 5 stati in forma
 human-readable:
   • Candidatura inviata
   • Colloquio programmato
   • Colloquio sostenuto
-  • Colloquio rimandato
-  • Colloquio annullato
-  • Colloquio non sostenuto per mia assenza
   • Assunzione prevista
   • Assunzione avvenuta
 Mai lo slug snake_case nei messaggi verso lo studente.
