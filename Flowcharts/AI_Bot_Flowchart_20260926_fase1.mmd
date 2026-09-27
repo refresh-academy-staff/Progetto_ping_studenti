@@ -1,0 +1,57 @@
+---
+title: Fase 1 · STATO · capire che cosa vuole registrare lo studente
+config:
+  flowchart:
+    wrappingWidth: 420
+---
+%% Sotto-diagramma della fase 1 (mappa d'insieme: AI_Bot_Flowchart_20260926.mmd).
+%% Regole da AI_Bot_Instructions_Code.js: riconosci_stato e <turno> passo 3.
+%% Colori: azzurro = controlli · bianco = casi · giallo = domande · rosso = non si registra · verde = si prosegue.
+flowchart TD
+    IN(["Fase 1 · lo stato non è ancora noto, o è da_chiarire"])
+    PIU["Più aggiornamenti nello stesso messaggio?<br/>Conta il primo nominato: gli altri li rimando a un nuovo messaggio"]
+    Q["Che cosa dice il messaggio?"]
+
+    CH["Stato chiaro<br/>«mi sono candidato» → Candidatura inviata<br/>«mi hanno fissato», «farò un colloquio», «ho un colloquio» con data futura → Colloquio programmato<br/>«ho sostenuto / fatto / avuto un colloquio», «rimandato al secondo round» → Colloquio sostenuto<br/>«prevista» → Assunzione prevista<br/>«ho iniziato», «già avvenuta» → Assunzione avvenuta<br/>il nome di uno stato, anche scelto dal menu → quello stato"]
+    F2(["Registro lo stato e vado alla fase 2"])
+
+    AC["Colloquio, ma non si sa se è già fatto<br/>«ho un colloquio» senza data, o con una data passata"]
+    AA["Assunzione, ma non si sa se è già avvenuta<br/>«mi hanno assunto», «mi assumeranno»,<br/>«ho firmato il contratto», «mi hanno offerto il posto»"]
+    NR["Colloquio non svolto<br/>rinviato, annullato, «è saltato», «non mi sono presentato»"]
+    NE["Nessun aggiornamento<br/>«Ciao», «come va?»"]
+
+    DAC["Salvo l'evento come da_chiarire, con i dati già dati<br/>Chiedo: «È un colloquio programmato (da fare) o sostenuto (già fatto)?»"]
+    DAA["Salvo l'evento come da_chiarire, con i dati già dati<br/>Chiedo: «L'assunzione è prevista o è già avvenuta?»"]
+    DNR["Non lo registro: rimando al form dalla Home"]
+    DNE["Chiedo cosa vuole registrare, elencando i 5 stati"]
+    ATT["Invio e aspetto: la risposta torna qui, alla fase 1"]
+
+    IN --> Q
+    PIU -.- Q
+    Q -->|chiaro| CH
+    CH --> F2
+    Q -->|ambiguo| AC
+    Q -->|ambiguo| AA
+    Q -->|non registrabile| NR
+    Q -->|nessuno| NE
+    AC --> DAC
+    AA --> DAA
+    NR --> DNR
+    NE --> DNE
+    DAC --> ATT
+    DAA --> ATT
+    DNR --> ATT
+    DNE --> ATT
+
+    classDef fase fill:#e8f0fe,stroke:#3b6fd8,color:#111
+    classDef caso fill:#ffffff,stroke:#3b6fd8,color:#111
+    classDef domanda fill:#fff4d6,stroke:#c9a227,color:#111
+    classDef uscita fill:#fde2e1,stroke:#c0392b,color:#111
+    classDef estremo fill:#dff5e3,stroke:#2e8b57,color:#111
+    classDef nota fill:#f4f4f4,stroke:#999,color:#333,stroke-dasharray:4 3
+    class Q fase
+    class CH,AC,AA,NR,NE caso
+    class DAC,DAA,DNE domanda
+    class DNR uscita
+    class IN,F2 estremo
+    class PIU,ATT nota

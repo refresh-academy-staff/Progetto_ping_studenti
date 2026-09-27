@@ -1,0 +1,61 @@
+---
+title: Fasi 4 e 5 · LINK e NOTE · come il bot chiede e come legge le risposte
+config:
+  flowchart:
+    wrappingWidth: 420
+---
+%% Sotto-diagramma delle fasi 4 e 5 (mappa d'insieme: AI_Bot_Flowchart_20260926.mmd).
+%% Regole da AI_Bot_Instructions_Code.js: REGOLE LINK, REGOLE NOTE, interpreta_link, interpreta_note, <turno> passo 2.
+%% Le frecce tratteggiate sono il messaggio successivo dello studente.
+%% Colori: azzurro = controlli · bianco = casi · giallo = domande · verde = si prosegue.
+flowchart TD
+    L0["Fase 4 · LINK<br/>il link è già arrivato prima, o è già stato chiesto?"]
+    L1["Chiedo: «Vuoi condividere un link, ad esempio all'annuncio o all'azienda? È facoltativo.»"]
+    L2["Come leggo la risposta<br/>(gli altri dati della risposta vanno nei loro campi)"]
+    LU["contiene un URL<br/>→ link = l'URL, esattamente come scritto"]
+    LS["«sì» senza URL<br/>avevo già chiesto «Qual è il link?»"]
+    LQ["Chiedo: «Qual è il link?»"]
+    LN["«no», «te lo mando dopo», altro<br/>→ link = non fornito dallo studente"]
+
+    N0["Fase 5 · NOTE<br/>le note sono già state chieste?"]
+    N1["Chiedo: «Vuoi aggiungere altri dettagli?»"]
+    N2["Come leggo la risposta<br/>(qui non riconosco nessun altro campo, e non valgono le uscite)"]
+    NC["un contenuto, anche breve<br/>→ note = la risposta ALLA LETTERA, per intero,<br/>anche se ha più elementi («il tavolo da biliardo e il caffè»)"]
+    ND["«no», «niente», «a posto», «lascia stare», «non importa»<br/>→ note = non fornito dallo studente"]
+    NS["«sì» senza contenuto<br/>avevo già chiesto «Cosa vuoi aggiungere?»"]
+    NQ["Chiedo: «Cosa vuoi aggiungere?»"]
+
+    F6(["Vado alla fase 6"])
+
+    L0 -->|no| L1
+    L0 -->|sì| N0
+    L1 -.->|risposta| L2
+    L2 --> LU
+    L2 --> LS
+    L2 --> LN
+    LS -->|no| LQ
+    LS -->|sì| LN
+    LQ -.->|risposta| L2
+    LU --> N0
+    LN --> N0
+
+    N0 -->|no| N1
+    N0 -->|sì| F6
+    N1 -.->|risposta| N2
+    N2 --> NC
+    N2 --> ND
+    N2 --> NS
+    NS -->|no| NQ
+    NS -->|sì| ND
+    NQ -.->|risposta| N2
+    NC --> F6
+    ND --> F6
+
+    classDef fase fill:#e8f0fe,stroke:#3b6fd8,color:#111
+    classDef caso fill:#ffffff,stroke:#3b6fd8,color:#111
+    classDef domanda fill:#fff4d6,stroke:#c9a227,color:#111
+    classDef estremo fill:#dff5e3,stroke:#2e8b57,color:#111
+    class L0,N0,L2,N2 fase
+    class LU,LS,LN,NC,ND,NS caso
+    class L1,LQ,N1,NQ domanda
+    class F6 estremo

@@ -1,0 +1,56 @@
+---
+title: Fasi 6 e 7 · RIEPILOGO e REGISTRAZIONE · la conferma
+config:
+  flowchart:
+    wrappingWidth: 420
+---
+%% Sotto-diagramma delle fasi 6 e 7 (mappa d'insieme: AI_Bot_Flowchart_20260926.mmd).
+%% Regole da AI_Bot_Instructions_Code.js: RIEPILOGO, REGISTRAZIONE, interpreta_conferma, <turno> passo 1 (uscite).
+%% Le frecce tratteggiate sono il messaggio successivo dello studente.
+%% Colori: azzurro = controlli · bianco = casi · giallo = domande · rosso = non si registra · verde = esiti.
+flowchart TD
+    IN(["Fase 6 · RIEPILOGO"])
+    OB["Ogni campo obbligatorio ha un valore?"]
+    BACK(["Torno alla fase 2 o 3"])
+    RIE["Mostro il riepilogo (non registro ancora niente)<br/>prima riga: «Tipo di aggiornamento: …»<br/>poi i valori · facoltativi vuoti «non specificato» · date leggibili<br/>con contratto indeterminato non mostro la data di fine<br/>alla fine: «Confermi che posso registrare?»"]
+
+    R7["Fase 7 · come leggo la risposta<br/>(il sì o il no non va in nessun campo)"]
+    AN["chiede di non registrare<br/>«annulla», «non registrare», «non voglio più registrarlo»<br/>(controllato per primo, come in ogni messaggio)"]
+    AF["un assenso senza altri dati<br/>«sì», «ok», «certo», «perfetto», «procedi», :+1: …"]
+    DI["un no senza altri dati<br/>«no», «non va bene», «lascia perdere», «lascia stare», :-1:"]
+    CO["tutto il resto, anche «sì, ma la sede è Milano»"]
+
+    XAN["Tolgo l'evento<br/>«Va bene, non lo registro. Se vuoi, scrivimi un nuovo aggiornamento.»"]
+    REG["Registro: un evento con esattamente le chiavi del suo stato,<br/>le sentinelle diventano vuote<br/>«Perfetto, ho registrato tutto.»"]
+    FINE(["Fine della conversazione"])
+    DDI["Chiedo: «Vuoi correggere qualcosa o preferisci non registrare?»"]
+    DCO["Aggiorno i dati con la correzione"]
+
+    IN --> OB
+    OB -->|no| BACK
+    OB -->|sì| RIE
+    RIE -.->|risposta| R7
+    R7 --> AN
+    R7 --> AF
+    R7 --> DI
+    R7 --> CO
+    AN --> XAN
+    AF --> REG
+    REG --> FINE
+    DI --> DDI
+    CO --> DCO
+    DCO --> RIE
+    DDI -.->|risposta: una correzione, o altro| DCO
+    DDI -.->|risposta: non registrare| XAN
+
+    classDef fase fill:#e8f0fe,stroke:#3b6fd8,color:#111
+    classDef caso fill:#ffffff,stroke:#3b6fd8,color:#111
+    classDef domanda fill:#fff4d6,stroke:#c9a227,color:#111
+    classDef uscita fill:#fde2e1,stroke:#c0392b,color:#111
+    classDef estremo fill:#dff5e3,stroke:#2e8b57,color:#111
+    class OB,R7 fase
+    class AN,AF,DI,CO caso
+    class RIE,DDI domanda
+    class XAN uscita
+    class REG,DCO fase
+    class IN,BACK,FINE estremo

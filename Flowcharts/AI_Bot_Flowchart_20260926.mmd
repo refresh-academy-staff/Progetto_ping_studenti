@@ -1,0 +1,71 @@
+---
+title: PingStingBot · cosa fa il bot a ogni messaggio dello studente
+config:
+  flowchart:
+    wrappingWidth: 320
+---
+%% Diagramma principale: la mappa d'insieme di AI_Bot_Instructions_Code.js.
+%% È un ciclo: ogni messaggio dello studente rifà lo stesso giro dall'alto.
+%% I dettagli sono nei sotto-diagrammi, nella stessa cartella:
+%%   AI_Bot_Flowchart_20260926_uscite.mmd    uscite · quando lo studente vuole fermarsi
+%%   AI_Bot_Flowchart_20260926_fase1.mmd     fase 1 · lo stato
+%%   AI_Bot_Flowchart_20260926_fasi2-3.mmd   fasi 2 e 3 · la raccolta in due passi
+%%   AI_Bot_Flowchart_20260926_fasi4-5.mmd   fasi 4 e 5 · link e note
+%%   AI_Bot_Flowchart_20260926_fasi6-7.mmd   fasi 6 e 7 · riepilogo e conferma
+%% Colori: azzurro = fasi e controlli · giallo = domande allo studente · rosso = uscita · verde = inizio e fine.
+flowchart TD
+    CICLO["Dopo ogni riquadro giallo o rosso il bot invia la risposta e aspetta:<br/>il messaggio successivo riparte da qui"]
+    MSG(["Arriva un messaggio dello studente"])
+    USC["Vuole fermarsi?<br/>annulla · colloquio saltato"]
+    REG["Registro i dati arrivati,<br/>secondo la domanda che avevo fatto"]
+    F1["Fase 1 · STATO<br/>è chiaro cosa vuole registrare?"]
+    F2["Fase 2 · DATI DI BASE<br/>ci sono posizione, azienda, sede, fonte?"]
+    F3["Fase 3 · DATI DELLO STATO<br/>ci sono i campi della scheda?"]
+    F4["Fase 4 · LINK<br/>link già dato o già chiesto?"]
+    F5["Fase 5 · NOTE<br/>note già date o già chieste?"]
+    F6["Fase 6 · RIEPILOGO<br/>il mio ultimo messaggio era il riepilogo?"]
+    F7["Fase 7 · REGISTRAZIONE<br/>ha risposto sì?"]
+    FINE(["Registro · fine della conversazione"])
+
+    X1["Tolgo l'evento e rispondo"]
+    D1["Chiedo di chiarire,<br/>o rimando al form"]
+    D2["Chiedo i dati di base mancanti"]
+    D3["Chiedo i campi dello stato mancanti"]
+    D4["Chiedo il link"]
+    D5["Chiedo se vuole aggiungere dettagli"]
+    D6["Mostro il riepilogo<br/>e chiedo conferma"]
+    D7["Chiedo cosa correggere,<br/>o ripropongo il riepilogo"]
+
+    CICLO -.- MSG
+    MSG --> USC
+    USC -->|no| REG
+    REG --> F1
+    F1 -->|sì| F2
+    F2 -->|sì| F3
+    F3 -->|sì| F4
+    F4 -->|sì| F5
+    F5 -->|sì| F6
+    F6 -->|sì| F7
+    F7 -->|sì| FINE
+
+    USC -->|sì| X1
+    F1 -->|no| D1
+    F2 -->|no| D2
+    F3 -->|no| D3
+    F4 -->|no| D4
+    F5 -->|no| D5
+    F6 -->|no| D6
+    F7 -->|no| D7
+
+    X1 ~~~ D1 ~~~ D2 ~~~ D3 ~~~ D4 ~~~ D5 ~~~ D6 ~~~ D7
+
+    classDef nota fill:#f4f4f4,stroke:#999,color:#333,stroke-dasharray:4 3
+    class CICLO nota
+    classDef fase fill:#e8f0fe,stroke:#3b6fd8,color:#111
+    classDef domanda fill:#fff4d6,stroke:#c9a227,color:#111
+    classDef uscita fill:#fde2e1,stroke:#c0392b,color:#111
+    classDef estremo fill:#dff5e3,stroke:#2e8b57,color:#111
+    class USC,REG,F1,F2,F3,F4,F5,F6,F7 fase
+    class D1,D2,D3,D4,D5,D6,D7 domanda
+    class X1 uscita
+    class MSG,FINE estremo

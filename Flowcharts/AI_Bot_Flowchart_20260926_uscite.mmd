@@ -1,0 +1,48 @@
+---
+title: Uscite · quando lo studente vuole fermarsi
+config:
+  flowchart:
+    wrappingWidth: 420
+---
+%% Sotto-diagramma delle uscite (mappa d'insieme: AI_Bot_Flowchart_20260926.mmd).
+%% Regole da AI_Bot_Instructions_Code.js: <turno> passo 1 (USCITE), REGOLE NOTE (sospensione),
+%% <memoria> DOPO LA REGISTRAZIONE O UN ANNULLAMENTO, interpreta_note, interpreta_conferma.
+%% Colori: azzurro = controlli · bianco = casi · rosso = non si registra · verde = si prosegue · grigio = nota.
+flowchart TD
+    IN(["Arriva un messaggio dello studente"])
+    NOTE["È la risposta a «Vuoi aggiungere altri dettagli?»<br/>o a «Cosa vuoi aggiungere?»"]
+    NNOTE(["Nessuna uscita: tutto il testo diventa la nota (fase 5)<br/>se vuole annullare, lo può fare al riepilogo"])
+    Q["Il messaggio è un'uscita?<br/>(lo controllo per primo, prima di registrare qualunque dato)"]
+
+    AN["chiede di non registrare<br/>«annulla», «non registrare», «non voglio più registrarlo»"]
+    CS["il colloquio che sto raccogliendo è stato annullato o non si è svolto<br/>«è saltato», «non mi sono presentato»"]
+    NO(["Nessuna uscita: proseguo con il giro normale"])
+
+    XAN["Tolgo l'evento<br/>«Va bene, non lo registro. Se vuoi, scrivimi un nuovo aggiornamento.»"]
+    XCS["Tolgo l'evento e rimando al form dalla Home<br/>(per rinvii, annullamenti e colloqui non sostenuti)"]
+    DOPO["Dopo un'uscita: campi_raccolti = [], non registro niente<br/>il thread resta aperto: un nuovo messaggio riparte dalla fase 1"]
+
+    NONUSC["Non sono uscite<br/>«lascia stare» nella risposta alle note → niente note (fase 5)<br/>«no», «lascia perdere», «lascia stare» al riepilogo<br/>→ chiedo se vuole correggere o non registrare (fase 7)<br/>un rinvio con una nuova data, a metà raccolta → correggo la data<br/>un altro aggiornamento nel messaggio → lo rimando a un nuovo messaggio"]
+
+    IN --> NOTE
+    NOTE -->|sì| NNOTE
+    NOTE -->|no| Q
+    Q -->|chiede di non registrare| AN
+    Q -->|colloquio saltato| CS
+    Q -->|no| NO
+    AN --> XAN
+    CS --> XCS
+    XAN --> DOPO
+    XCS --> DOPO
+    NO -.- NONUSC
+
+    classDef fase fill:#e8f0fe,stroke:#3b6fd8,color:#111
+    classDef caso fill:#ffffff,stroke:#3b6fd8,color:#111
+    classDef uscita fill:#fde2e1,stroke:#c0392b,color:#111
+    classDef estremo fill:#dff5e3,stroke:#2e8b57,color:#111
+    classDef nota fill:#f4f4f4,stroke:#999,color:#333,stroke-dasharray:4 3
+    class NOTE,Q fase
+    class AN,CS caso
+    class XAN,XCS uscita
+    class IN,NNOTE,NO estremo
+    class DOPO,NONUSC nota
