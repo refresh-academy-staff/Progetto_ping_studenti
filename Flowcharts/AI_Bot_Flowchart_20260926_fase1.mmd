@@ -5,20 +5,20 @@ config:
     wrappingWidth: 420
 ---
 %% Sotto-diagramma della fase 1 (mappa d'insieme: AI_Bot_Flowchart_20260926.mmd).
-%% Regole da AI_Bot_Instructions_Code.js: riconosci_stato e <turno> passo 3.
+%% Regole da AI_Bot_Instructions_20260926.js: riconosci_stato e <turno> passo 3.
 %% Colori: azzurro = controlli · bianco = casi · giallo = domande · rosso = non si registra · verde = si prosegue.
 flowchart TD
     IN(["Fase 1 · lo stato non è ancora noto, o è da_chiarire"])
     PIU["Più aggiornamenti nello stesso messaggio?<br/>Conta il primo nominato: gli altri li rimando a un nuovo messaggio"]
     Q["Che cosa dice il messaggio?"]
 
-    CH["Stato chiaro<br/>«mi sono candidato» → Candidatura inviata<br/>«mi hanno fissato», «farò un colloquio», «ho un colloquio» con data futura → Colloquio programmato<br/>«ho sostenuto / fatto / avuto un colloquio», «rimandato al secondo round» → Colloquio sostenuto<br/>«prevista» → Assunzione prevista<br/>«ho iniziato», «già avvenuta» → Assunzione avvenuta<br/>il nome di uno stato, anche scelto dal menu → quello stato"]
-    F2(["Registro lo stato e vado alla fase 2"])
+    CH["Stato chiaro<br/>«mi sono candidato» → Candidatura inviata<br/>«mi hanno fissato», «farò un colloquio», «ho un colloquio» con data futura → Colloquio programmato<br/>«ho sostenuto / fatto / avuto un colloquio», «rimandato al prossimo colloquio / al secondo round» → Colloquio sostenuto<br/>«prevista» → Assunzione prevista<br/>«ho iniziato», «già avvenuta» → Assunzione avvenuta<br/>il nome di uno stato, anche scelto dal menu → quello stato"]
+    F2(["Salvo lo stato e vado alla fase 2"])
 
     AC["Colloquio, ma non si sa se è già fatto<br/>«ho un colloquio» senza data, o con una data passata"]
     AA["Assunzione, ma non si sa se è già avvenuta<br/>«mi hanno assunto», «mi assumeranno»,<br/>«ho firmato il contratto», «mi hanno offerto il posto»"]
     NR["Colloquio non svolto<br/>rinviato, annullato, «è saltato», «non mi sono presentato»"]
-    NE["Nessun aggiornamento<br/>«Ciao», «come va?»"]
+    NE["Nessun aggiornamento<br/>«Ciao», «come va?», «boh»"]
 
     DAC["Salvo l'evento come da_chiarire, con i dati già dati<br/>Chiedo: «È un colloquio programmato (da fare) o sostenuto (già fatto)?»"]
     DAA["Salvo l'evento come da_chiarire, con i dati già dati<br/>Chiedo: «L'assunzione è prevista o è già avvenuta?»"]

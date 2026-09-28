@@ -5,7 +5,8 @@ config:
     wrappingWidth: 420
 ---
 %% Sotto-diagramma delle fasi 6 e 7 (mappa d'insieme: AI_Bot_Flowchart_20260926.mmd).
-%% Regole da AI_Bot_Instructions_Code.js: RIEPILOGO, REGISTRAZIONE, interpreta_conferma, <turno> passo 1 (uscite).
+%% Regole da AI_Bot_Instructions_20260926.js: RIEPILOGO, REGISTRAZIONE, interpreta_conferma, <turno> passo 1 (uscite),
+%% più una decisione successiva: prima di annullare, il bot chiede conferma (solo nel prompt 20260928).
 %% Le frecce tratteggiate sono il messaggio successivo dello studente.
 %% Colori: azzurro = controlli · bianco = casi · giallo = domande · rosso = non si registra · verde = esiti.
 flowchart TD
@@ -20,7 +21,8 @@ flowchart TD
     DI["un no senza altri dati<br/>«no», «non va bene», «lascia perdere», «lascia stare», :-1:"]
     CO["tutto il resto, anche «sì, ma la sede è Milano»"]
 
-    XAN["Tolgo l'evento<br/>«Va bene, non lo registro. Se vuoi, scrivimi un nuovo aggiornamento.»"]
+    CONFQ["Chiedo: «Vuoi che annulli questa registrazione?<br/>I dati raccolti finora non verranno registrati.»<br/>(la risposta la leggo come nelle uscite)"]
+    XAN["Tolgo l'evento, senza chiedere di nuovo: la scelta gliel'ho appena offerta io<br/>«Va bene, non lo registro. Se vuoi, scrivimi un nuovo aggiornamento.»"]
     REG["Registro: un evento con esattamente le chiavi del suo stato,<br/>le sentinelle diventano vuote<br/>«Perfetto, ho registrato tutto.»"]
     FINE(["Fine della conversazione"])
     DDI["Chiedo: «Vuoi correggere qualcosa o preferisci non registrare?»"]
@@ -34,7 +36,7 @@ flowchart TD
     R7 --> AF
     R7 --> DI
     R7 --> CO
-    AN --> XAN
+    AN --> CONFQ
     AF --> REG
     REG --> FINE
     DI --> DDI
@@ -50,7 +52,7 @@ flowchart TD
     classDef estremo fill:#dff5e3,stroke:#2e8b57,color:#111
     class OB,R7 fase
     class AN,AF,DI,CO caso
-    class RIE,DDI domanda
+    class RIE,DDI,CONFQ domanda
     class XAN uscita
     class REG,DCO fase
     class IN,BACK,FINE estremo

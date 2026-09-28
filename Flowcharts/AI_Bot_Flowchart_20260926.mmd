@@ -4,7 +4,8 @@ config:
   flowchart:
     wrappingWidth: 320
 ---
-%% Diagramma principale: la mappa d'insieme di AI_Bot_Instructions_Code.js.
+%% Diagramma principale: il comportamento voluto del bot. Base: le regole di AI_Bot_Instructions_20260926.js,
+%% più le decisioni prese dopo (es. conferma prima di annullare), che sono solo nel prompt 20260928.
 %% È un ciclo: ogni messaggio dello studente rifà lo stesso giro dall'alto.
 %% I dettagli sono nei sotto-diagrammi, nella stessa cartella:
 %%   AI_Bot_Flowchart_20260926_uscite.mmd    uscite · quando lo studente vuole fermarsi
@@ -17,7 +18,7 @@ flowchart TD
     CICLO["Dopo ogni riquadro giallo o rosso il bot invia la risposta e aspetta:<br/>il messaggio successivo riparte da qui"]
     MSG(["Arriva un messaggio dello studente"])
     USC["Vuole fermarsi?<br/>annulla · colloquio saltato"]
-    REG["Registro i dati arrivati,<br/>secondo la domanda che avevo fatto"]
+    REG["Salvo i dati arrivati,<br/>secondo la domanda che avevo fatto"]
     F1["Fase 1 · STATO<br/>è chiaro cosa vuole registrare?"]
     F2["Fase 2 · DATI DI BASE<br/>ci sono posizione, azienda, sede, fonte?"]
     F3["Fase 3 · DATI DELLO STATO<br/>ci sono i campi della scheda?"]
@@ -27,7 +28,7 @@ flowchart TD
     F7["Fase 7 · REGISTRAZIONE<br/>ha risposto sì?"]
     FINE(["Registro · fine della conversazione"])
 
-    X1["Tolgo l'evento e rispondo"]
+    X1["Chiedo se annullare davvero,<br/>o tolgo l'evento e rispondo"]
     D1["Chiedo di chiarire,<br/>o rimando al form"]
     D2["Chiedo i dati di base mancanti"]
     D3["Chiedo i campi dello stato mancanti"]

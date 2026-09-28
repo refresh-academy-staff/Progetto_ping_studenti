@@ -1,11 +1,11 @@
-# Test del bot — prompt Code
+# Test del bot — prompt 20260926
 
 Da tenere aperto mentre provi il bot. Per ogni turno: cosa scrivi tu, cosa deve fare il bot. Spunta la casella se il comportamento è quello atteso; se no, annota cosa ha fatto davvero.
 
 ## Prima di iniziare
 
 - [ ] Schema caricato nello Structured Output Parser (**prima** del prompt)
-- [ ] Prompt `AI_Bot_Instructions_Code.js` caricato **intero**, con le tre righe `const` in cima
+- [ ] Prompt `AI_Bot_Instructions_20260926.js` caricato **intero**, con le tre righe `const` in cima
 - [ ] Simple Memory con una finestra di 10-15 messaggi
 - [ ] Ogni test si fa in un **thread nuovo** (nuovo messaggio nel canale)
 

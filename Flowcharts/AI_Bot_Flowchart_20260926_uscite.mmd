@@ -5,16 +5,24 @@ config:
     wrappingWidth: 420
 ---
 %% Sotto-diagramma delle uscite (mappa d'insieme: AI_Bot_Flowchart_20260926.mmd).
-%% Regole da AI_Bot_Instructions_Code.js: <turno> passo 1 (USCITE), REGOLE NOTE (sospensione),
-%% <memoria> DOPO LA REGISTRAZIONE O UN ANNULLAMENTO, interpreta_note, interpreta_conferma.
-%% Colori: azzurro = controlli · bianco = casi · rosso = non si registra · verde = si prosegue · grigio = nota.
+%% Regole da AI_Bot_Instructions_20260926.js (<turno> passo 1, REGOLE NOTE, <memoria>),
+%% più una decisione successiva: prima di annullare, il bot chiede conferma.
+%% Nel 20260926 il bot annulla subito; la conferma è solo nel prompt 20260928.
+%% Le frecce tratteggiate sono il messaggio successivo dello studente.
+%% Colori: azzurro = controlli · bianco = casi · giallo = domande · rosso = non si registra · verde = si prosegue · grigio = nota.
 flowchart TD
     IN(["Arriva un messaggio dello studente"])
     NOTE["È la risposta a «Vuoi aggiungere altri dettagli?»<br/>o a «Cosa vuoi aggiungere?»"]
     NNOTE(["Nessuna uscita: tutto il testo diventa la nota (fase 5)<br/>se vuole annullare, lo può fare al riepilogo"])
-    Q["Il messaggio è un'uscita?<br/>(lo controllo per primo, prima di registrare qualunque dato)"]
 
+    CONF["È la risposta alla mia domanda<br/>«Vuoi che annulli questa registrazione?»"]
+    CR["Ha risposto sì?"]
+    CNO(["Non annullo: salvo i dati che ha dato<br/>e riprendo dalla prima fase in cui manca qualcosa"])
+
+    Q["Il messaggio è un'uscita?<br/>(lo controllo per primo, prima di registrare qualunque dato)"]
     AN["chiede di non registrare<br/>«annulla», «non registrare», «non voglio più registrarlo»"]
+    ANP["Stava rispondendo alla mia domanda<br/>«Vuoi correggere qualcosa o preferisci non registrare?»"]
+    DCONF["Chiedo: «Vuoi che annulli questa registrazione?<br/>I dati raccolti finora non verranno registrati.»"]
     CS["il colloquio che sto raccogliendo è stato annullato o non si è svolto<br/>«è saltato», «non mi sono presentato»"]
     NO(["Nessuna uscita: proseguo con il giro normale"])
 
@@ -26,23 +34,32 @@ flowchart TD
 
     IN --> NOTE
     NOTE -->|sì| NNOTE
-    NOTE -->|no| Q
+    NOTE -->|no| CONF
+    CONF -->|sì| CR
+    CR -->|sì| XAN
+    CR -->|no, o altro| CNO
+    CONF -->|no| Q
     Q -->|chiede di non registrare| AN
+    AN --> ANP
+    ANP -->|sì| XAN
+    ANP -->|no| DCONF
+    DCONF -.->|risposta| CONF
     Q -->|colloquio saltato| CS
-    Q -->|no| NO
-    AN --> XAN
     CS --> XCS
+    Q -->|no| NO
     XAN --> DOPO
     XCS --> DOPO
     NO -.- NONUSC
 
     classDef fase fill:#e8f0fe,stroke:#3b6fd8,color:#111
     classDef caso fill:#ffffff,stroke:#3b6fd8,color:#111
+    classDef domanda fill:#fff4d6,stroke:#c9a227,color:#111
     classDef uscita fill:#fde2e1,stroke:#c0392b,color:#111
     classDef estremo fill:#dff5e3,stroke:#2e8b57,color:#111
     classDef nota fill:#f4f4f4,stroke:#999,color:#333,stroke-dasharray:4 3
-    class NOTE,Q fase
+    class NOTE,CONF,CR,Q,ANP fase
     class AN,CS caso
+    class DCONF domanda
     class XAN,XCS uscita
-    class IN,NNOTE,NO estremo
+    class IN,NNOTE,CNO,NO estremo
     class DOPO,NONUSC nota

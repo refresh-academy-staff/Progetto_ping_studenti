@@ -5,7 +5,7 @@ config:
     wrappingWidth: 420
 ---
 %% Sotto-diagramma delle fasi 2 e 3 (mappa d'insieme: AI_Bot_Flowchart_20260926.mmd).
-%% Regole da AI_Bot_Instructions_Code.js: <stati> ORDINE, RACCOLTA, <campi> DATE,
+%% Regole da AI_Bot_Instructions_20260926.js: <stati> ORDINE, RACCOLTA, <campi> DATE,
 %% <memoria> VALORI DI UN CAMPO e SENTINELLA, <opzioni> FONTE, <oggi>.
 %% Le frecce tratteggiate sono il messaggio successivo dello studente.
 %% Colori: azzurro = controlli · bianco = casi · giallo = domande · verde = si prosegue · grigio = nota.
@@ -13,18 +13,18 @@ flowchart TD
     IN(["Fasi 2 e 3 · lo stato è noto"])
 
     C2["Fase 2 · DATI DI BASE<br/>ci sono posizione, azienda, sede, fonte?<br/>(una sede non fornita conta come già chiesta)"]
-    P1["PASSO 1 · chiedo tutti i dati di base mancanti, in un unico messaggio<br/>facoltativi compresi: la sede si chiede anche se è l'unica che manca<br/>ogni voce «(obbligatorio)» o «(facoltativo)» · la fonte con le 5 opzioni sotto<br/>se è il mio primo messaggio, apro con il saluto"]
+    P1["PASSO 1 · chiedo tutti i dati di base mancanti, in un unico messaggio<br/>facoltativi compresi: la sede si chiede anche se è l'unica che manca<br/>ogni voce «(obbligatorio)» o «(facoltativo)» · la fonte con le 5 opzioni sotto<br/>se è il mio primo messaggio, apro con il saluto;<br/>altrimenti con «Grazie per la tua risposta», poi solo ciò che manca"]
     C3["Fase 3 · DATI DELLO STATO<br/>ci sono i campi della scheda dello stato?<br/>(i facoltativi non forniti contano come già chiesti ·<br/>con contratto indeterminato la data di fine non serve)"]
-    P2["PASSO 2 · chiedo tutti i campi dello stato mancanti, in un unico messaggio<br/>facoltativi compresi · il feedback con le 4 opzioni, il contratto con le 6 opzioni"]
+    P2["PASSO 2 · chiedo tutti i campi dello stato mancanti, in un unico messaggio<br/>facoltativi compresi · il feedback con le 4 opzioni, il contratto con le 6 opzioni<br/>se non è il mio primo messaggio, apro con «Grazie per la tua risposta», poi solo ciò che manca"]
     F4(["Vado alla fase 4"])
 
     LEG["Come leggo la risposta<br/>ogni dato va nel suo campo, anche se non l'avevo ancora chiesto<br/>una correzione vale sempre: se cambia lo stato, tolgo solo i campi che il nuovo stato non ha"]
 
     CAMPI["Campi non dati<br/>un facoltativo chiesto e non dato (rifiutato, o saltato)<br/>→ non fornito dallo studente: non lo chiedo più<br/>un obbligatorio ignorato → lo richiedo<br/>un obbligatorio che non sa o non vuole dare:<br/>↳ se della data manca il giorno → chiedo UNA volta un giorno indicativo, scelto da lui<br/>↳ se è la fonte → propongo «Altro»<br/>↳ altrimenti, o se ancora niente → spiego che senza non posso registrare:<br/>può scrivermelo quando lo sa, o annullare"]
-    DATE["Date<br/>«domani», «ieri», «lunedì scorso» → le converto con OGGI<br/>manca l'anno, o non indica un giorno («la settimana scorsa»)<br/>→ la tengo come l'ha scritta, conta come mancante, e chiedo cosa manca<br/>una data del colloquio che non torna con lo stato<br/>(programmato nel passato, sostenuto nel futuro)<br/>→ non correggo da solo: chiedo<br/>«Il colloquio del 20 settembre l'hai già sostenuto, o la data è un'altra?»"]
+    DATE["Date · valgono per ogni data, in qualunque messaggio arrivi, anche il primo<br/>«domani», «ieri», «lunedì scorso» → le converto con OGGI<br/>manca l'anno, o non indica un giorno («la settimana scorsa»)<br/>→ la tengo come l'ha scritta, conta come mancante, e chiedo cosa manca<br/>una data del colloquio che non torna con lo stato<br/>(programmato nel passato, sostenuto nel futuro)<br/>→ non correggo da solo: chiedo<br/>«Il colloquio del 20 settembre l'hai già sostenuto, o la data è un'altra?»"]
     FONTE["Fonte<br/>nominata («LinkedIn», «un recruiter», «un amico»)<br/>→ la scelgo in base a chi ha preso l'iniziativa<br/>se non si capisce chi → mostro le opzioni"]
 
-    RIC["Nel prossimo messaggio: «Grazie per la tua risposta», poi solo ciò che manca,<br/>e si ricontrolla dalla fase 2"]
+    RIC["Si ricontrolla dalla fase 2"]
 
     IN --> C2
     C2 -->|no| P1

@@ -1,6 +1,6 @@
 # Regole del bot e perché esistono
 
-Elenco di controllo per riscrivere il prompt senza perdere per strada le regole che contano. Si riferisce al file di lavoro `AI_Bot_Instructions_Code.js` e a `spo_schema.json`.
+Elenco di controllo per riscrivere il prompt senza perdere per strada le regole che contano. Si riferisce al file di lavoro `AI_Bot_Instructions_20260926.js` e a `spo_schema.json`.
 
 Le regole del **gruppo 1** sono nate ciascuna da un errore osservato in un test reale: toglierle significa quasi certamente rivedere quel comportamento. Quelle del **gruppo 2** vengono dalla revisione del 2026-09-26: sono difetti trovati leggendo e simulando le conversazioni, non ancora visti in un test, ma ognuna chiude un caso in cui il bot si bloccava, perdeva dati o faceva rifiutare il turno dal parser. Quelle del **gruppo 3** sono scelte di progetto, modificabili se vuoi un bot che si comporta diversamente.
 
@@ -19,7 +19,7 @@ Metodo consigliato: riscrivi la struttura come preferisci, poi rileggi questo el
   *Oggi in:* `<campi>` REGOLE NOTE, `<turno>` passo 2 ("chiedeva le note → interpreta_note, e nessun altro campo").
 
 - [ ] **I turni link e note non si incrociano mai.** Nel link va solo l'URL della risposta al link; nelle note va la risposta alle note. La definizione del link non deve nominare il campo note: rimanda alla sospensione descritta in REGOLE NOTE.
-  *Bug:* il link finiva nella colonna Note. La causa era una frase infelice, *"resta parte della nota"*, scritta dentro la definizione del **link**. La revisione del 2026-09-26 ha trovato la stessa forma tornata nella versione Code ("dove un URL resta nella nota") e l'ha tolta.
+  *Bug:* il link finiva nella colonna Note. La causa era una frase infelice, *"resta parte della nota"*, scritta dentro la definizione del **link**. La revisione del 2026-09-26 ha trovato la stessa forma tornata nella versione 20260926 ("dove un URL resta nella nota") e l'ha tolta.
   *Oggi in:* `<campi>` REGOLE LINK, `<vietato>`.
 
 - [ ] **La conferma finale è in due turni distinti.** Prima si riepiloga e si chiede conferma (`pronto_per_registrazione: false`, `eventi: []`), poi, solo dopo un sì, si registra. Mai dire "Ho registrato" prima di averlo fatto.
@@ -35,7 +35,7 @@ Metodo consigliato: riscrivi la struttura come preferisci, poi rileggi questo el
   *Oggi in:* `interpreta_conferma`, `<vietato>`.
 
 - [ ] **In `campi_raccolti`, `""` e `"non fornito dallo studente"` sono cose diverse.** Stringa vuota = non ancora chiesto, quindi va richiesto. Il valore letterale = chiesto e non dato, perché rifiutato **o lasciato senza risposta**: non si richiede più. Se poi lo studente lo dà, il valore sostituisce la sentinella. Vale solo per i facoltativi. In `eventi[]` diventa sempre `""`.
-  *Bug:* senza la distinzione il bot non può ricordare di aver già chiesto un campo facoltativo e lo richiede all'infinito. La versione Code aveva perso il caso "senza risposta" (il 0918 lo aveva) e la revisione l'ha rimesso.
+  *Bug:* senza la distinzione il bot non può ricordare di aver già chiesto un campo facoltativo e lo richiede all'infinito. La versione 20260926 aveva perso il caso "senza risposta" (il 0918 lo aveva) e la revisione l'ha rimesso.
   *Oggi in:* `<memoria>` VALORI DI UN CAMPO, `<vietato>`, e le descrizioni dei facoltativi nello schema.
 
 - [ ] **Una fonte nominata si mappa su uno slug, non fa ripetere la domanda.** La discriminante è **chi ha preso l'iniziativa**, non la piattaforma: lo studente ha cercato → `online_autonomo`; l'azienda lo ha contattato, anche su LinkedIn → `da_azienda`; nessuna opzione applicabile → `altro`.
@@ -86,7 +86,7 @@ Metodo consigliato: riscrivi la struttura come preferisci, poi rileggi questo el
   *Difetto:* tutti i criteri sulle assunzioni portavano ad AMBIGUO, quindi i due stati non si raggiungevano mai (regressione rispetto al 0918).
   *Oggi in:* `riconosci_stato`.
 
-- [ ] **C'è sempre una via d'uscita.** Al riepilogo un no senza dati fa chiedere "Vuoi correggere qualcosa o preferisci non registrare?". Una richiesta esplicita di non registrare toglie l'evento. Un colloquio annullato a metà raccolta toglie l'evento e rimanda al form. Un obbligatorio che lo studente non conosce porta a spiegare che senza non si registra, e che può scriverlo più tardi o annullare.
+- [ ] **C'è sempre una via d'uscita.** Al riepilogo un no senza dati fa chiedere "Vuoi correggere qualcosa o preferisci non registrare?". Una richiesta esplicita di non registrare toglie l'evento (nel prompt 20260928, dopo una domanda di conferma: vedi le scelte di progetto). Un colloquio annullato a metà raccolta toglie l'evento e rimanda al form. Un obbligatorio che lo studente non conosce porta a spiegare che senza non si registra, e che può scriverlo più tardi o annullare.
   *Difetto:* "no", 👎 o "lascia stare" al riepilogo erano letti come correzione e il riepilogo si ripeteva all'infinito; un obbligatorio sconosciuto veniva richiesto all'infinito.
   *Oggi in:* `interpreta_conferma`, REGISTRAZIONE, `<turno>` passo 1, `<memoria>` SENTINELLA.
 
@@ -139,6 +139,7 @@ Modificabili, se vuoi un bot diverso.
 - **`"mi assumeranno"` resta ambiguo.** Uno studente può usare il futuro anche per un'assunzione già avvenuta: meglio un turno in più che uno stato sbagliato sul foglio.
 - **La posizione è obbligatoria, senza ripieghi.** Se lo studente non la ricorda o non la vuole dire, anche in una candidatura spontanea, non si registra. Scelto per non aggiungere regole.
 - **Solo frasi esplicite annullano** ("annulla", "non registrare", "non voglio più registrarlo"). "Lascia stare" al riepilogo è un diniego (il bot chiede se correggere o non registrare); nella risposta alle note vuol dire "niente note".
+- **Prima di annullare, il bot chiede conferma**: "Vuoi che annulli questa registrazione? I dati raccolti finora non verranno registrati." Sì → annulla; no o altro → registra i dati della risposta e riprende dalla prima fase incompleta. Niente doppia conferma se lo studente sceglie "non registrare" rispondendo a "Vuoi correggere qualcosa o preferisci non registrare?". Il colloquio saltato resta senza conferma: è un fatto, non una richiesta. Motivo: un annullamento per sbaglio fa perdere tutti i dati raccolti, una domanda in più costa un turno solo e capita di rado. Decisa il 2026-09-28; è nel prompt 20260928 e nei diagrammi, non nel 20260926 (che annulla subito).
 - **Le uscite non valgono nella risposta alle note.** Una nota come "hanno annullato la riunione di team" resta una nota; lo studente può annullare al riepilogo, subito dopo.
 - **Un rinvio con nuova data, a metà raccolta, è una correzione della data**, perché non c'è ancora niente di registrato. Il rinvio di un colloquio già registrato altrove resta un caso da form.
 - **Saluto a tre fasce:** Buongiorno fino alle 13:59, Buon pomeriggio dalle 14 alle 17:59, Buonasera dalle 18.
