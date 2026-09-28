@@ -1,11 +1,11 @@
-# Test del bot — prompt 20260926
+# Test del bot — prompt 20260928
 
 Da tenere aperto mentre provi il bot. Per ogni turno: cosa scrivi tu, cosa deve fare il bot. Spunta la casella se il comportamento è quello atteso; se no, annota cosa ha fatto davvero.
 
 ## Prima di iniziare
 
 - [ ] Schema caricato nello Structured Output Parser (**prima** del prompt)
-- [ ] Prompt `AI_Bot_Instructions_20260926.js` caricato **intero**, con le tre righe `const` in cima
+- [ ] Prompt `AI_Bot_Instructions_20260928.js` caricato **intero**, con le tre righe `const` in cima
 - [ ] Simple Memory con una finestra di 10-15 messaggi
 - [ ] Ogni test si fa in un **thread nuovo** (nuovo messaggio nel canale)
 
@@ -13,6 +13,7 @@ Da tenere aperto mentre provi il bot. Per ogni turno: cosa scrivi tu, cosa deve 
 
 - Nessun "Ti confermo", nessuna emoji scritta dal bot, niente Markdown (trattini, asterischi), nessuno slug mostrato allo studente
 - Le date nei messaggi sono leggibili ("3 settembre 2026"), mai `2026-09-03`
+- "Grazie per la tua risposta" solo nelle domande sui dati (dati di base e dati dello stato) dopo il primo messaggio; **non** in quelle su link e note
 - Nessuna riga su Sheets prima del sì al riepilogo
 - Sulla riga di Sheets: date in formato `aaaa-mm-gg`, mai la frase "non fornito dallo studente"
 - Nelle esecuzioni di n8n: nessun errore del parser
@@ -39,7 +40,7 @@ Prova una volta a correggerlo: al riepilogo di un colloquio sostenuto scrivi "no
 | # | Tu scrivi | Il bot deve | ✓ |
 |---|---|---|---|
 | 1 | Ho sostenuto un colloquio con Acme Srl come sviluppatore | Primo messaggio: **solo** sede e fonte | [ ] |
-| 2 | Milano, trovato su LinkedIn | Secondo messaggio: data del colloquio e feedback | [ ] |
+| 2 | Milano, trovato su LinkedIn | Secondo messaggio, aperto da "Grazie per la tua risposta": data del colloquio e feedback | [ ] |
 
 | # | Tu scrivi, in un thread nuovo | Il bot deve | ✓ |
 |---|---|---|---|
@@ -72,7 +73,10 @@ Porta ogni volta la conversazione fino al riepilogo, poi:
 | no | Chiedere "Vuoi correggere qualcosa o preferisci non registrare?", **senza** ripetere il riepilogo | [ ] |
 | … poi: la sede è Milano | Mostrare il riepilogo aggiornato con Milano; al sì, registrare | [ ] |
 | sì, ma l'azienda è Gamma Srl | **Non** registrare; mostrare il riepilogo con Gamma Srl | [ ] |
-| annulla | "Va bene, non lo registro…"; nessuna riga su Sheets; il thread **non** si chiude | [ ] |
+| annulla | Chiedere "Vuoi che annulli questa registrazione? I dati raccolti finora non verranno registrati." (**non** annullare subito) | [ ] |
+| … poi: sì | "Va bene, non lo registro…"; nessuna riga su Sheets; il thread **non** si chiude | [ ] |
+| … oppure: no | **Non** annullare: riproporre il riepilogo | [ ] |
+| no, poi: preferisco non registrare | Alla domanda "Vuoi correggere qualcosa o preferisci non registrare?", annullare **subito**, senza chiedere di nuovo conferma | [ ] |
 | 👍 scritto come messaggio | Registrare | [ ] |
 | 👍 come **reazione** al messaggio | Niente (limite noto: le reazioni non arrivano al workflow) | [ ] |
 
@@ -123,7 +127,8 @@ Prova anche, in un thread nuovo: "Mi assumeranno da Gamma Srl" → deve chiedere
 | Raccolta di un colloquio programmato | il colloquio è saltato | Togliere l'evento e rimandare al form dalla Home | [ ] |
 | Raccolta di un colloquio programmato | anzi, l'hanno spostato al 10 ottobre 2026 | Aggiornare la data (**non** rimandare al form) | [ ] |
 | Alla richiesta della posizione | non me la ricordo | Spiegare che senza posizione non può registrare; puoi scriverla più tardi o annullare | [ ] |
-| Qualunque momento prima del riepilogo | non voglio più registrarlo | "Va bene, non lo registro…" | [ ] |
+| Qualunque momento prima del riepilogo | non voglio più registrarlo | Chiedere "Vuoi che annulli questa registrazione? …" | [ ] |
+| Subito dopo | no, scusa. L'ho trovata su Indeed, a Bologna | Non annullare: salvare fonte e sede e continuare dalla domanda successiva (di solito il link) | [ ] |
 
 ## 10. Note: casi particolari
 
