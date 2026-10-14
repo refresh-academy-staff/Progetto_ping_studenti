@@ -1,0 +1,169 @@
+PROVA IL BOT PINGDEV
+Scenari di test per studenti ed ex studenti
+
+====================================================================
+
+PRIMA DI INIZIARE
+
+Grazie per l'aiuto! Il bot serve a registrare gli aggiornamenti sulla
+tua ricerca di lavoro: candidature, colloqui, assunzioni. Tu gli
+racconti cosa è successo, lui ti fa qualche domanda, ti mostra un
+riepilogo e, se confermi, registra tutto.
+
+Come funziona il test:
+
+  - Per ogni scenario apri una NUOVA conversazione con il bot, dalla
+    Home dell'app su Slack. Una conversazione registra un solo
+    aggiornamento.
+  - Gli scenari descrivono una situazione, non le parole da usare.
+    Scrivi come scriveresti davvero: frasi brevi o lunghe, tutto in un
+    messaggio o un pezzo alla volta, anche con errori di battitura.
+    Più sei naturale, più il test è utile.
+  - Nomi di aziende, città e date puoi inventarli. Non servono dati
+    veri.
+  - Se il bot ti chiede qualcosa che non sai, rispondi come faresti
+    nella realtà.
+  - Rispondi sempre scrivendo un messaggio. Le reazioni ai messaggi
+    (per esempio il pollice cliccato sotto un messaggio) il bot non le
+    vede.
+  - Quando qualcosa non ti torna, copia tutta la conversazione e
+    incollala nella scheda in fondo.
+
+====================================================================
+
+PARTE 1 - I CINQUE TIPI DI AGGIORNAMENTO
+
+Fai almeno questi cinque scenari, uno per conversazione.
+
+--------------------------------------------------------------------
+SCENARIO 1 - Hai mandato una candidatura
+
+Hai visto un annuncio online e hai mandato il curriculum per un posto
+che ti interessa. Raccontalo al bot.
+
+--------------------------------------------------------------------
+SCENARIO 2 - Hai un colloquio in programma
+
+Un'azienda ti ha chiamato per un colloquio, che farai fra qualche
+giorno. Raccontalo al bot.
+
+--------------------------------------------------------------------
+SCENARIO 3 - Hai fatto un colloquio
+
+Qualche giorno fa hai fatto un colloquio. Alla fine ti hanno detto
+qualcosa sul seguito (o forse niente). Raccontalo al bot.
+
+--------------------------------------------------------------------
+SCENARIO 4 - Ti hanno offerto un lavoro che inizierà più avanti
+
+Un'azienda ti ha detto che ti assumerà: inizierai fra qualche
+settimana. Raccontalo al bot.
+
+--------------------------------------------------------------------
+SCENARIO 5 - Hai iniziato a lavorare
+
+Hai cominciato da poco un nuovo lavoro. Raccontalo al bot.
+
+--------------------------------------------------------------------
+SCENARIO 6 - Libero (facoltativo)
+
+Pensa a una tua esperienza vera di ricerca di lavoro, passata o in
+corso, e raccontala al bot come se fosse successa adesso. Puoi
+cambiare i nomi.
+
+====================================================================
+
+PARTE 2 - COSA CONTROLLARE IN OGNI CONVERSAZIONE
+
+Alla fine di ogni scenario chiediti:
+
+  [ ] Il bot ha capito che tipo di aggiornamento era?
+  [ ] Ti ha chiesto qualcosa che gli avevi già detto?
+  [ ] Ti ha chiesto qualcosa che non c'entrava?
+  [ ] Le domande erano chiare?
+  [ ] Il riepilogo finale era giusto (azienda, ruolo, date, città...)?
+  [ ] Ti ha chiesto conferma prima di registrare?
+  [ ] C'è stato un messaggio strano: parole in un'altra lingua,
+      simboli, testo tagliato, risposte senza senso?
+  [ ] Quanto ci ha messo a rispondere? (veloce / accettabile / lento)
+
+Se a una di queste domande la risposta è quella sbagliata, segnalalo
+nella scheda in fondo.
+
+====================================================================
+
+PARTE 3 - CASI PARTICOLARI
+
+Questi scenari mettono alla prova il bot nelle situazioni difficili.
+Falli dopo la parte 1, se hai tempo. Ognuno in una conversazione
+nuova.
+
+--------------------------------------------------------------------
+A. Cambi idea al riepilogo
+   Arriva fino al riepilogo finale e, invece di confermare, correggi
+   un dato: per esempio la città o il nome dell'azienda.
+   Il bot dovrebbe correggere e mostrarti di nuovo il riepilogo.
+
+B. Rispondi di no al riepilogo
+   Arriva al riepilogo e rispondi solo "no".
+   Il bot dovrebbe chiederti se vuoi correggere qualcosa o non
+   registrare.
+
+C. Non vuoi più registrare
+   A metà conversazione scrivi che non vuoi più registrare
+   l'aggiornamento.
+   Il bot dovrebbe chiederti conferma prima di annullare.
+   Prova sia a confermare, sia a dire che hai cambiato idea.
+
+D. Data senza anno
+   Racconta un colloquio dando la data senza l'anno, per esempio
+   "il 3 settembre".
+   Il bot dovrebbe chiederti l'anno.
+
+E. Data che non torna
+   Racconta di aver GIÀ fatto un colloquio, ma dai una data futura.
+   Il bot dovrebbe accorgersene e chiederti chiarimenti.
+
+F. Data vaga
+   Racconta un colloquio fatto "la settimana scorsa" o "ieri".
+   Con "ieri" il bot dovrebbe capire da solo la data; con "la
+   settimana scorsa" dovrebbe chiederti il giorno.
+
+G. Non ricordi un dato
+   Quando il bot ti chiede il ruolo per cui ti sei candidato,
+   rispondi che non te lo ricordi.
+
+H. Due cose insieme
+   Nel primo messaggio racconta due aggiornamenti diversi, per esempio
+   una candidatura in un'azienda e un colloquio in un'altra.
+   Il bot dovrebbe registrarne uno e dirti di scrivere l'altro dopo.
+
+I. Tutto in un messaggio
+   Nel primo messaggio scrivi tutto quello che sai: ruolo, azienda,
+   città, come hai trovato l'annuncio, il link.
+   Il bot non dovrebbe richiederti niente di quello che hai già
+   scritto.
+
+J. Messaggio generico
+   Inizia la conversazione scrivendo solo "Ciao".
+
+K. Colloquio saltato
+   Racconta un colloquio che è stato annullato o rinviato.
+   Il bot dovrebbe dirti di usare il form dalla Home.
+
+L. Un link
+   Quando il bot ti chiede se vuoi condividere un link, rispondi "sì"
+   senza scriverlo.
+
+M. Dettagli in più
+   Quando il bot ti chiede se vuoi aggiungere altri dettagli, scrivi
+   qualcosa che contiene una città o un sito, per esempio "l'ufficio
+   è a Bologna, c'è anche la pagina www.esempio.it/team".
+   Nel riepilogo quel testo dovrebbe comparire intero fra i dettagli,
+   senza cambiare la città o il link che avevi dato prima.
+
+N. Come l'hai trovato
+   Quando il bot ti chiede come hai trovato l'opportunità, invece di
+   scegliere un'opzione scrivi a parole, per esempio "me l'ha detto un
+   amico" o "mi ha scritto un recruiter su LinkedIn".
+   Il bot non dovrebbe ripeterti la domanda.
