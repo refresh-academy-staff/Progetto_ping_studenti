@@ -1,0 +1,1261 @@
+{
+  "name": "Workflow_as_code",
+  "nodes": [
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "32f097b5-c294-4cb6-8d84-443f314d5f32",
+                    "leftValue": "={{ $json.action }}",
+                    "rightValue": "=new_opp_bot",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "new_opp_bot"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "3a460559-447c-4ce3-9d30-c1b520634f97",
+                    "leftValue": "={{ $json.action }}",
+                    "rightValue": "open_new_form",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "open_new_form"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "d6fe6c73-8dae-4074-887a-879ec7474a67",
+                    "leftValue": "={{ $json.action }}",
+                    "rightValue": "new_matching_form_submit",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "form_submit"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "e83e1061-c49b-4fba-9d1d-52f9bfb5d2f6",
+                    "leftValue": "={{ $json.action }}",
+                    "rightValue": "new_matching_details_click",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "details_click"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "4757b29e-52a8-4b1d-a958-c649a471300d",
+                    "leftValue": "={{ $json.action }}",
+                    "rightValue": "selezione_matching",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "selezione"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "1c71a34d-592c-43c1-9565-c929f32fd728",
+                    "leftValue": "={{ $json.action }}",
+                    "rightValue": "update_form_click",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "form_click"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "b8ee48f3-9be6-4ec6-ba16-6a686566ed35",
+                    "leftValue": "={{ $json.action }}",
+                    "rightValue": "notification",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "notification"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "91454fbd-90a1-456f-a75d-8c08ff869bdf",
+                    "leftValue": "={{ $json.action }}",
+                    "rightValue": "new_matching_details_submit",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "details_submit"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "2dcd9f25-5e62-45a1-8b54-2105efa0666b",
+                    "leftValue": "={{ $json.action }}",
+                    "rightValue": "update_form_submit",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "update_submit"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -624,
+        688
+      ],
+      "id": "b7f1efd0-b585-46a0-b008-22d688c37d99",
+      "name": "Switch",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const b = $input.first().json.body\nconst payload = b.payload && JSON.parse(b.payload)\n\n// Valori da controllare (undefined se non esistono)\nconst type = payload?.type\nconst value = payload?.actions?.[0]?.value\nconst blockId = payload?.actions?.[0]?.block_id\nconst callbackId = payload?.view?.callback_id\n\nlet action = \"other\"\n\nif (b.type === \"notification\") {\n  action = \"notification\"\n} else if (value === \"new_opp_bot\") {\n  action = \"new_opp_bot\"\n} else if (value === \"new_opp_form\") {\n  action = \"open_new_form\"\n} else if (callbackId === \"new_matching_form\") {\n  if (type === \"view_submission\") {\n    action = \"new_matching_form_submit\"\n  }\n} else if (callbackId === \"new_matching_details\") {\n  if (type === \"block_actions\") {\n    action = \"new_matching_details_click\"\n  } else if (type === \"view_submission\") {\n    action = \"new_matching_details_submit\"\n  }\n} else if (blockId === \"selezione_matching\") {\n  action = \"selezione_matching\"\n} else if (callbackId === \"update_form\") {\n  if (type === \"view_submission\") {\n    action = \"update_form_submit\"\n  } else if (type === \"block_actions\") {\n    action = \"update_form_click\"\n  }\n}\n\nreturn {\n  ...b,\n  payload,\n  action\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -960,
+        816
+      ],
+      "id": "fe69cbe9-f80d-4975-bf46-34b8aceb5e43",
+      "name": "payload_parser",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "d70a2fb0-6dff-4894-8d35-d06738a4520b-dev",
+        "options": {
+          "responseData": "="
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -1200,
+        816
+      ],
+      "id": "842970e1-1bf9-452a-b918-b055b5e30de0",
+      "name": "Webhook1",
+      "webhookId": "d70a2fb0-6dff-4894-8d35-d06738a4520b",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "select": "user",
+        "user": {
+          "__rl": true,
+          "value": "={{ $json.payload.user.id }}",
+          "mode": "id"
+        },
+        "text": "Ciao! Apri questo thread per parlare con me.",
+        "otherOptions": {
+          "includeLinkToWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.5,
+      "position": [
+        -272,
+        16
+      ],
+      "id": "1f240aba-1195-4446-9907-2e7bfe593e32",
+      "name": "send_welcome_message",
+      "webhookId": "bb73f652-e1e7-4ace-bad5-f08f3d8ee15b",
+      "credentials": {
+        "slackApi": {
+          "id": "nMEW1zuSHsxRx3BN",
+          "name": "Slack - DEV"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "={{ $json.channel }}",
+          "mode": "id"
+        },
+        "text": "=Descrivimi l'opportunità lavorativa che vuoi registrare.",
+        "otherOptions": {
+          "includeLinkToWorkflow": false,
+          "thread_ts": {
+            "replyValues": {
+              "thread_ts": "={{ $json.message.ts }}"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.5,
+      "position": [
+        -80,
+        16
+      ],
+      "id": "d81b1d8a-825e-412f-bf3f-5ce5ed59407a",
+      "name": "create_thread_new",
+      "webhookId": "e4d89401-461d-4201-823f-cfcd22ca6fc5",
+      "credentials": {
+        "slackApi": {
+          "id": "nMEW1zuSHsxRx3BN",
+          "name": "Slack - DEV"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1kfZTjFALTAEUg-qtBTo-SwcWhQGyvdqXaf50EcLLL4Y",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1910429051,
+          "mode": "list",
+          "cachedResultName": "Matching",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kfZTjFALTAEUg-qtBTo-SwcWhQGyvdqXaf50EcLLL4Y/edit#gid=1910429051"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "ID matching",
+              "lookupValue": "={{ $json.payload.view.state.values.selezione_matching.choose_matching.selected_option.value }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        96,
+        272
+      ],
+      "id": "3ead209e-fc1a-4bd6-93f0-ea587a346426",
+      "name": "get_selected_matching",
+      "retryOnFail": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "k3WT3aKVhGuuClRa",
+          "name": "Google Sheets account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://script.google.com/macros/s/AKfycby3tjsdEYgIjU4RLXxy0rpGMhXhZT6Br7tg-Dh-M8ZV2u8sj25Xy1n_bSFp97n56szhJA/exec",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"action\": \"update\",\n  \"matchingID\": \"{{ $json[\"ID matching\"] }}\" \n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        928,
+        1184
+      ],
+      "id": "96781b13-d257-4f78-b10a-6d1b46c0d0d0",
+      "name": "update_matching",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const infoMatching = $input.first().json.payload.view.blocks.find(b => b.block_id === \"info_matching\");\nconst infoFields = infoMatching.fields\n\n// Il riepilogo è fatto a coppie: etichetta, valore, etichetta, valore...\nconst riepilogo = {}\nfor (let i = 0; i < infoFields.length; i += 2) {\n  const etichetta = infoFields[i].text       // es. \"*Azienda*\"\n  const valore = infoFields[i + 1]?.text     // es. \"_Acme_\"\n  riepilogo[etichetta] = valore\n}\n\nconst azienda = riepilogo[\"*Azienda*\"]\nconst posizione = riepilogo[\"*Posizione*\"]\nconst sede = riepilogo[\"*Sede*\"]\nconst fonte = riepilogo[\"*Fonte*\"]\n\nconst removeMrkdwn = (text) => {\n  if (!text) return \"\"\n  const first = text[0]\n  const last = text[text.length - 1]\n  if (first === last && (first === \"_\" || first === \"*\")) {\n    return text.slice(1, -1)\n  }\n  return text\n}\nconst userID = $input.first().json.payload.user.id\nif (!userID) {\n  return {error: \"User ID non presente\"}\n}\n\nconst values = $input.first().json.payload.view.state.values\nif (!values) {\n  return {error: \"Nessun valore trovato\"}\n}\n\nconst valuesKeys = Object.keys(values)\n\nconst submission = {\n  context: {\n    user_id: userID,\n    azienda: removeMrkdwn(azienda),\n    posizione: removeMrkdwn(posizione),\n    sede: removeMrkdwn(sede),\n    fonte: removeMrkdwn(fonte)\n  },\n  submittedValues: {}\n};\n\nvaluesKeys.forEach(key => {\n\n  const subField = Object.keys(values[key])[0]\n  const childBlock = values[key][subField]\n\n  const childBlockType = childBlock.type\n\n  switch (childBlockType) {\n    case (\"checkboxes\"):\n      if (childBlock.selected_options.length === 0) {\n        submission.submittedValues[key] = null\n      } else {\n        submission.submittedValues[key] = childBlock.selected_options[0].value;\n      }\n      break;\n    case (\"radio_buttons\"):\n    case (\"static_select\"):\n      submission.submittedValues[key] = childBlock.selected_option?.value;\n      break;\n    case (\"datepicker\"):\n      submission.submittedValues[key] = childBlock.selected_date;\n      break;\n    case (\"plain_text_input\"):\n      submission.submittedValues[key] = childBlock.value;\n      break;\n  }\n})\n\nreturn {submission}\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        464,
+        912
+      ],
+      "id": "3c9a2ee1-22a1-4385-8e7a-8e2b99c069d2",
+      "name": "get_submission_info_new",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1kfZTjFALTAEUg-qtBTo-SwcWhQGyvdqXaf50EcLLL4Y",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 935935300,
+          "mode": "list",
+          "cachedResultName": "Registrazioni",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kfZTjFALTAEUg-qtBTo-SwcWhQGyvdqXaf50EcLLL4Y/edit#gid=935935300"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ID studente": "={{ $json.submission.context.user_id }}",
+            "Stato opportunità": "={{ $json.submission.submittedValues.stato }}",
+            "Azienda": "={{ $json.submission.context.azienda }}",
+            "Sede": "={{ $json.submission.context.sede }}",
+            "Posizione": "={{ $json.submission.context.posizione }}",
+            "Fonte": "={{ $json.submission.context.fonte }}",
+            "Data colloquio": "={{ $json.submission.submittedValues.data_colloquio }}",
+            "Feedback colloquio": "={{ $json.submission.submittedValues.esito_colloquio }}",
+            "Sorgente": "Form",
+            "Matching creato": "no",
+            "Tipo contratto": "={{ $json.submission.submittedValues.tipo_contratto }}",
+            "Data inizio contratto": "={{ $json.submission.submittedValues.date_picker_inizio_contratto }}",
+            "Data fine contratto": "={{ $json.submission.submittedValues.date_picker_fine_contratto }}",
+            "Data registrazione": "=",
+            "Timestamp": "={{ $('Webhook1').item.json.headers[\"x-slack-request-timestamp\"] }}",
+            "Note": "={{ $json.submission.submittedValues.altre_info }}",
+            "Link allegati": "={{ $json.submission.submittedValues.link_allegato }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "ID registrazione",
+              "displayName": "ID registrazione",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ID studente",
+              "displayName": "ID studente",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Stato opportunità",
+              "displayName": "Stato opportunità",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Data registrazione",
+              "displayName": "Data registrazione",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Posizione",
+              "displayName": "Posizione",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Azienda",
+              "displayName": "Azienda",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Sede",
+              "displayName": "Sede",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Fonte",
+              "displayName": "Fonte",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Data colloquio",
+              "displayName": "Data colloquio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Feedback colloquio",
+              "displayName": "Feedback colloquio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Tipo contratto",
+              "displayName": "Tipo contratto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Data inizio contratto",
+              "displayName": "Data inizio contratto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Data fine contratto",
+              "displayName": "Data fine contratto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Link allegati",
+              "displayName": "Link allegati",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Conversazione integrale",
+              "displayName": "Conversazione integrale",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Sintesi bot",
+              "displayName": "Sintesi bot",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Sintesi altre informazioni",
+              "displayName": "Sintesi altre informazioni",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Note",
+              "displayName": "Note",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Sorgente",
+              "displayName": "Sorgente",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Matching creato",
+              "displayName": "Matching creato",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Note staff",
+              "displayName": "Note staff",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        688,
+        912
+      ],
+      "id": "6ee3cde3-da3c-4a85-8e96-85fedb66e47e",
+      "name": "append_new_matching_form",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "k3WT3aKVhGuuClRa",
+          "name": "Google Sheets account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1kfZTjFALTAEUg-qtBTo-SwcWhQGyvdqXaf50EcLLL4Y",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 594811163,
+          "mode": "list",
+          "cachedResultName": "Aggiornamenti_matching",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kfZTjFALTAEUg-qtBTo-SwcWhQGyvdqXaf50EcLLL4Y/edit#gid=594811163"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ID matching": "={{ $json.submission.context.matching_id }}",
+            "Matching aggiornato": "no",
+            "Nuovo stato": "={{ $json.submission.submittedValues.main_update }}",
+            "Note": "={{ $json.submission.submittedValues.altre_info }}",
+            "Data colloquio": "={{ $json.submission.submittedValues.data_colloquio }}",
+            "Feedback colloquio": "={{ $json.submission.submittedValues.esito_colloquio }}",
+            "Motivo chiusura": "={{ $json.submission.submittedValues.motivo_chiusura }}",
+            "ID studente": "={{ $json.submission.context.user_id }}",
+            "Tipo contratto": "={{ $json.submission.submittedValues.tipo_contratto }}",
+            "Data aggiornamento": "==EPOCHTODATE({{ $('Webhook1').item.json.headers[\"x-slack-request-timestamp\"] }})",
+            "Data inizio contratto": "={{ $json.submission.submittedValues.date_picker_inizio_contratto }}",
+            "Data fine contratto": "={{ $json.submission.submittedValues.date_picker_fine_contratto }}",
+            "Motivazione colloquio non sostenuto": "={{ $json.submission.submittedValues.motivo_colloquio_non_sostenuto }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "ID aggiornamento",
+              "displayName": "ID aggiornamento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ID matching",
+              "displayName": "ID matching",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Studente",
+              "displayName": "Studente",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ID studente",
+              "displayName": "ID studente",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Nuovo stato",
+              "displayName": "Nuovo stato",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Data colloquio",
+              "displayName": "Data colloquio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Feedback colloquio",
+              "displayName": "Feedback colloquio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Motivazione colloquio non sostenuto",
+              "displayName": "Motivazione colloquio non sostenuto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Tipo contratto",
+              "displayName": "Tipo contratto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Data inizio contratto",
+              "displayName": "Data inizio contratto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Data fine contratto",
+              "displayName": "Data fine contratto",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Motivo chiusura",
+              "displayName": "Motivo chiusura",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Note",
+              "displayName": "Note",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Matching aggiornato",
+              "displayName": "Matching aggiornato",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Data aggiornamento",
+              "displayName": "Data aggiornamento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        736,
+        1184
+      ],
+      "id": "e6bd24b6-b191-4fbd-a93c-0780585d5809",
+      "name": "append_matching_update",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "k3WT3aKVhGuuClRa",
+          "name": "Google Sheets account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "select": "user",
+        "user": {
+          "__rl": true,
+          "value": "={{ $json.user }}",
+          "mode": "id"
+        },
+        "text": "={{ $json.text }}",
+        "otherOptions": {
+          "includeLinkToWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.5,
+      "position": [
+        -192,
+        1344
+      ],
+      "id": "44c1cc6b-4008-42ea-8201-b1d2937fe989",
+      "name": "notify_user",
+      "webhookId": "4f5db02d-897b-47d5-88de-3aeeebd8ac62",
+      "credentials": {
+        "slackApi": {
+          "id": "nMEW1zuSHsxRx3BN",
+          "name": "Slack - DEV"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "amount": 0.5
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        464,
+        704
+      ],
+      "id": "54bc7c2f-0068-4654-b0cc-b6b93f3b188b",
+      "name": "Wait",
+      "webhookId": "ab3a03c1-2635-4e7a-b810-c546aabd005b",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://slack.com/api/{{ $json.slackMethod }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "slackApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.slackBody }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        1632,
+        256
+      ],
+      "id": "2b03a78d-4057-4edc-9689-3fa0a11fd7fb",
+      "name": "slack_view",
+      "credentials": {
+        "slackApi": {
+          "id": "nMEW1zuSHsxRx3BN",
+          "name": "Slack - DEV"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://script.google.com/macros/s/AKfycby3tjsdEYgIjU4RLXxy0rpGMhXhZT6Br7tg-Dh-M8ZV2u8sj25Xy1n_bSFp97n56szhJA/exec",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"action\": \"new_matching\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        944,
+        912
+      ],
+      "name": "add_matching1",
+      "id": "526cb99f-6c03-4313-9384-4fddc7e3c468",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const currentAction = $('payload_parser').first().json.action\n\nfunction formInfoAzienda() {\n  // codice di open_info_azienda\n  \nconst buildOption = (props) => {\n  return {\n    \"text\": {\n      \"type\": \"plain_text\",\n      \"text\": props.text\n    },\n    \"value\": props.value\n  }\n}\nconst buildLabel = (text) => {\n  return {\n    \"label\": {\n      \"type\": \"plain_text\",\n      \"text\": text\n    }\n  }\n}\n\nconst buildTextBox = (props) => {\n  return {\n    \"type\": \"input\",\n    \"block_id\": props.blockID,\n    \"element\": {\n      \"type\": \"plain_text_input\",\n      \"action_id\": \"text_input\",\n      \"placeholder\": {\n        \"type\": \"plain_text\",\n        \"text\": props.placeholder\n      },\n      \"multiline\": props.multiline\n    },\n    \"optional\": props.optional,\n    ...buildLabel(props.label)\n  }\n}\n\nconst infoAziendaHeader = {\n  \"block_id\": \"new_header\",\n  \"type\": \"header\",\n  \"text\": {\n    \"type\": \"plain_text\",\n    \"text\": \"Prima di tutto inserisci alcune informazioni relative all'azienda\"\n  },\n  \"level\": 1\n}\n\nconst azienda = buildTextBox({\n  blockID: \"nome_azienda\",\n  label: \"Nome azienda\",\n  placeholder: \"Ex. Acme\",\n  multiline: false,\n  optional: false\n})\nconst posizione = buildTextBox({\n  blockID: \"posizione\",\n  label: \"Posizione lavorativa\",\n  placeholder: \"Ex. Full stack developer\",\n  multiline: false,\n  optional: false\n})\nconst sede = buildTextBox({\n  blockID: \"sede\",\n  label: \"Sede di lavoro\",\n  placeholder: \"Ex. Bologna\",\n  multiline: false,\n  optional: true\n})\n\nconst fonte = {\n  \"type\": \"input\",\n  \"block_id\": \"fonte_opportunita\",\n  \"element\": {\n    \"type\": \"static_select\",\n    \"action_id\": \"selezione_fonte\",\n    \"options\": [\n      buildOption({ text: \"Ricerca online autonoma\", value: \"online_autonomo\" }),\n      buildOption({ text: \"Foglio google condiviso\", value: \"gsheet\" }),\n      buildOption({ text: \"Speed Interview\", value: \"speed_interview\" }),\n      buildOption({ text: \"L'azienda ha cercato il mio contatto\", value: \"da_azienda\" }),\n      buildOption({ text: \"Altro\", value: \"altro\" }),\n    ]\n  },\n  \"dispatch_action\": true,\n  \"label\": {\n    \"type\": \"plain_text\",\n    \"text\": \"Come hai trovato questa opportunità?\"\n  }\n}\n\n\nconst blocks = [];\nblocks.push(infoAziendaHeader, azienda, posizione, sede, fonte)\n\nconst openViewBlocks = {\n  \"trigger_id\": $('payload_parser').first().json.payload.trigger_id,\n  \"view\": {\n    \"type\": \"modal\",\n    \"title\": {\n      \"type\": \"plain_text\",\n      \"text\": \"Nuova opportunità\"\n    },\n    \"blocks\": blocks,\n    \"submit\": {\n      \"type\": \"plain_text\",\n      \"text\": \"Avanti\",\n    },\n    \"close\": {\n      \"type\": \"plain_text\",\n      \"text\": \"Esci\"\n    },\n    \"private_metadata\": \"new_matching_form_private\",\n    \"callback_id\": \"new_matching_form\"\n  },\n}\n\nreturn {\n  slackMethod: \"views.open\",\n  openViewBlocks\n}\n\n}\n\nfunction formInfoMatching() {\n  // open_info_matching\n  const buildButton = (text, value, actionID, style) => {\n\n  if (style === \"danger\") {\n    return {\n      \"type\": \"button\",\n      \"text\": {\n        \"type\": \"plain_text\",\n        \"text\": text\n      },\n      \"value\": value,\n      \"action_id\": actionID,\n      \"style\": \"danger\"\n    }\n  } else if (style === \"primary\") {\n    return {\n      \"type\": \"button\",\n      \"text\": {\n        \"type\": \"plain_text\",\n        \"text\": text\n      },\n      \"value\": value,\n      \"action_id\": actionID,\n      \"style\": \"danger\"\n    }\n  } else {\n    return {\n      \"type\": \"button\",\n      \"text\": {\n        \"type\": \"plain_text\",\n        \"text\": text\n      },\n      \"value\": value,\n      \"action_id\": actionID\n    }\n  }\n}\n\nconst buildTextObject = (text) => {\n  return {\n    \"type\": \"mrkdwn\",\n    \"text\": text\n  }\n}\n\nconst values = $input.first().json.payload.view.state.values\nconst azienda = values.nome_azienda.text_input.value\nconst posizione = values.posizione.text_input.value\nconst sede = values.sede.text_input.value\nconst fonte = values.fonte_opportunita.selezione_fonte.selected_option.text.text\n\nconst fields = () => {\n  const fields = [\n    buildTextObject(\"*Azienda*\"),\n    buildTextObject(`_${azienda}_`),\n    buildTextObject(\"*Posizione*\"),\n    buildTextObject(`_${posizione}_`),\n  ];\n  if (sede) {\n    fields.push(\n      buildTextObject(\"*Sede*\"),\n      buildTextObject(`_${sede}_`)\n    )\n  }\n  fields.push(\n    buildTextObject(\"*Fonte*\"),\n    buildTextObject(`_${fonte}_`)\n  )\n\n  return fields\n}\n\nconst riepilogoAzienda2 = {\n  \"type\": \"section\",\n  \"block_id\": \"info_matching\",\n  \"fields\": [\n    ...fields()\n  ]\n\n}\n\nconst divider = {\n  \"type\": \"divider\"\n}\n\nconst textSection = {\n  \"type\": \"header\",\n  \"text\": {\n    \"type\": \"plain_text\",\n    \"text\": \"Seleziona lo stato di questa nuova opportunità\"\n  },\n  level: 1\n}\n\nconst selezioneStato = {\n  \"type\": \"actions\",\n  \"block_id\": \"selezione_aggiornamento_candidatura\",\n  \"elements\": [\n    buildButton(\"Candidatura\", \"nuova_candidatura\", \"new_candidatura\", \"primary\"),\n    buildButton(\"Colloquio\", \"nuovo_colloquio\", \"new_colloquio\", \"primary\"),\n    buildButton(\"Assunzione (anche potenziale)\", \"nuova_assunzione\", \"new_assunzione\", \"primary\"),\n  ]\n}\n\nconst blocks = [riepilogoAzienda2, divider, textSection, selezioneStato]\n\nconst openViewBlocks = {\n  \"trigger_id\": $input.first().json.payload.trigger_id,\n  \"view\": {\n    \"type\": \"modal\",\n    \"title\": {\n      \"type\": \"plain_text\",\n      \"text\": \"Nuova opportunità\"\n    },\n    \"blocks\": blocks,\n    \"close\": {\n      \"type\": \"plain_text\",\n      \"text\": \"Esci\"\n    },\n    \"private_metadata\": \"new_matching_details_private\",\n    \"callback_id\": \"new_matching_details\"\n  },\n}\n\nreturn {\n  slackMethod: \"views.open\",\n  slackBody: openViewBlocks\n}\n\n}\n\nfunction formDettagliMatching() {\n  // codice di update_new_matching_form\n  const buildTextBlock = (props) => {\n\n  const styleObj = {}\n  if (props.style) {\n    styleObj[\"style\"] = {\n      [props.style] : true\n    }\n  }\n\n  const blockIDObj = {}\n  if (props.blockID) {\n    blockIDObj[\"block_id\"] = props.blockID\n  }\n\n  return {\n    \"type\": \"rich_text\",\n    ...blockIDObj,\n    \"elements\": [\n      {\n        \"type\": \"rich_text_section\",\n        \"elements\": [\n          {\n            \"type\": \"text\",\n            \"text\": props.text,\n            ...styleObj\n          }\n        ]\n      }\n    ]\n  }\n}\nconst buildLabel = (text) => {\n  return {\n    \"label\": {\n      \"type\": \"plain_text\",\n      \"text\": text\n    }\n  }\n}\nconst buildOption = (text, value) => {\n  return {\n    \"text\": {\n      \"type\": \"plain_text\",\n      \"text\": text\n    },\n    \"value\": value\n  }\n}\nconst buildTextBox = (props) => {\n  return {\n    \"type\": \"input\",\n    \"block_id\": props.blockID,\n    \"element\": {\n      \"type\": \"plain_text_input\",\n      \"action_id\": \"text_input\",\n      \"placeholder\": {\n        \"type\": \"plain_text\",\n        \"text\": props.placeholder\n      },\n      \"multiline\": props.multiline\n    },\n    \"optional\": props.optional,\n    ...buildLabel(props.label)\n  }\n}\nconst buildDatePicker = (text, id, isOptional) => {\n  return {\n    \"block_id\": id,\n    \"type\": \"input\",\n    \"element\": {\n      \"action_id\": \"pick_a_date\",\n      \"type\": \"datepicker\"\n    },\n    \"optional\": isOptional,\n    ...buildLabel(text)\n  }\n}\nconst assunzText1 = buildTextBlock({\n  text: \"Compila questi campi se hai le relative informazioni\",\n  style: \"bold\",\n});\nconst link = buildTextBox({\n  blockID: \"link_allegato\",\n  placeholder: \"www.linkedin.it, www.acme.it...\",\n  multiline: false,\n  optional: true,\n  label: \"Incolla qui il link dell'annuncio o altri link che ritieni rilevanti\"\n})\nconst selezioneStatoColloquio = {\n  \"block_id\": \"stato\",\n  \"type\": \"input\",\n  \"dispatch_action\": true,\n  \"element\": {\n    \"type\": \"radio_buttons\",\n    \"action_id\": \"selezione_stato_colloquio\",\n    \"options\": [\n      buildOption(\"Programmato\", \"colloquio_programmato\"),\n      buildOption(\"Sostenuto\", \"colloquio_sostenuto\")\n    ]\n  },\n  ...buildLabel(\"Stato\")\n}\nconst datePickerColloquio = buildDatePicker(\"Data\", \"data_colloquio\", false);\nconst selezioneEsitoColloquio = {\n  \"block_id\": \"esito_colloquio\",\n  \"type\": \"input\",\n  ...buildLabel(\"L'azienda ti ha dato feedback diretti?\"),\n  \"element\": {\n    \"type\": \"radio_buttons\",\n    \"action_id\": \"seleziona_feedback_colloquio\",\n    \"options\": [\n      buildOption(\"Hanno solo detto che mi faranno sapere\", \"feedback_colloquio_si_neutro\"),\n      buildOption(\"Sì, sono intenzionati a proseguire\", \"feedback_colloquio_si_pos\"),\n      buildOption(\"Sì, hanno detto di non voler procedere oltre (chiudi opportunità)\", \"feedback_colloquio_si_neg\"),\n      buildOption(\"No, non hanno dato nessun feedback\", \"feedback_colloquio_no\")\n    ]\n  }\n}\nconst altreInfoColloquio = buildTextBox({\n  placeholder: \"Qui puoi scrivere altre informazioni che ritieni significative\",\n  label: \"Altro\",\n  blockID: \"altre_info\",\n  multiline: true,\n  optional: true\n});\nconst altreInfoColloquioSostenuto = buildTextBox({\n  placeholder: \"Qui puoi scrivere altro in merito al colloquio\",\n  label: \"Impressioni/note aggiuntive\",\n  blockID: \"altre_info\",\n  multiline: true,\n  optional: true\n});\nconst selezioneStatoAssunzione = {\n  \"block_id\": \"stato\",\n  \"type\": \"input\",\n  \"element\": {\n    \"type\": \"static_select\",\n    \"action_id\": \"selezione_stato_assunzione\",\n    \"options\": [\n      buildOption(\"Prevista\", \"assunzione_prevista\"),\n      buildOption(\"Avvenuta\", \"assunzione_avvenuta\"),\n    ],\n  },\n  ...buildLabel(\"Stato assunzione\"),\n};\nconst selezioneTipoContratto = {\n  \"block_id\": \"tipo_contratto\",\n  \"type\": \"input\",\n  \"element\": {\n    \"type\": \"static_select\",\n    \"action_id\": \"selezione_tipo_contratto\",\n    \"options\": [\n      buildOption(\"Tirocinio/stage\", \"contratto_tirocinio_stage\"),\n      buildOption(\"Apprendistato\", \"contratto_apprendistato\"),\n      buildOption(\"Partita IVA\", \"contratto_p_iva\"),\n      buildOption(\"Determinato\", \"contratto_determ\"),\n      buildOption(\"Indeterminato\", \"contratto_indet\"),\n      buildOption(\"Altro\", \"contratto_altro\"),\n    ],\n  },\n  optional: true,\n  ...buildLabel(\"Tipo di contratto\"),\n};\nconst dataInizioContratto = buildDatePicker(\n  \"Inizio contratto\",\n  \"date_picker_inizio_contratto\",\n  true,\n);\nconst dataFineContratto = buildDatePicker(\n  \"Fine contratto\",\n  \"date_picker_fine_contratto\",\n  true,\n);\nconst altreInfoAssunzione = buildTextBox({\n  placeholder:\n    \"Puoi usare questo spazio per darci altri dettagli sullo stato della tua assunzione\",\n  label: \"Altro\",\n  blockID: \"altre_info\",\n  multiline: true,\n  optional: true\n});\nconst action = $input.first().json.payload.actions[0].action_id\nconst infoAzienda = $input.first().json.payload.view.blocks.find(b => b.block_id === \"info_matching\")\nconst nomeAzienda = infoAzienda.fields[1].text.replaceAll(\"_\", \"\").replaceAll(\"*\", \"\");\nconst divider = {\n  \"type\": \"divider\"\n}\n\nconst riepilogoCandidatura = {\n  \"type\": \"section\",\n  \"block_id\": \"stato\",\n  \"text\": {\n    \"type\": \"mrkdwn\",\n    \"text\": \"*Candidatura in oggetto*\"\n  },\n  \"accessory\": {\n    \"type\": \"radio_buttons\",\n    \"options\": [\n      buildOption(`Candidatura con ${nomeAzienda}`, \"candidatura_inviata\")\n    ],\n    \"initial_option\": buildOption(`Candidatura con ${nomeAzienda}`, \"candidatura_inviata\")\n  }\n}\n\nconst noteNuovaCadidatura = buildTextBox({\n  blockID: \"altre_info\",\n  placeholder: \"Scrivi qui se hai ulteriori info che vuoi fornire\",\n  multiline: true,\n  optional: true,\n  label: \"Aggiungi altri dettagli\"\n})\nconst blocks = [infoAzienda, divider];\nswitch (action) {\n  case \"new_candidatura\":\n    blocks.push(riepilogoCandidatura, link, divider, noteNuovaCadidatura)\n    break;\n  case \"new_colloquio\":\n    blocks.push(selezioneStatoColloquio)\n    break;\n  case \"selezione_stato_colloquio\":\n    const selectedOption = $input.first().json.payload.actions[0].selected_option.value;\n    switch (selectedOption) {\n      case \"colloquio_sostenuto\":\n        blocks.push(\n          selezioneStatoColloquio,\n          datePickerColloquio,\n          divider,\n          selezioneEsitoColloquio,\n          divider,\n          link,\n          divider,\n          altreInfoColloquioSostenuto,\n        );\n        break;\n      case \"colloquio_programmato\":\n        blocks.push(\n          selezioneStatoColloquio,\n          datePickerColloquio,\n          link,\n          divider,\n          altreInfoColloquio,\n        );\n        break;\n      }\n      break;\n  case \"new_assunzione\":\n    blocks.push(\n      selezioneStatoAssunzione,\n      divider,\n      assunzText1,\n      selezioneTipoContratto,\n      dataInizioContratto,\n      dataFineContratto,\n      divider,\n      link,\n      divider,\n      altreInfoAssunzione,\n    )\n    break;\n}\n\nconst uploadViewBlocks = {\n  view_id: $(\"payload_parser\").first().json.payload.view.id,\n  view: {\n    type: \"modal\",\n    title: {\n      type: \"plain_text\",\n      text: \"Aggiornamento\",\n    },\n    blocks: blocks,\n    submit: {\n      type: \"plain_text\",\n      text: \"Registra\",\n    },\n    close: {\n      type: \"plain_text\",\n      text: \"Exit\",\n    },\n    private_metadata: \"new_matching_details_private\",\n    callback_id: \"new_matching_details\"\n  },\n}\n\nreturn { \n   slackMethod: \"views.update\",\n  slackBody: uploadViewBlocks\n};\n\n\n}\n\nfunction formApriAggiornamento() {\n  // codice di build_update_form\n  const dateFormatter = (date) => {\n\n  if (date === \"\") return \"\";\n\n  const splitDate = date.split(\"/\");\n  const [d, m, y] = splitDate\n  const dataCompleta = `${y}-${m}-${d}`\n  return dataCompleta\n}\n\nconst buildTextBlock = (props) => {\n\n  const styleObj = {}\n  if (props.style) {\n    styleObj[\"style\"] = {\n      [props.style] : true\n    }\n  }\n\n  const blockIDObj = {}\n  if (props.blockID) {\n    blockIDObj[\"block_id\"] = props.blockID\n  }\n\n  return {\n    \"type\": \"rich_text\",\n    ...blockIDObj,\n    \"elements\": [\n      {\n        \"type\": \"rich_text_section\",\n        \"elements\": [\n          {\n            \"type\": \"text\",\n            \"text\": props.text,\n            ...styleObj\n          }\n        ]\n      }\n    ]\n  }\n}\n\nconst buildButton = (text, value, actionID, style) => {\n\n  if (style === \"danger\") {\n    return {\n      \"type\": \"button\",\n      \"text\": {\n        \"type\": \"plain_text\",\n        \"text\": text\n      },\n      \"value\": value,\n      \"action_id\": actionID,\n      \"style\": \"danger\"\n    }\n  } else if (style === \"primary\") {\n    return {\n      \"type\": \"button\",\n      \"text\": {\n        \"type\": \"plain_text\",\n        \"text\": text\n      },\n      \"value\": value,\n      \"action_id\": actionID,\n      \"style\": \"primary\"\n    }\n  } else {\n    return {\n      \"type\": \"button\",\n      \"text\": {\n        \"type\": \"plain_text\",\n        \"text\": text\n      },\n      \"value\": value,\n      \"action_id\": actionID\n    }\n  }\n}\n\nconst buildOption = (text, value) => {\n  return {\n    \"text\": {\n      \"type\": \"plain_text\",\n      \"text\": text\n    },\n    \"value\": value\n  }\n}\nconst buildLabel = (text) => {\n  return {\n    \"label\": {\n      \"type\": \"plain_text\",\n      \"text\": text\n    }\n  }\n}\nconst buildDatePicker = (text, id, isOptional) => {\n  return {\n    \"block_id\": id,\n    \"type\": \"input\",\n    \"element\": {\n      \"type\": \"datepicker\"\n    },\n    \"optional\": isOptional,\n    ...buildLabel(text)\n  }\n}\nconst buildTextBox = (props) => {\n  return {\n    \"type\": \"input\",\n    \"block_id\": props.blockId,\n    \"element\": {\n      \"type\": \"plain_text_input\",\n      \"action_id\": \"text_input\",\n      \"placeholder\": {\n        \"type\": \"plain_text\",\n        \"text\": props.placeholder\n      },\n      \"multiline\": props.multiline\n    },\n    \"optional\": true,\n    ...buildLabel(props.label)\n  }\n}\n\nconst selectedMatching = $('payload_parser').first().json.payload.view.state.values.selezione_matching.choose_matching.selected_option;\nconst selectedMatchingText = selectedMatching.text.text\nconst selectedMatchingID = selectedMatching.value\n\nconst matchingReference = buildTextBlock({text: selectedMatchingText, style: \"italic\", blockID: selectedMatchingID})\n\n//=======================================\nconst aggiornamentoCandidaturaHead = buildTextBlock({text: \"Come vuoi aggiornare la tua candidatura?\", style: \"bold\"})\nconst mainActionAggiornamentoCandidatura = {\n  \"type\": \"actions\",\n  \"block_id\": \"selezione_aggiornamento_candidatura\",\n  \"elements\": [\n    buildButton(\"Colloquio\", \"nuovo_colloquio\", \"candidatura_colloquio\"),\n    buildButton(\"Assunzione (anche potenziale)\", \"nuova_assunzione\", \"candidatura_assunzione\"),\n    buildButton(\"Opportunità chiusa\", \"opportunità_chiusa\", \"candidatura_chiusa\", \"danger\")\n  ]\n}\n\n//=======================================\nconst aggiornamentoCollProgHead = buildTextBlock({text: \"Hai sostenuto il colloquio?\", style: \"bold\"})\nconst colloquioProgSostenuto = {\n  \"type\": \"actions\",\n  \"block_id\": \"main_update\",\n  \"elements\": [\n    {\n      \"type\": \"radio_buttons\",\n      \"action_id\": \"conferma_colloquio_sostenuto\",\n      \"options\": [\n        buildOption(\"Sì\", \"collprog_avvenuto\"),\n        buildOption(\"No\", \"collprog_non_avvenuto\"),\n      ]\n    }\n  ]\n}\nconst collProgDomanda1 = buildTextBlock({text: \"Pensano già di assumerti?\", style: \"italic\"})\nconst redirectAssunzione = {\n  \"type\": \"actions\",\n  \"block_id\": \"coll_prog_redirect_assunzione\",\n  \"elements\": [\n    buildButton(\"Assunzione\", \"assunzione\", \"redirect_assunzione\", \"primary\"),\n  ]\n}\n//=======================================\nconst selezioneStatoColloquio = {\n  \"block_id\": \"main_update\",\n  \"type\": \"input\",\n  \"dispatch_action\": true,\n  \"element\": {\n    \"type\": \"radio_buttons\",\n    \"action_id\": \"selezione_stato_colloquio\",\n    \"options\": [\n      buildOption(\"Programmato\", \"colloquio_programmato\"),\n      buildOption(\"Sostenuto\", \"colloquio_sostenuto\")\n    ]\n  },\n  ...buildLabel(\"Stato\")\n}\n\nconst aggiornamentoCollSostHead = buildTextBlock({text: \"Come vuoi aggiornare questa opportunità?\", style: \"bold\"});\nconst mainActionAggiornamentoCollSost = {\n  \"type\": \"actions\",\n  \"block_id\": \"selezione_aggiornamento_candidatura\",\n  \"elements\": [\n    buildButton(\"Ulteriore colloquio\", \"ulteriore_colloquio\", \"coll_sost_nuovo_colloquio\"),\n    buildButton(\"Assunzione (anche potenziale)\", \"nuova_assunzione\", \"coll_sost_assunzione\"),\n    buildButton(\"Opportunità chiusa\", \"opportunità_chiusa\", \"coll_sost_chiusa\", \"danger\")\n  ]\n}\n\n//=======================================\nconst selezioneStatoAssunzione = {\n  \"block_id\": \"main_update\",\n  \"type\": \"actions\",\n  \"elements\": [\n    {\n      \"type\": \"static_select\",\n      \"placeholder\": {\n        \"type\": \"plain_text\",\n        \"text\": \"Stato assunzione\"\n      },\n      \"action_id\": \"selezione_stato_assunzione\",\n      \"options\": [\n        buildOption(\"Prevista\", \"assunzione_prevista\"),\n        buildOption(\"Avvenuta\", \"assunzione_avvenuta\"),\n        buildOption(\"Annullata (chiudi opportunità)\", \"assunzione_annullata\"),\n      ],\n    }\n  ],\n}\n\nconst assunzText1 = buildTextBlock({text: \"Compila questi campi se hai le relative informazioni\", style: \"bold\"});\nconst selezioneTipoContratto = {\n  \"block_id\": \"tipo_contratto\",\n  \"type\": \"input\",\n  \"element\": {\n    \"type\": \"static_select\",\n    \"action_id\": \"selezione_tipo_contratto\",\n    \"options\": [\n      buildOption(\"Tirocinio/stage\", \"contratto_tirocinio_stage\"),\n      buildOption(\"Apprendistato\", \"contratto_apprendistato\"),\n      buildOption(\"Partita IVA\", \"contratto_p_iva\"),\n      buildOption(\"Determinato\", \"contratto_determ\"),\n      buildOption(\"Indeterminato\", \"contratto_indet\"),\n      buildOption(\"Altro\", \"contratto_altro\"),\n    ],\n  },\n  ...buildLabel(\"Tipo di contratto\")\n}\n\nconst dataInizioContratto = buildDatePicker(\"Inizio contratto\", \"date_picker_inizio_contratto\", true);\nconst dataFineContratto = buildDatePicker(\"Fine contratto\", \"date_picker_fine_contratto\", true);\nconst altreInfoAssunzione = buildTextBox({ placeholder: \"Puoi usare questo spazio per darci altri dettagli sullo stato della tua assunzione\", label: \"Altro\", blockId: \"altre_info\" })\n\nconst divider = {\n  \"type\": \"divider\"\n}\n\nconst blocks = [matchingReference, divider]\nconst ultimaAttività = $input.first().json[\"Ultima attività\"];\nlet privateID;\nlet titoloAggiornamento;\n\nswitch (ultimaAttività) {\n  case \"Candidatura\":\n    blocks.push(aggiornamentoCandidaturaHead, mainActionAggiornamentoCandidatura)\n    titoloAggiornamento = \"Update candidatura\" ;\n    privateID = \"update_candidatura\" ;\n    break;\n  case \"Colloquio rimandato\":\n    blocks.push(selezioneStatoColloquio)\n    titoloAggiornamento = \"Update colloquio\";\n    privateID = \"update_colloquio_rim\" ;\n    break;\n  case \"Colloquio programmato\":\n    blocks.push(aggiornamentoCollProgHead, colloquioProgSostenuto, collProgDomanda1, redirectAssunzione)\n    titoloAggiornamento = \"Update colloquio\";\n    privateID = \"update_colloquio_prog\" ;\n    break\n  case \"Colloquio sostenuto\":\n    blocks.push(aggiornamentoCollSostHead, mainActionAggiornamentoCollSost)\n    titoloAggiornamento = \"Update colloquio\";\n    privateID = \"update_colloquio_sost\" ;\n    break;\n  case \"Assunzione prevista\":\n    blocks.push(selezioneStatoAssunzione, altreInfoAssunzione)\n    titoloAggiornamento = \"Update assunzione\";\n    privateID = \"update_assunzione\";\n    break;\n}\n\n//=======================================\n\nconst submitButton = {\n  \"submit\": {\n    \"type\": \"plain_text\",\n    \"text\": \"Aggiorna\"\n  }\n}\n\nconst openViewBlocks = {\n  \"trigger_id\": $('payload_parser').first().json.payload.trigger_id,\n  \"view\": {\n    \"type\": \"modal\",\n    \"title\": {\n      \"type\": \"plain_text\",\n      \"text\": titoloAggiornamento\n    },\n    \"blocks\": blocks,\n    \"close\": {\n      \"type\": \"plain_text\",\n      \"text\": \"Esci\"\n    },\n    \"private_metadata\": privateID,\n    \"callback_id\": \"update_form\"\n  },\n}\n\nswitch (ultimaAttività) {\n  case \"Candidatura\":\n  case \"Colloquio sostenuto\":\n    return {\n      slackMethod: \"views.open\",\n      slackBody: openViewBlocks\n    }\n  case \"Colloquio programmato\":\n  case \"Colloquio rimandato\":\n  case \"Assunzione prevista\":\n        return {\n      slackMethod: \"views.open\",\n      slackBody: {\n        ...openViewBlocks,\n        \"view\": {\n          ...openViewBlocks.view,\n          ...submitButton\n        }\n      }\n    }\n  }\n}\n\nfunction formAggiornaAggiornamento() {\n  // codice di update_update_form3\n  const buildHeader = (text, level, id) => {\n  return {\n    \"block_id\": id,\n    \"type\": \"header\",\n    \"text\": {\n      \"type\": \"plain_text\",\n      \"text\": text\n    },\n    \"level\": level\n  }\n}\nconst buildTextBlock = (props) => {\n\n  const style = {}\n  if (props.style) {\n    style[props.style] = true\n  }\n\n  const blockID = {}\n  if (props.blockID) {\n    blockIDObj[\"block_id\"] = props.blockID\n  }\n\n  return {\n    \"type\": \"rich_text\",\n    \"elements\": [\n      {\n        \"type\": \"rich_text_section\",\n        \"elements\": [\n          {\n            \"type\": \"text\",\n            \"text\": props.text,\n            style\n          }\n        ]\n      }\n    ]\n  }\n}\nconst buildButton = (text, value, actionID, style) => {\n\n  if (style === \"danger\") {\n    return {\n      \"type\": \"button\",\n      \"text\": {\n        \"type\": \"plain_text\",\n        \"text\": text\n      },\n      \"value\": value,\n      \"action_id\": actionID,\n      \"style\": \"danger\"\n    }\n  } else if (style === \"primary\") {\n    return {\n      \"type\": \"button\",\n      \"text\": {\n        \"type\": \"plain_text\",\n        \"text\": text\n      },\n      \"value\": value,\n      \"action_id\": actionID,\n      \"style\": \"primary\"\n    }\n  } else {\n    return {\n      \"type\": \"button\",\n      \"text\": {\n        \"type\": \"plain_text\",\n        \"text\": text\n      },\n      \"value\": value,\n      \"action_id\": actionID\n    }\n  }\n};\nconst buildOption = (text, value) => {\n  return {\n    \"text\": {\n      \"type\": \"plain_text\",\n      \"text\": text\n    },\n    \"value\": value\n  }\n}\nconst buildLabel = (text) => {\n  return {\n    \"label\": {\n      \"type\": \"plain_text\",\n      \"text\": text\n    }\n  }\n}\nconst buildDatePicker = (text, id, isOptional) => {\n  return {\n    \"block_id\": id,\n    \"type\": \"input\",\n    \"element\": {\n      \"action_id\": \"pick_a_date\",\n      \"type\": \"datepicker\"\n    },\n    \"optional\": isOptional,\n    ...buildLabel(text)\n  }\n}\nconst buildTextBox = (props) => {\n  return {\n    \"type\": \"input\",\n    \"block_id\": props.blockID,\n    \"element\": {\n      \"type\": \"plain_text_input\",\n      \"action_id\": \"text_input\",\n      \"placeholder\": {\n        \"type\": \"plain_text\",\n        \"text\": props.placeholder\n      },\n      \"multiline\": props.multiline\n    },\n    \"optional\": true,\n    ...buildLabel(props.label)\n  }\n}\n\n//blocks\nconst matchingReferenceBlock = $input.first().json.payload.view.blocks[0];\nconst divider = {\n  \"type\": \"divider\",\n};\nconst aggiornamentoCollProgHead = buildTextBlock({\n  text: \"Hai sostenuto il colloquio?\",\n  style: \"bold\",\n});\nconst colloquioNonSostenutoHead = buildTextBlock({\n  text: \"Perché il colloquio non è stato sostenuto?\",\n  style: \"bold\",\n});\nconst colloquioProgSostenuto = {\n  \"type\": \"actions\",\n  \"block_id\": \"main_update\",\n  \"elements\": [\n    {\n      \"type\": \"radio_buttons\",\n      \"action_id\": \"conferma_colloquio_sostenuto\",\n      \"options\": [\n        buildOption(\"Sì\", \"collprog_avvenuto\"),\n        buildOption(\"No\", \"collprog_non_avvenuto\"),\n      ],\n    },\n  ],\n};\n\nconst selezioneStatoColloquio = {\n  \"block_id\": \"main_update\",\n  \"type\": \"input\",\n  \"dispatch_action\": true,\n  \"element\": {\n    \"type\": \"radio_buttons\",\n    \"action_id\": \"selezione_stato_colloquio\",\n    \"options\": [\n      buildOption(\"Programmato\", \"colloquio_programmato\"),\n      buildOption(\"Sostenuto\", \"colloquio_sostenuto\")\n    ]\n  },\n  ...buildLabel(\"Stato\")\n}\nconst datePickerColloquio = buildDatePicker(\"Data\", \"data_colloquio\", false)\nconst selezioneEsitoColloquio = {\n  \"block_id\": \"esito_colloquio\",\n  \"type\": \"section\",\n  \"text\": {\n    \"type\": \"mrkdwn\",\n    \"text\": \"*L'azienda ti ha dato feedback diretti?*\",\n  },\n  \"accessory\": {\n    \"type\": \"radio_buttons\",\n    \"action_id\": \"seleziona_feedback_colloquio\",\n    \"options\": [\n      buildOption(\"Hanno solo detto che mi faranno sapere\", \"feedback_colloquio_si_neutro\"),\n      buildOption(\"Sì, sono intenzionati a proseguire\", \"feedback_colloquio_si_pos\"),\n      buildOption(\"Sì, hanno detto di non voler procedere oltre (chiudi opportunità)\", \"feedback_colloquio_si_neg\"),\n      buildOption(\"No, non hanno dato nessun feedback\", \"feedback_colloquio_no\")\n    ]\n  }\n}\n\nconst altreInfoColloquio = buildTextBox({ placeholder: \"Qui puoi scrivere altre informazioni che ritieni significative\", label: \"Altro\", blockID: \"altre_info\" });\nconst altreInfoColloquioSostenuto = buildTextBox({ placeholder: \"Qui puoi scrivere altro in merito al colloquio\", label: \"Impressioni/note aggiuntive\", blockID: \"altre_info\" });\n\nconst motivoColloquioNonSostenuto = {\n  \"block_id\": \"motivo_colloquio_non_sostenuto\",\n  \"type\": \"section\",\n  \"text\": {\n    \"type\": \"mrkdwn\",\n    \"text\": \"*Seleziona una motivazione tra le seguenti*\"\n  },\n  \"accessory\":{\n    \"type\": \"radio_buttons\",\n    \"action_id\": \"selezione_motivazione\",\n    \"options\": [\n      buildOption(\"Rimandato\", \"colloquio_rimandato\"),\n      buildOption(\"Annullato (chiudi opportunità)\", \"colloquio_annullato\"),\n      buildOption(\"Mia assenza (chiudi opportunità)\", \"colloquio_non_presentato\"),\n    ]\n  }\n}\nconst dataColloquioRimandato = buildDatePicker(\"Nuova data\", \"data_colloquio\", true);\nconst altreInfoColloquioNonSostenuto = buildTextBox({\n  placeholder: \"Aggiungi qui eventuali dettagli\",\n  label: \"Altre info\",\n  blockID: \"altre_info\"\n});\n\nconst selezioneStatoAssunzione = {\n  \"block_id\": \"main_update\",\n  \"type\": \"input\",\n  \"dispatch_action\": true,\n  \"element\": {\n    \"type\": \"static_select\",\n    \"action_id\": \"selezione_stato_assunzione\",\n    \"options\": [\n      buildOption(\"Prevista\", \"assunzione_prevista\"),\n      buildOption(\"Avvenuta\", \"assunzione_avvenuta\"),\n      buildOption(\"Annullata (chiudi opportunità)\", \"assunzione_annullata\"),\n    ],\n  },\n  ...buildLabel(\"Stato assunzione\"),\n};\nconst assunzText1 = buildTextBlock({\n  text: \"Compila questi campi se hai le relative informazioni\",\n  style: \"bold\",\n});\nconst selezioneTipoContratto = {\n  \"block_id\": \"tipo_contratto\",\n  \"type\": \"input\",\n  \"element\": {\n    \"type\": \"static_select\",\n    \"action_id\": \"selezione_tipo_contratto\",\n    \"options\": [\n      buildOption(\"Tirocinio/stage\", \"contratto_tirocinio_stage\"),\n      buildOption(\"Apprendistato\", \"contratto_apprendistato\"),\n      buildOption(\"Partita IVA\", \"contratto_p_iva\"),\n      buildOption(\"Determinato\", \"contratto_determ\"),\n      buildOption(\"Indeterminato\", \"contratto_indet\"),\n      buildOption(\"Altro\", \"contratto_altro\"),\n    ],\n  },\n  optional: true,\n  ...buildLabel(\"Tipo di contratto\"),\n};\nconst dataInizioContratto = buildDatePicker(\n  \"Inizio contratto\",\n  \"date_picker_inizio_contratto\",\n  true,\n);\nconst dataFineContratto = buildDatePicker(\n  \"Fine contratto\",\n  \"date_picker_fine_contratto\",\n  true,\n);\nconst altreInfoAssunzione = buildTextBox({\n  placeholder:\n    \"Puoi usare questo spazio per darci altri dettagli sullo stato della tua assunzione\",\n  label: \"Altro\",\n  blockID: \"altre_info\"\n});\n\nconfermaChiusuraOpportunità = {\n  \"block_id\": \"main_update\",\n  \"type\": \"actions\",\n  \"elements\": [\n    {\n      \"type\": \"checkboxes\",\n      \"action_id\": \"conferma_chiusura\",\n      \"options\": [\n        {\n          \"value\": \"chiusura\",\n          \"text\": {\n            \"type\": \"plain_text\",\n            \"text\": \"Conferma chiusura opportunità\",\n          }\n        }\n      ]\n    }\n  ]\n};\nconst motivoChiusuraOpportunità = {\n  \"block_id\": \"motivo_chiusura\",\n  \"type\": \"input\",\n  \"element\": {\n    \"type\": \"static_select\",\n    \"action_id\": \"selezione_motivo_chiusura\",\n    \"options\": [\n      buildOption(\"Candidatura respinta\", \"cand_respinta\"),\n      buildOption(\"Colloquio negativo\", \"coll_negativo\"),\n      buildOption(\"Idoneità senza selezione\", \"non_idoneo\"),\n      buildOption(\"Decisione personale\", \"decisione_personale\"),\n      buildOption(\"Altro\", \"altro\"),\n    ],\n  },\n  ...buildLabel(\"Motivo\"),\n};\n\nconst altreInfoChiusura = buildTextBox({\n  placeholder:\n    \"Se vuoi, aggiungi qui informazioni sulla chiusura dell'opportunità\",\n  label: \"Altro\",\n  blockID: \"altre_info\"\n});\n\n//blocks build\n\nconst viewID = $input.first().json.payload.view.private_metadata;\nconst blocks = [];\n\nconst action = $input.first().json.payload.actions[0];\nconst actionID = action.action_id;\n\n//assunzione\nif (actionID === \"candidatura_chiusa\" || actionID === \"coll_sost_chiusa\") {\n  blocks.push(confermaChiusuraOpportunità);\n}\n\nif (actionID === \"conferma_chiusura\") {\n  const selectedOption = action.selected_options ? action.selected_options[0].value : null\n  if (selectedOption === \"chiusura\") {\n    blocks.push(confermaChiusuraOpportunità, motivoChiusuraOpportunità, altreInfoChiusura)\n  } else {\n    blocks.push(confermaChiusuraOpportunità)\n  }\n}\n\nif (\n  actionID === \"candidatura_assunzione\" ||\n  actionID === \"coll_sost_assunzione\" ||\n  actionID === \"redirect_assunzione\"\n) {\n  blocks.push(selezioneStatoAssunzione, altreInfoAssunzione);\n}\n\nif (actionID === \"conferma_colloquio_sostenuto\") {\n  blocks.push(\n    aggiornamentoCollProgHead,\n    colloquioProgSostenuto\n  )\n  const selectedOption = action.selected_option.value;\n  switch (selectedOption) {\n    case \"collprog_avvenuto\":\n      blocks.push(\n        selezioneEsitoColloquio,\n        altreInfoColloquioSostenuto,\n      );\n      break;\n    case \"collprog_non_avvenuto\":\n      blocks.push(\n        motivoColloquioNonSostenuto,\n        altreInfoColloquioNonSostenuto,\n      );\n      break;\n  }\n}\n\nif (actionID === \"selezione_stato_assunzione\") {\n  const selectedOption = action.value;\n  switch (selectedOption) {\n    case \"assunzione_prevista\":\n    case \"assunzione_avvenuta\":\n      blocks.push(\n        selezioneStatoAssunzione,\n        assunzText1,\n        selezioneTipoContratto,\n        dataInizioContratto,\n        dataFineContratto,\n        altreInfoAssunzione,\n      );\n      break;\n    case \"assunzione_sospesa\":\n    case \"assunzione_annullata\":\n      blocks.push(selezioneStatoAssunzione, altreInfoAssunzione);\n  }\n}\n\nif (\n  actionID === \"candidatura_colloquio\" ||\n  actionID === \"coll_sost_nuovo_colloquio\"\n) {\n  blocks.push(selezioneStatoColloquio, datePickerColloquio, altreInfoColloquio);\n}\nif (actionID === \"selezione_motivazione\") {\n  const selectedOption = $input.first().json.payload.actions[0].selected_option.value;\n  blocks.push(\n    aggiornamentoCollProgHead,\n    colloquioProgSostenuto,\n    motivoColloquioNonSostenuto\n  )\n  if (selectedOption === \"colloquio_rimandato\") {\n    blocks.push(\n      dataColloquioRimandato,\n    );\n  }\n  blocks.push(altreInfoColloquioNonSostenuto);\n}\n\nif (actionID === \"selezione_stato_colloquio\") {\n  const selectedOption = $input.first().json.payload.actions[0].selected_option.value;\n  switch (selectedOption) {\n    case \"colloquio_sostenuto\":\n      blocks.push(\n        selezioneStatoColloquio,\n        datePickerColloquio,\n        divider,\n        selezioneEsitoColloquio,\n        divider,\n        altreInfoColloquioSostenuto,\n      );\n      break;\n    case \"colloquio_programmato\":\n      blocks.push(\n        selezioneStatoColloquio,\n        datePickerColloquio,\n        altreInfoColloquio,\n      );\n      break;\n  }\n}\n\nif (actionID === \"selezione_stato_assunzione\") {\n  const selectedOption = $input.first().json.payload.actions[0].selected_option.value;\n\n  if (\n    selectedOption === \"assunzione_prevista\" ||\n    selectedOption === \"assunzione_avvenuta\"\n  ) {\n    blocks.push(\n      selezioneStatoAssunzione,\n      divider,\n      assunzText1,\n      selezioneTipoContratto,\n      dataInizioContratto,\n      dataFineContratto,\n      divider,\n      altreInfoAssunzione,\n    );\n  } else {\n    blocks.push(selezioneStatoAssunzione, altreInfoAssunzione);\n  }\n}\n\nif (blocks.length === 0) {\n  const previousBlocks = $input.first().json.payload.view.blocks;\n  blocks.push(...previousBlocks);\n} else {\n  if (blocks[0].block_id !== matchingReferenceBlock.block_id) {\n    blocks.unshift(matchingReferenceBlock, divider);\n  }\n}\n\nconst uploadViewBlocks = {\n  view_id: $(\"payload_parser\").first().json.payload.view.id,\n  view: {\n    type: \"modal\",\n    title: {\n      type: \"plain_text\",\n      text: \"Aggiornamento\",\n    },\n    blocks: blocks,\n    submit: {\n      type: \"plain_text\",\n      text: \"Aggiorna\",\n    },\n    close: {\n      type: \"plain_text\",\n      text: \"Exit\",\n    },\n    private_metadata: viewID,\n    callback_id: \"update_form\",\n  },\n};\n\nreturn { \n  slackMethod: \"views.update\",\n  slackBody: uploadViewBlocks\n};\n\n}\n\nswitch (currentAction) {\n  case \"open_new_form\":\n    return formInfoAzienda()\n  case \"new_matching_form_submit\":\n    return formInfoMatching()\n  case \"new_matching_details_click\":\n    return formDettagliMatching()\n  case \"selezione_matching\":\n    return formApriAggiornamento()\n  case \"update_form_click\":\n    return formAggiornaAggiornamento()\n}\n\nthrow new Error(`build_view: azione non gestita: ${currentAction}`)"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1232,
+        256
+      ],
+      "id": "973e97ef-5107-448e-9f23-aa0b8fcb6d0c",
+      "name": "build_view",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const matchingID = $input.first().json.payload.view.blocks[0].block_id\nif (!matchingID) {\n  return {error: \"ID Matching non fornito\"}\n}\n\nconst userID = $input.first().json.payload.user.id\nif (!userID) {\n  return {error: \"User ID non presente\"}\n}\n\nconst values = $input.first().json.payload.view.state.values\nif (!values) {\n  return {error: \"Nessun valore trovato\"}\n}\n\nconst valuesKeys = Object.keys(values)\n\nconst submission = {\n  context: {\n    matching_id: matchingID,\n    user_id: userID\n  },\n  submittedValues: {}\n};\n\nvaluesKeys.forEach(key => {\n\n  const subField = Object.keys(values[key])[0]\n  const childBlock = values[key][subField]\n\n  const childBlockType = childBlock.type\n\n  switch (childBlockType) {\n    case (\"checkboxes\"):\n      if (childBlock.selected_options.length === 0) {\n        submission.submittedValues[key] = null\n      } else {\n        submission.submittedValues[key] = childBlock.selected_options[0].value;\n      }\n      break;\n    case (\"radio_buttons\"):\n    case (\"static_select\"):\n      submission.submittedValues[key] = childBlock.selected_option?.value;\n      break;\n    case (\"datepicker\"):\n      submission.submittedValues[key] = childBlock.selected_date;\n      break;\n    case (\"plain_text_input\"):\n      submission.submittedValues[key] = childBlock.value;\n      break;\n  }\n})\n\nreturn {submission}\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        480,
+        1184
+      ],
+      "id": "bb3ba87c-7429-4bf7-815c-7c791e3364d5",
+      "name": "get_submission_info_update",
+      "disabled": true
+    }
+  ],
+  "pinData": {
+    "Webhook1": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8nrefresh.duckdns.org",
+            "user-agent": "Slackbot 1.0 (+https://api.slack.com/robots)",
+            "content-length": "3897",
+            "accept": "application/json,*/*",
+            "accept-encoding": "gzip,deflate",
+            "content-type": "application/x-www-form-urlencoded",
+            "via": "1.1 Caddy",
+            "x-forwarded-for": "54.165.97.137",
+            "x-forwarded-host": "n8nrefresh.duckdns.org",
+            "x-forwarded-proto": "https",
+            "x-slack-request-timestamp": "1791973077",
+            "x-slack-signature": "v0=d4cab57b376c3cf51160ad8fd452185b4bd519fc89f7ca876b4a9d3ef5acd2bc"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "payload": "{\"type\":\"block_actions\",\"user\":{\"id\":\"U0BM0RW6CUD\",\"username\":\"alessandro.alvisi\",\"name\":\"alessandro.alvisi\",\"team_id\":\"T0BLQSZECFM\"},\"api_app_id\":\"A0BLV6DDBLN\",\"token\":\"pWTbcIFebxVp6I2K6x2PUtEV\",\"container\":{\"type\":\"view\",\"view_id\":\"V0C931SKSMU\"},\"trigger_id\":\"12339405040592.11704917488531.860079ac1a0cdf2daf9dbbd1f9a254a7\",\"team\":{\"id\":\"T0BLQSZECFM\",\"domain\":\"pingstingbottesting\"},\"enterprise\":null,\"is_enterprise_install\":false,\"view\":{\"id\":\"V0C931SKSMU\",\"team_id\":\"T0BLQSZECFM\",\"type\":\"modal\",\"blocks\":[{\"type\":\"section\",\"block_id\":\"info_matching\",\"fields\":[{\"type\":\"mrkdwn\",\"text\":\"*Azienda*\",\"verbatim\":false},{\"type\":\"mrkdwn\",\"text\":\"_bbbb_\",\"verbatim\":false},{\"type\":\"mrkdwn\",\"text\":\"*Posizione*\",\"verbatim\":false},{\"type\":\"mrkdwn\",\"text\":\"_bbb_\",\"verbatim\":false},{\"type\":\"mrkdwn\",\"text\":\"*Sede*\",\"verbatim\":false},{\"type\":\"mrkdwn\",\"text\":\"_bbb_\",\"verbatim\":false},{\"type\":\"mrkdwn\",\"text\":\"*Fonte*\",\"verbatim\":false},{\"type\":\"mrkdwn\",\"text\":\"_Foglio google condiviso_\",\"verbatim\":false}]},{\"type\":\"divider\",\"block_id\":\"wd7JT\"},{\"type\":\"header\",\"block_id\":\"37R54\",\"text\":{\"type\":\"plain_text\",\"text\":\"Seleziona lo stato di questa nuova opportunit\\u00e0\",\"emoji\":true},\"level\":1},{\"type\":\"actions\",\"block_id\":\"selezione_aggiornamento_candidatura\",\"elements\":[{\"type\":\"button\",\"action_id\":\"new_candidatura\",\"text\":{\"type\":\"plain_text\",\"text\":\"Candidatura\",\"emoji\":true},\"style\":\"danger\",\"value\":\"nuova_candidatura\"},{\"type\":\"button\",\"action_id\":\"new_colloquio\",\"text\":{\"type\":\"plain_text\",\"text\":\"Colloquio\",\"emoji\":true},\"style\":\"danger\",\"value\":\"nuovo_colloquio\"},{\"type\":\"button\",\"action_id\":\"new_assunzione\",\"text\":{\"type\":\"plain_text\",\"text\":\"Assunzione (anche potenziale)\",\"emoji\":true},\"style\":\"danger\",\"value\":\"nuova_assunzione\"}]}],\"private_metadata\":\"new_matching_details_private\",\"callback_id\":\"new_matching_details\",\"state\":{\"values\":{}},\"hash\":\"1791973075.0fJbnpPS\",\"title\":{\"type\":\"plain_text\",\"text\":\"Nuova opportunit\\u00e0\",\"emoji\":true},\"clear_on_close\":false,\"notify_on_close\":false,\"close\":{\"type\":\"plain_text\",\"text\":\"Esci\",\"emoji\":true},\"submit\":null,\"previous_view_id\":null,\"root_view_id\":\"V0C931SKSMU\",\"app_id\":\"A0BLV6DDBLN\",\"external_id\":\"\",\"app_installed_team_id\":\"T0BLQSZECFM\",\"bot_id\":\"B0BLR2VRUN7\"},\"actions\":[{\"type\":\"button\",\"block_id\":\"selezione_aggiornamento_candidatura\",\"action_id\":\"new_assunzione\",\"text\":{\"type\":\"plain_text\",\"text\":\"Assunzione (anche potenziale)\",\"emoji\":true},\"value\":\"nuova_assunzione\",\"style\":\"danger\",\"action_ts\":\"1791973077.345160\"}]}"
+          },
+          "webhookUrl": "https://n8nrefresh.duckdns.org/webhook/d70a2fb0-6dff-4894-8d35-d06738a4520b",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "send_welcome_message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "build_view",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "build_view",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "get_selected_matching",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "build_view",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "notify_user",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "get_submission_info_new",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "get_submission_info_update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "payload_parser": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "payload_parser",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "send_welcome_message": {
+      "main": [
+        [
+          {
+            "node": "create_thread_new",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get_selected_matching": {
+      "main": [
+        [
+          {
+            "node": "build_view",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get_submission_info_new": {
+      "main": [
+        [
+          {
+            "node": "append_new_matching_form",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "append_new_matching_form": {
+      "main": [
+        [
+          {
+            "node": "add_matching1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "append_matching_update": {
+      "main": [
+        [
+          {
+            "node": "update_matching",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "build_view",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "build_view": {
+      "main": [
+        [
+          {
+            "node": "slack_view",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get_submission_info_update": {
+      "main": [
+        [
+          {
+            "node": "append_matching_update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "015ec626-ff41-4b26-8f12-450b07fb338b",
+  "meta": {
+    "instanceId": "4276416439a89acc7625282da988af921ac3cd102e438582b4ebe65e7361062f"
+  },
+  "nodeGroups": [],
+  "id": "jErcmi9fpy4Sz2MV",
+  "tags": []
+}
