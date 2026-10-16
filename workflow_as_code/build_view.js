@@ -120,7 +120,7 @@ const openViewBlocks = {
 
 return {
   slackMethod: "views.open",
-  openViewBlocks
+  slackBody: openViewBlocks
 }
 
 }
